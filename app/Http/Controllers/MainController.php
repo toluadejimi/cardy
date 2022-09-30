@@ -93,6 +93,10 @@ class MainController extends Controller
    
 
     public function signin(Request $request){
+
+        $device = $request->header('User-Agent');
+        $clientIP = request()->ip();
+        
         $credentials = $request->validate([
             'phone' => ['required', 'string'],
             'password' => ['required'],
@@ -105,12 +109,11 @@ class MainController extends Controller
             $user_send = User::first();
   
         $details = [
-            'greeting' => 'Jimmy from Cardy',
-            'body' => 'This to notify you that you have successfully login you cardy account',
+            'greeting' => 'Hi!!, Jimmy from Cardy',
+            'body' => "This to notify you that your cardy account was logged in with $device, on  IP address $clientIP",
             'thanks' => 'If you did not login, kindly reset your password now',
             'actionText' => 'Reset my password',
-            'actionURL' => url('/'),
-            'ip_address' => 101
+            'actionURL' => url('/rest-password'),
         ];
   
         $user_send->notify(new LoginNotification($details));   
