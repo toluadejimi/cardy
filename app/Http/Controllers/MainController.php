@@ -113,8 +113,7 @@ class MainController extends Controller
             'ip_address' => 101
         ];
   
-        Notification::login_notification($user_send, new LoginNotification($details));
-   
+        $user_send->notify(new LoginNotification($details));   
 
 
 
