@@ -7,9 +7,7 @@
 * Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
 * Created by: Cardy
 * Tos: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright Cardy (https://themeselection.com)
 
-=========================================================
  -->
 <!-- beautify ignore:start -->
 <html
