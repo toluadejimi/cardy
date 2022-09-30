@@ -94,11 +94,11 @@ class MainController extends Controller
 
         $user_send = User::where('email', $request->email)->first();
         $details = [
-            'greeting' => "Hello, I'm Jimmy from Cardy",
+            'greeting' => "Hello, $request->f_name",
             'body' => "This is to inform you that your account has been successfully created. Your verification code is $email_code",
             'thanks' => 'Thanks for choosing Cardy',
-            'actionText' => 'Login Now',
-            'actionURL' => url('/'),
+            'actionText' => 'Verify Code',
+            'actionURL' => '#',
         ];
         $user_send->notify(new SendNotification($details));  
 
