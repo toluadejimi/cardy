@@ -71,6 +71,12 @@ Route::get('send-verification-code', [MainController::class,'send_verification_c
 
 
 
+Route::post('register-verify-email', [MainController::class,'email_verify_code']);
+
+
+
+
+
 
 Route::group(['middleware' => 'auth'],function(){
 

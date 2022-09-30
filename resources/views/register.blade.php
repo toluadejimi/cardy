@@ -169,6 +169,7 @@
                     class="form-control"
                     id="phone"
                     name="phone"
+                    value = "+234"
                     placeholder="Enter your Phone Number with Country Code"
                     autofocus
                   />

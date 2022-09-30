@@ -1,3 +1,5 @@
+
+
 <style>
 
 @import url('https://fonts.googleapis.com/css?family=Muli:300,700&display=swap');
@@ -106,40 +108,55 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Verify Account| Fantacy Design</title>
+    <title>Verify Account</title>
   </head>
   <body>
+
+
+
     <div class="container">
+    <form action="/register-verify-email" class="mb-3" method="post">
+    @csrf  
+
       <h2>Verify Your Account</h2>
-      <p>@if ($errors->any())
-                                                                        <div class="alert alert-danger">
-                                                                            <ul>
-                                                                                @foreach ($errors->all() as $error)
-                                                                                    <li>{{ $error }}</li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        </div>
-                                                                    @endif
-                                                                    @if (session()->has('message'))
-                                                                        <div class="alert alert-success">
-                                                                            {{ session()->get('message') }}
-                                                                        </div>
-                                                                    @endif
-                                                                    @if (session()->has('error'))
-                                                                        <div class="alert alert-danger">
-                                                                            {{ session()->get('error') }}
-                                                                        </div>
-                                                                    @endif</p>
+      <p class="">@if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {{ session()->get('message') }}
+                                    </div>
+                                @endif
+                                @if (session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error') }}
+                                    </div>
+                                @endif</p>
       <div class="code-container">
-        <input type="text" class="code" placeholder="0" min="0" max="9" required>
-        <input type="text" class="code" placeholder="0" min="0" max="9" required>
-        <input type="text" class="code" placeholder="0" min="0" max="9" required>
-        <input type="text" class="code" placeholder="0" min="0" max="9" required>
-        <input type="text" class="code" placeholder="0" min="0" max="9" required>
-        <input type="text" class="code" placeholder="0" min="0" max="9" required>
+        <input type="number"  name="code1" class="code" placeholder="0" min="0" max="9" required>
+        <input type="number"  name="code2" class="code" placeholder="0" min="0" max="9" required>
+        <input type="number"  name="code3" class="code" placeholder="0" min="0" max="9" required>
+        <input type="number"  name="code4" class="code" placeholder="0" min="0" max="9" required>
+        <input type="number"  name="code5" class="code" placeholder="0" min="0" max="9" required>
+        <input type="number" name="code6"  class="code" placeholder="0" min="0" max="9" required>
+
       </div>
       <small class="info">
-        This is design only. We didn't actually send you an email as we don't have your email, right?
+      <button class="body"   type="submit">Verify Account</button>
+      </small>
+    </form>
+
+
+
+
+      <small class="info">
+      <button href= "/resend-verify-code" class="btn btn-secondary d-grid w-100" type="submit">Resend Code</button>
       </small>
     </div>
     <script src="script.js"></script>

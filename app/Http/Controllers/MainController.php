@@ -92,6 +92,9 @@ class MainController extends Controller
         $user->email_code = $email_code;
         $user->save();
 
+        $email = $request->email;
+        $message = "Account Created Successfully, Your verification code has been sent to $email";
+
         $user_send = User::where('email', $request->email)->first();
         $details = [
             'greeting' => "Hello, $request->f_name",
@@ -103,7 +106,7 @@ class MainController extends Controller
         $user_send->notify(new SendNotification($details));  
 
                 
-        return redirect('/verify-email-code')->with('message', "Account Created Successfully, Your verification code has been sent to $request->email");
+        return view('/auth.verify-email-code', compact('email', 'message'));
        
         
        
@@ -139,6 +142,10 @@ class MainController extends Controller
         if (Auth::attempt($credentials)) {
 
 
+        if(Auth::user()->is_email_verified == 0 ){
+
+
+        
             
  
         $user = User::where("id",Auth::id())->get();
@@ -171,6 +178,38 @@ class MainController extends Controller
         $user_send->notify(new SendNotification($details));   
 
 
+        return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
+
+    }
+
+    $user = User::where("id",Auth::id())->get();
+
+        $email_code = User::where('id',Auth::id())
+        ->update(['email_code'=> $email_code]);
+
+        $new_email_code = User::where('id',Auth::id())
+        ->first()->email_code;
+
+        $f_name = User::where('id',Auth::id())
+        ->first()->f_name;
+
+        $email = User::where('id',Auth::id())
+        ->first()->email;
+
+
+
+
+    
+    
+        $user_send = User::where('id',Auth::id())->first();
+        $details = [
+            'greeting' => "Hi  $f_name",
+            'body' => "Your Verifiction code to login your account is $new_email_code",
+            'thanks' => 'If you did not login, kindly reset your password now',
+            'actionText' => "Reset Password",
+            'actionURL' => '/reset-password',
+        ];
+        $user_send->notify(new SendNotification($details));   
 
 
             
@@ -233,6 +272,56 @@ class MainController extends Controller
         
         
     }
+
+
+    public function email_verify_code(Request $request){
+        
+
+    
+
+       
+
+   
+        $user_code = User::where('email', Auth::user()->email)
+        ->first()->email_code;
+
+
+        $codes = $request->code1.$request->code2.$request->code3.$request->code4.$request->code5.$request->code6;
+
+
+        
+
+        if($codes == $user_code ){
+
+
+
+            $update = User::where('email', Auth::user()->email)
+            ->update(['is_email_verified' => 1]);
+
+     
+             return redirect('/user-dashboard')->with('message', 'Your Email has been verified');
+
+        }
+
+
+        return back()->with('error','Invalid Code');
+        
+        
+    }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function verify(Request $request){
