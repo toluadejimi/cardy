@@ -52,6 +52,10 @@ Route::get('/config-cache', function() {
 Route::get('/', function () {
     return view('login');
 });
+
+
+Route::get('login_notification', 'MainController@loginNotification');
+
 Route::get('signin', [MainController::class,'signin']);
 
 

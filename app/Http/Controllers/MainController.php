@@ -87,8 +87,24 @@ class MainController extends Controller
 
     }
 
+    public function loginNotification()
+    {
+        $user = User::first();
+  
+        $details = [
+            'greeting' => 'Jimmy from Cardy',
+            'body' => 'This to notify you that you have successfully login you cardy account',
+            'thanks' => 'If you did not login, kindly reset your password now',
+            'actionText' => 'Reset my password',
+            'actionURL' => url('/'),
+            'ip_address' => 101
+        ];
+  
+        Notification::login_notification($user, new LoginNotification($details));
+   
+        dd('done');
 
-     
+    }
    
 
     public function signin(Request $request){
