@@ -131,12 +131,12 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0
                                                                         </div>
                                                                     @endif</p>
       <div class="code-container">
-        <input type="number" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number" class="code" placeholder="0" min="0" max="9" required>
+        <input type="text" class="code" placeholder="0" min="0" max="9" required>
+        <input type="text" class="code" placeholder="0" min="0" max="9" required>
+        <input type="text" class="code" placeholder="0" min="0" max="9" required>
+        <input type="text" class="code" placeholder="0" min="0" max="9" required>
+        <input type="text" class="code" placeholder="0" min="0" max="9" required>
+        <input type="text" class="code" placeholder="0" min="0" max="9" required>
       </div>
       <small class="info">
         This is design only. We didn't actually send you an email as we don't have your email, right?

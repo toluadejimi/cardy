@@ -57,7 +57,7 @@ class MainController extends Controller
 
     public function register_now(Request $request){
 
-        $email_code = Str::random(6);
+        $email_code = $six_digit_random_number  =  random_int(100000, 999999);
         
         $input = $request->validate([
             'f_name' => ['required', 'string'],
@@ -126,7 +126,7 @@ class MainController extends Controller
 
     public function signin(Request $request){
 
-        $email_code = Str::random(6);
+        $email_code = $six_digit_random_number = random_int(100000, 999999);
 
         $device = $request->header('User-Agent');
         $clientIP = request()->ip();
