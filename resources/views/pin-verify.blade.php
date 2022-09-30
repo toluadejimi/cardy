@@ -162,18 +162,18 @@
                 
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">PIN</label>
+                    <label class="form-label" for="password">Code</label>
                     <a href="auth-forgot-password-basic.html">
                     </a>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
-                      type="password"
-                      id="pin"
+                      type="text"
+                      id="code"
                       class="form-control"
-                      name="pin"
-                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password"
+                      name="code"
+                      placeholder="Enter code"
+                      aria-describedby="text"
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
@@ -185,9 +185,11 @@
               </form>
 
               <p class="text-center">
+                <p>No code yet? Please wait for 1 min before you resend code</p>
                 <span></span>
-                <a href="/register">
-                  <span>Forgot Pin</span>
+                
+                <a href="/send-verification-code">
+                  <span>Resend Code</span>
                 </a>
               </p>
             </div>

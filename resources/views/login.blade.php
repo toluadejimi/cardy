@@ -169,6 +169,7 @@
                     class="form-control"
                     id="phone"
                     name="phone"
+                    value="+234"
                     placeholder="Incluce country code ex +234"
                     autofocus
                   />

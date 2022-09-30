@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use Notification;
-use App\Notifications\LoginNotification;
+use App\Notifications\SendNotification;
 
 
 class MainController extends Controller
@@ -46,9 +46,18 @@ class MainController extends Controller
     }
 
 
+
+
+
+
+
+
+
+
+
     public function register_now(Request $request){
 
-        
+        $email_code = Str::random(6);
         
         $input = $request->validate([
             'f_name' => ['required', 'string'],
@@ -61,6 +70,7 @@ class MainController extends Controller
         ]);
 
         $check_email = User::where('email',$request->email)->first()->email ?? null;
+
 
 
 
@@ -79,55 +89,139 @@ class MainController extends Controller
         $user->gender = $request->gender;
         $user->type = '2';
         $user->password =  Hash::make($request->password);
+        $user->email_code = $email_code;
         $user->save();
 
+        $user_send = User::where('email', $request->email)->first();
+        $details = [
+            'greeting' => "Hello, I'm Jimmy from Cardy",
+            'body' => "This is to inform you that your account has been successfully created. Your verification code is $email_code",
+            'thanks' => 'Thanks for choosing Cardy',
+            'actionText' => 'Login Now',
+            'actionURL' => url('/'),
+        ];
+        $user_send->notify(new SendNotification($details));  
+
                 
-        return back()->with('message', 'User Created Successfully, Please Login');
+        return redirect('/verify-email-code')->with('message', "Account Created Successfully, Your verification code has been sent to $request->email");
        
         
        
 
     }
+
+   
+    public function  verify_email_code(Request $request)
+    {
+
+        $user = User::all();
+
+        return view('/auth.verify-email-code', compact('user'));
+
+    }
+
 
    
    
 
     public function signin(Request $request){
 
+        $email_code = Str::random(6);
+
         $device = $request->header('User-Agent');
         $clientIP = request()->ip();
-        
+
         $credentials = $request->validate([
             'phone' => ['required', 'string'],
             'password' => ['required'],
         ]);
         
         if (Auth::attempt($credentials)) {
+
+
             
  
-            $user = User::where("id",Auth::id())->get();
-            $user_send = User::first();
-  
+        $user = User::where("id",Auth::id())->get();
+
+        $email_code = User::where('id',Auth::id())
+        ->update(['email_code'=> $email_code]);
+
+        $new_email_code = User::where('id',Auth::id())
+        ->first()->email_code;
+
+        $f_name = User::where('id',Auth::id())
+        ->first()->f_name;
+
+        $email = User::where('id',Auth::id())
+        ->first()->email;
+
+
+
+
+    
+    
+        $user_send = User::where('id',Auth::id())->first();
         $details = [
-            'greeting' => 'Hi!!, Jimmy from Cardy',
-            'body' => "This to notify you that your cardy account was logged in with $device, on  IP address $clientIP",
+            'greeting' => "Hi  $f_name",
+            'body' => "Your Verifiction code is $new_email_code",
             'thanks' => 'If you did not login, kindly reset your password now',
-            'actionText' => 'Reset my password',
-            'actionURL' => url('/rest-password'),
+            'actionText' => "Reset Password",
+            'actionURL' => '/reset-password',
         ];
-  
-        $user_send->notify(new LoginNotification($details));   
+        $user_send->notify(new SendNotification($details));   
 
 
 
 
             
-            return redirect('pin-verify')->with('message', 'Welcome');
+            return redirect('pin-verify')->with('message', "Enter the verification code sent to $email");
         }else{
             return back()->with('error','Invalid Credentials');
         }
         
     }
+
+
+    public function send_verification_code(Request $request){
+
+
+        $user = User::where("id",Auth::id())->get();
+
+    
+
+        $new_email_code = User::where('id',Auth::id())
+        ->first()->email_code;
+
+        $f_name = User::where('id',Auth::id())
+        ->first()->f_name;
+
+        $email = User::where('id',Auth::id())
+        ->first()->email;
+
+
+        $user_send = User::where('id',Auth::id())->first();
+        $details = [
+            'greeting' => "Hi  $f_name",
+            'body' => "Your Verifiction code is $new_email_code",
+            'thanks' => 'If you did not login, kindly reset your password now',
+            'actionText' => "Reset Password",
+            'actionURL' => '/reset-password',
+        ];
+        $user_send->notify(new SendNotification($details)); 
+
+
+        
+        return back()->with('message', 'Verification code sent successfully');
+
+
+
+
+    }
+
+
+
+
+
 
 
     public function pin_verify(Request $request){
@@ -145,16 +239,19 @@ class MainController extends Controller
         
 
         
-        $transfer_pin = $request->input('pin');
-                    
-        $getpin = Auth()->user();
-        $user_pin = $getpin->pin;
+        $input = $request->code;
 
-        if(Hash::check($transfer_pin, $user_pin)) {
+
+                    
+        $get_email_code = Auth::user()->email_code;
+
+
+        if($input == $get_email_code) {
         
-            return redirect('user-dashboard')->with('message', 'Welcome');
+            return redirect('user-dashboard');
+
         }else{
-            return back()->with('error','Invalid Pin');
+            return back()->with('error','Invalid Code');
         }
         
         
@@ -197,7 +294,6 @@ class MainController extends Controller
 
 
 
-    
 
 
 
