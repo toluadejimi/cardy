@@ -103,7 +103,7 @@ class MainController extends Controller
             'actionText' => 'Verify Code',
             'actionURL' => '#',
         ];
-        $user_send->notify(new SendNotification($details));  
+        $user_send->notify(new CardyNotification($details));  
 
                 
         return view('/auth.verify-email-code', compact('email', 'message'));
@@ -175,7 +175,7 @@ class MainController extends Controller
             'actionText' => "Reset Password",
             'actionURL' => '/reset-password',
         ];
-        $user_send->notify(new SendNotification($details));   
+        $user_send->notify(new CardyNotification($details));   
 
 
         return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
@@ -209,7 +209,7 @@ class MainController extends Controller
             'actionText' => "Reset Password",
             'actionURL' => '/reset-password',
         ];
-        $user_send->notify(new SendNotification($details));   
+        $user_send->notify(new CardyNotification($details));   
 
 
             
@@ -246,7 +246,7 @@ class MainController extends Controller
             'actionText' => "Reset Password",
             'actionURL' => '/reset-password',
         ];
-        $user_send->notify(new SendNotification($details)); 
+        $user_send->notify(new CardyNotification($details)); 
 
 
         
