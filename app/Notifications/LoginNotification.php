@@ -10,15 +10,17 @@ use Illuminate\Notifications\Notification;
 class LoginNotification extends Notification
 {
     use Queueable;
-
+    
+    private $details;
+   
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($details)
     {
-        //
+        $this->details = $details;
     }
 
     /**
