@@ -167,11 +167,12 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="phone"
+                    id="phon-number"
                     name="phone"
                     value="+234"
                     placeholder="Incluce country code ex +234"
                     autofocus
+
                   />
                 </div>
                 <div class="mb-3 form-password-toggle">

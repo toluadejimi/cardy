@@ -185,9 +185,9 @@
               </form>
 
               <p class="text-center">
-                <p>No code yet? Please wait for 1 min before you resend code</p>
+                <p>No code yet? Please wait for 1 min before you can resend code</p>
                 <span></span>
-                
+
                 <a href="/send-verification-code">
                   <span>Resend Code</span>
                 </a>
