@@ -87,24 +87,7 @@ class MainController extends Controller
 
     }
 
-    public function loginNotification()
-    {
-        $user = User::first();
-  
-        $details = [
-            'greeting' => 'Jimmy from Cardy',
-            'body' => 'This to notify you that you have successfully login you cardy account',
-            'thanks' => 'If you did not login, kindly reset your password now',
-            'actionText' => 'Reset my password',
-            'actionURL' => url('/'),
-            'ip_address' => 101
-        ];
-  
-        Notification::login_notification($user, new LoginNotification($details));
    
-        dd('done');
-
-    }
    
 
     public function signin(Request $request){
@@ -117,6 +100,23 @@ class MainController extends Controller
             
  
             $user = User::where("id",Auth::id())->get();
+            $user_send = User::first();
+  
+        $details = [
+            'greeting' => 'Jimmy from Cardy',
+            'body' => 'This to notify you that you have successfully login you cardy account',
+            'thanks' => 'If you did not login, kindly reset your password now',
+            'actionText' => 'Reset my password',
+            'actionURL' => url('/'),
+            'ip_address' => 101
+        ];
+  
+        Notification::login_notification($user_send, new LoginNotification($details));
+   
+
+
+
+
             
             return redirect('pin-verify')->with('message', 'Welcome');
         }else{
