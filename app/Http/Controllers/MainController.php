@@ -27,6 +27,8 @@ use App\Models\BailedDetailsHistory;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use Notification;
+use App\Notifications\LoginNotification;
 
 
 class MainController extends Controller
