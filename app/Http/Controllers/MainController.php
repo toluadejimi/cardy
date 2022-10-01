@@ -75,6 +75,10 @@ class MainController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+
+        $phone = trim($request->phone);
+
+
         $check_email = User::where('email',$request->email)->first()->email ?? null;
 
 
@@ -91,7 +95,7 @@ class MainController extends Controller
         $user->l_name = $request->l_name;
         $user->email = $request->email;
         $user->pin = Hash::make($request->pin);
-        $user->phone = trim($request->phone);
+        $user->phone = $phone;
         $user->gender = $request->gender;
         $user->type = '2';
         $user->password =  Hash::make($request->password);
