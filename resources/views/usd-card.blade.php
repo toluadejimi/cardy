@@ -192,7 +192,7 @@
 
                                                             <div class="mb-3">
                                                             <label class="form-label" for="">Rate (1 USD - NGN) </label>
-                                                            <input type="text" disabled class="form-control" id="basic-default-fullname" value = "{{ number_format($rate) }}" />
+                                                            <input type="text" disabled class="form-control" id="rate" value = "{{ number_format($rate) }}" />
 
 
                                                             </div>
@@ -418,5 +418,28 @@
                 
             </div>
             <!-- / Content -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+$('input').keyup(function(){ // run anytime the value changes
+    var rate  = Number($('#rate').val());   // get value of field
+    var amount = Number($('#amount_to_fund').val()); // convert it to a float
+
+    document.getElementById('result').value = Math.round(amount / rate * 100) / 100;
+// add them and output it
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
 
 @endsection

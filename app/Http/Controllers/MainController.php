@@ -1063,6 +1063,7 @@ class MainController extends Controller
     public function fund_wallet(Request $request)
     {
 
+        $url = env('FLCURL');
 
         $users = User::all();
 
@@ -1076,7 +1077,7 @@ class MainController extends Controller
 
 
 
-        return view('fund-wallet',compact('users','user_wallet','fpk'));
+        return view('fund-wallet',compact('users','url','user_wallet','fpk'));
 
 
 
