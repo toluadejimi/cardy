@@ -112,7 +112,7 @@ class MainController extends Controller
         $user_send->notify(new CardyNotification($details));  
 
                 
-        return view('/auth.verify-email-code', compact('email', 'message'));
+        return view('/pin-verify')->with('message', 'Welcome');
        
         
        
