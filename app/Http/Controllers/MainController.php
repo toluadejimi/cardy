@@ -91,28 +91,16 @@ class MainController extends Controller
         $user->l_name = $request->l_name;
         $user->email = $request->email;
         $user->pin = Hash::make($request->pin);
-        $user->phone = $request->phone;
+        $user->phone = trim($request->phone);
         $user->gender = $request->gender;
         $user->type = '2';
         $user->password =  Hash::make($request->password);
         $user->email_code = $email_code;
         $user->save();
 
-        $email = $request->email;
-        $message = "Account Created Successfully, Your verification code has been sent to $email";
-
-        $user_send = User::where('email', $request->email)->first();
-        $details = [
-            'greeting' => "Hello, $request->f_name",
-            'body' => "This is to inform you that your account has been successfully created.",
-            'thanks' => 'Thanks for choosing Cardy',
-            'actionText' => 'Click here to login',
-            'actionURL' => 'https://dashboard.cardy4u.com',
-        ];
-        $user_send->notify(new CardyNotification($details));  
-
+        
                 
-        return view('/pin-verify')->with('message', 'Welcome');
+        return view('/login')->with('message', 'Welcome');
        
         
        
