@@ -1156,10 +1156,10 @@ class MainController extends Controller
 
                 $details = [
                     'greeting' => "Hello, $first_name",
-                    'body' => "$amount has Landed in your Cardy Wallet.",
+                    'body' => "NGN $amount has Landed in your Cardy Wallet.",
                     'thanks' => 'Thanks for choosing Cardy',
                     'actionText' => 'Login to Cardy',
-                    'actionURL' => 'https://dashboard.cardy4u.com/user-dashboard',
+                    'actionURL' => 'https://dashboard.cardy4u.com/',
                 ];
 
                 $user_send->notify(new CardyNotification($details));  
