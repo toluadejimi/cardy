@@ -76,7 +76,6 @@ class MainController extends Controller
         ]);
 
 
-        $phone = trim($request->phone);
 
 
         $check_email = User::where('email',$request->email)->first()->email ?? null;
@@ -95,7 +94,7 @@ class MainController extends Controller
         $user->l_name = $request->l_name;
         $user->email = $request->email;
         $user->pin = Hash::make($request->pin);
-        $user->phone = $phone;
+        $user->phone = trim($request->phone);
         $user->gender = $request->gender;
         $user->type = '2';
         $user->password =  Hash::make($request->password);
