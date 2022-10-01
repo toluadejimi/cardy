@@ -29,6 +29,7 @@
                 
                           </p>
 
+                          <a href="/fund-wallet" class="btn btn-sm btn-outline-primary">Fund Wallet</a>
                           <a href="/usd-card" class="btn btn-sm btn-outline-primary">USD Virtual Card</a>
                           <a href="/ngn-card" class="btn btn-sm btn-outline-primary">NGN Virtual Card</a>
                           <a href="/buy-airtime" class="btn btn-sm btn-outline-primary">Airtime</a>
@@ -44,7 +45,7 @@
                       <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
                           <img
-                            src="../assets/img/illustrations/man-with-laptop-light.png"
+                            src="{{url('')}}/public/assets/img/illustrations/man-with-laptop-light.png"
                             height="140"
                             alt="View Badge User"
                             data-app-dark-img="illustrations/man-with-laptop-dark.png"
