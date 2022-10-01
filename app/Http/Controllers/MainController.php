@@ -104,10 +104,10 @@ class MainController extends Controller
         $user_send = User::where('email', $request->email)->first();
         $details = [
             'greeting' => "Hello, $request->f_name",
-            'body' => "This is to inform you that your account has been successfully created. Your verification code is $email_code",
+            'body' => "This is to inform you that your account has been successfully created.",
             'thanks' => 'Thanks for choosing Cardy',
-            'actionText' => 'Verify Code',
-            'actionURL' => '#',
+            'actionText' => 'Click here to login',
+            'actionURL' => 'https://dashboard.cardy4u.com',
         ];
         $user_send->notify(new CardyNotification($details));  
 
