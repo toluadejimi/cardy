@@ -1127,7 +1127,8 @@ class MainController extends Controller
         if($res->status == 'success'){
              //fund user wallet
 
-            $amount = $res->data->charged_amount;
+            $amount = number_format($res->data->charged_amount, 2);
+            $first_name = Auth::user()->f_name;
 
              $user_wallet = EMoney::where('user_id', $res->data->meta->user_id)
              ->first()->current_balance;
@@ -1154,11 +1155,11 @@ class MainController extends Controller
                 ->first();
 
                 $details = [
-                    'greeting' => "Hello, $request->f_name",
+                    'greeting' => "Hello, $first_name",
                     'body' => "$amount has Landed in your Cardy Wallet.",
                     'thanks' => 'Thanks for choosing Cardy',
                     'actionText' => 'Login to Cardy',
-                    'actionURL' => '/user-dashboard',
+                    'actionURL' => 'https://dashboard.cardy4u.com/user-dashboard',
                 ];
 
                 $user_send->notify(new CardyNotification($details));  
