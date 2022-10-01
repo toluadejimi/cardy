@@ -46,6 +46,12 @@ class MainController extends Controller
     }
 
 
+     
+    public function welcome(Request $request){
+        return view('welcome');
+    }
+
+
 
 
 
@@ -876,6 +882,8 @@ class MainController extends Controller
                                     $mono_api_key = env('MONO_KEY');
 
                                     
+
+                                    
                                     $body = json_encode($databody);
                                     $curl = curl_init();
 
@@ -904,6 +912,7 @@ class MainController extends Controller
                                             
 
                                             $var = json_decode($var);
+
 
 
 

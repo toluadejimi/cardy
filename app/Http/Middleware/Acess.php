@@ -30,6 +30,14 @@ class Acess
                     'status' => false,
                     'message' => 'UnAuthenticated',
                 ], 401));
+
+                
+
+            
+                
+
+
+                
         }elseif (Auth::guard('api')->check() != true) {
             abort(response()->json(
                 [

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ManageController;
+use App\Http\Middleware\AdminAuth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,6 +54,7 @@ Route::get('/', function () {
     return view('login');
 });
 
+Route::get('/welcome', [MainController::class,'welcome']);
 
 
 Route::get('login_notification', 'MainController@loginNotification');
@@ -78,7 +80,7 @@ Route::post('register-verify-email', [MainController::class,'email_verify_code']
 
 
 
-Route::group(['middleware' => 'auth'],function(){
+Route::group(['middleware' => 'prevent-back-history'],function(){
 
     Route::get('/user-dashboard', [MainController::class,'user_dashboard']);
 

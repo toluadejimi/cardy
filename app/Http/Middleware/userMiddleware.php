@@ -18,4 +18,5 @@ class userMiddleware
     {
         return $next($request);
     }
+    
 }

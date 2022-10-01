@@ -22,7 +22,7 @@ class AdminAuth
         //This will be excecuted if the new authentication fails.
         if (!$isAuthenticatedAdmin){
 
-            return redirect('/');
+            return redirect('/welcome');
         }
         return $next($request);
 
