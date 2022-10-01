@@ -1149,9 +1149,9 @@ class MainController extends Controller
              $transaction->save();
 
 
-                $email = Auth::user()->email;
 
-                $user_send = $email;
+                $user_send = User::where('id', Auth::id())
+                ->first();
 
                 $details = [
                     'greeting' => "Hello, $request->f_name",
@@ -1160,6 +1160,7 @@ class MainController extends Controller
                     'actionText' => 'Login to Cardy',
                     'actionURL' => '/user-dashboard',
                 ];
+
                 $user_send->notify(new CardyNotification($details));  
 
 
