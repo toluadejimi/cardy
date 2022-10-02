@@ -102,9 +102,7 @@ class MainController extends Controller
         $user->save();
 
                 
-        return redirect('/register')->with('message', 'Your account has been successfully created, Login to continue');
-       
-        
+        return redirect('/login')->with('message', 'Your account has been successfully created, Login to continue');
        
 
     }
@@ -134,6 +132,8 @@ class MainController extends Controller
             'phone' => ['required', 'string'],
             'password' => ['required'],
         ]);
+
+        
         
         if (Auth::attempt($credentials)) {
 
