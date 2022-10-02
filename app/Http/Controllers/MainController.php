@@ -101,9 +101,8 @@ class MainController extends Controller
         $user->email_code = $email_code;
         $user->save();
 
-        dd($user->phone);
                 
-        return view('/login')->with('message', 'Welcome');
+        return view('/register')->with('message', 'Your account has been successfully created, Login to continue');
        
         
        
