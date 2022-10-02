@@ -1,125 +1,97 @@
-
-
-<style>
-
-@import url('https://fonts.googleapis.com/css?family=Muli:300,700&display=swap');
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #ebecf0;
-  font-family: 'Muli', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  overflow: hidden;
-  margin: 0;
-}
-
-.container {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 30px;
-  max-width: 1100px;
-  text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-.code-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 40px 0;
-
-}
-
-.code {
-  border-radius: 5px;
-  font-size: 75px;
-  height: 120px;
-  width: 100px;
-  border: 1px solid #eee;
-    outline-width: thin;;
-    outline-color: #ddd;
-  margin: 1%;
-  text-align: center;
-  font-weight: 300;
-  -moz-appearance: textfield;
-  margin-left: 10px;
-}
-
-.code::-webkit-outer-spin-button,
-.code::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.code:valid {
-  border-color: #1DBF73;
-box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-
-.info {
-  background-color: #ebecf0;
-  display: inline-block;
-  padding: 10px;
-  line-height: 20px;
-  max-width: 400px;
-  color: #777;
-  border-radius: 5px;
-}
-
-@media (max-width: 600px) {
-  .code-container {
-    flex-wrap: wrap;
-  }
-
-  .code {
-    font-size: 60px;
-    height: 80px;
-    max-width: 70px;
-  }
-}
-
-
-</style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--http://fantacydesigns.com/-->
 <!DOCTYPE html>
-<html lang="en">
+
+<!-- =========================================================
+* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
+==============================================================
+
+* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
+* Created by: Cardy
+* Tos: You must have a valid license purchased in order to legally use the theme for your project.
+
+ -->
+<!-- beautify ignore:start -->
+<html
+  lang="en"
+  class="light-style customizer-hide"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="{{url('')}}/public/assets/"
+  data-template="vertical-menu-template-free"
+>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Verify Account</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Login</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{url('')}}/public/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{{url('')}}/public/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{url('')}}/public/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{url('')}}/public/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{url('')}}/public/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{url('')}}/public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{{url('')}}/public/assets/vendor/css/pages/page-auth.css" />
+    <!-- Helpers -->
+    <script src="{{url('')}}/public/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{url('')}}/public/assets/js/config.js"></script>
   </head>
+
   <body>
+    <!-- Content -->
 
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                  <img
+                                    src="{{url('')}}/public/assets/img/illustrations/logo.png"
+                                    height="50"
+                                    alt="View Badge User"
+                                    data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                    data-app-light-img="illustrations/man-with-laptop-light.png"
+                                />              </span>
+                  <span class="app-brand-text demo text-body fw-bolder"></span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2">Hello {{Auth::user()->f_name}} 👋</h4>
+              <p class="mb-4">Verify your Email</p>
 
-
-    <div class="container">
-    <form action="/register-verify-email" class="mb-3" method="post">
-    @csrf  
-
-      <h2>Verify Your Account</h2>
-      <p class="">@if ($errors->any())
+              <form action="/register-verify-email" class="mb-3" method="POST">
+                                @csrf
+                                @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
                                             @foreach ($errors->all() as $error)
@@ -137,49 +109,90 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0
                                     <div class="alert alert-danger">
                                         {{ session()->get('error') }}
                                     </div>
-                                @endif</p>
-      <div class="code-container">
-        <input type="number"  name="code1" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number"  name="code2" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number"  name="code3" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number"  name="code4" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number"  name="code5" class="code" placeholder="0" min="0" max="9" required>
-        <input type="number" name="code6"  class="code" placeholder="0" min="0" max="9" required>
+                                @endif
+                
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Code</label>
+                    <a href="auth-forgot-password-basic.html">
+                    </a>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="text"
+                      id="code"
+                      class="form-control"
+                      name="code"
+                      placeholder="Enter code"
+                      aria-describedby="text"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Continue</button>
+                </div>
+              </form>
 
+              <p class="text-center">
+                <p>No code yet? Please wait for 1 min before you can resend code</p>
+                <span></span>
+
+                <a href="/send-verification-code">
+                  <span>Resend Code</span>
+                </a>
+              </p>
+            </div>
+          </div>
+          <!-- /Register -->
+        </div>
       </div>
-      <small class="info">
-      <button class="body"   type="submit">Verify Account</button>
-      </small>
-    </form>
-
-
-
-
-      <small class="info">
-      <button href= "/resend-verify-code" class="btn btn-secondary d-grid w-100" type="submit">Resend Code</button>
-      </small>
     </div>
-    <script src="script.js"></script>
+
+    <!-- / Content -->
+
+   
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{url('')}}/public/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="{{url('')}}/public/assets/vendor/libs/popper/popper.js"></script>
+    <script src="{{url('')}}/public/assets/vendor/js/bootstrap.js"></script>
+    <script src="{{url('')}}/public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="{{url('')}}/public/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="{{url('')}}/public/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>
 
 
 
-<script>
 
-const codes = document.querySelectorAll('.code')
 
-codes[0].focus()
 
-codes.forEach((code, idx) => {
-    code.addEventListener('keydown', (e) => {
-        if(e.key >= 0 && e.key <=9) {
-            codes[idx].value = ''
-            setTimeout(() => codes[idx + 1].focus(), 10)
-        } else if(e.key === 'Backspace') {
-            setTimeout(() => codes[idx - 1].focus(), 10)
-        }
-    })
-})
 
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
