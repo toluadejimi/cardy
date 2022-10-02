@@ -94,14 +94,14 @@ class MainController extends Controller
         $user->l_name = $request->l_name;
         $user->email = $request->email;
         $user->pin = Hash::make($request->pin);
-        $user->phone = trim($request->phone);
+        $user->phone = str_replace(' ', '', $request->phone);
         $user->gender = $request->gender;
         $user->type = '2';
         $user->password =  Hash::make($request->password);
         $user->email_code = $email_code;
         $user->save();
 
-        
+        dd($user->phone);
                 
         return view('/login')->with('message', 'Welcome');
        
