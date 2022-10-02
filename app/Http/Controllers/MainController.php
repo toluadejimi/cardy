@@ -102,7 +102,7 @@ class MainController extends Controller
         $user->save();
 
                 
-        return view('/register')->with('message', 'Your account has been successfully created, Login to continue');
+        return redirect('/register')->with('message', 'Your account has been successfully created, Login to continue');
        
         
        
