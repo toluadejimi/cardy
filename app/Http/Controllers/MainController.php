@@ -282,7 +282,7 @@ class MainController extends Controller
         ->first()->email_code;
 
 
-        $codes = $request->code1.$request->code2.$request->code3.$request->code4.$request->code5.$request->code6;
+        $codes = $request->code;
 
 
         
