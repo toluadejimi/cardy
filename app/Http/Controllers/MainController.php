@@ -392,10 +392,10 @@ class MainController extends Controller
 
         $usd_card_id = Vcard::where('user_id', Auth::id())
         ->where('card_type', 'usd')
-        ->first()->card_id;
+        ->first()->card_id ?? null;
 
         $carddetails = Vcard::where('card_id', $usd_card_id)
-        ->first();
+        ->first() ?? null;
 
         if($carddetails == null ){
             return redirect('/user-dashboard');
