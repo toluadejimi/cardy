@@ -430,13 +430,13 @@
                                 <div class="mb-3">
 
                         <div class="mb-3">
-                          <label class="form-label" for="">First Name</label>
-                          <input type="text" disabled class="form-control" id="basic-default-fullname" value= {{Auth::user()->f_name}} />
+                          <label class="form-label" for="">Surname</label>
+                          <input type="text" disabled class="form-control" id="" value= {{Auth::user()->l_name}} />
                          </div>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="">Last Name</label>
-                          <input type="text" disabled class="form-control" id="basic-default-fullname" value= {{Auth::user()->l_name}} />
+                          <label class="form-label" for="">First Name</label>
+                          <input type="text" disabled class="form-control" id="" value= {{Auth::user()->f_name}} />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">Phone</label>

@@ -129,24 +129,24 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="f_name" class="form-label">First Name</label>
+                  <label for="f_name" class="form-label">Surname</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="l_name"
+                    name="l_name"
+                    placeholder="Enter your  Surname"
+                    autofocus
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="l_name" class="form-label">First Name</label>
                   <input
                     type="text"
                     class="form-control"
                     id="f_name"
                     name="f_name"
                     placeholder="Enter your First Name"
-                    autofocus
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="l_name" class="form-label">Last Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="l_name"
-                    name="l_name"
-                    placeholder="Enter your Last Name"
                     autofocus
                   />
                 </div>
