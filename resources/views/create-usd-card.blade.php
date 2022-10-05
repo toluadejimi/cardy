@@ -86,13 +86,13 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Creation Fee (NGN) </label>
-                                                <input type="text" disabled class="form-control" id="basic-default-fullname" value="{{ number_format($usd_card_conversion_rate_to_naira) }}" />
+                                                <input type="text" disabled class="form-control" id="rate" value="{{ number_format($usd_card_conversion_rate_to_naira) }}" />
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to fund card (NGN)</label>
                                             <input type="number" class="form-control" name="amount" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
-                                            <span> Min - 10USD | Max - USD250</span>
+                                            <span> Min - 10USD | Max - 250USD</span>
 
                                         </div>
 
@@ -249,7 +249,19 @@
 
             @endif
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+<script>
+$('input').keyup(function(){ // run anytime the value changes
+    var rate  = Number($('#rate').val());   // get value of field
+    var amount = Number($('#amount_to_fund').val()); // convert it to a float
+
+    document.getElementById('result').value = Math.round(amount / rate * 100) / 100;
+    document.getElementById('result2').value = rate + amount;
+
+// add them and output it
+});
+</script>
 
 
 
