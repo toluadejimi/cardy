@@ -86,7 +86,7 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Creation Fee (NGN) </label>
-                                                <input type="text" disabled class="form-control" id="rate" value="{{ number_format($usd_card_conversion_rate_to_naira) }}" />
+                                                <input type="text" disabled class="form-control" id="usd_card_conversion_rate_to_naira" value="{{ number_format($usd_card_conversion_rate_to_naira) }}" />
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -264,15 +264,17 @@
 
 <script>
 $('input').keyup(function(){ // run anytime the value changes
-    var rate  = Number($('#rate').val());   // get value of field
-    var amount = Number($('#amount_to_fund').val()); // convert it to a float
+    var usd_card_conversion_rate_to_naira  = Number($('#usd_card_conversion_rate_to_naira').val());   // get value of field
+    var amount_to_fund = Number($('#amount_to_fund').val()); // convert it to a float
 
-    document.getElementById('result').value = Math.round(amount / rate * 100) / 100;
-    document.getElementById('result2').value = rate + amount;
+    document.getElementById('result').value = Math.round(amount_to_fund / usd_card_conversion_rate_to_naira * 100) / 100;
+    document.getElementById('result2').value = amount_to_fund + usd_card_conversion_rate_to_naira;
 
 // add them and output it
 });
 </script>
+
+
         @endsection
 
 
