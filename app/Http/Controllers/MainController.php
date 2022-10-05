@@ -390,8 +390,27 @@ class MainController extends Controller
     public function my_card(Request $request)
     {
 
+        $usd_card_id = Vcard::where('user_id', Auth::id())
+        ->where('card_type', 'usd')
+        ->first()->card_id;
+
+        $carddetails = Vcard::where('card_id', $usd_card_id)
+        ->first();
+
+        if($carddetails == null ){
+            return redirect('/user-dashboard');
+        }
+
+
 
         if(Auth::user()->is_kyc_verified =='0'){
+            return redirect('/user-dashboard');
+        }
+
+
+     
+
+        if(Auth::user()->balance =='null'){
             return redirect('/user-dashboard');
         }
 
