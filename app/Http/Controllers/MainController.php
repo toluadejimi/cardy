@@ -1814,6 +1814,8 @@ class MainController extends Controller
                 
 
                 $var = json_decode($var);
+
+                $message = $var-> message;
            
                // $id = $var[0]->id;
                 if($var->status =="successful"){
@@ -1835,7 +1837,7 @@ class MainController extends Controller
                   
                     
                     
-                } return back()->with('error', 'Verification Failed Please try again');
+                } return back()->with('Verification Failed', "$message");
                 
              
 

@@ -466,7 +466,7 @@
 
                         <h5 class="title"> Bank Transfer</h5>
                               <p class="mb-4">
-                                Fund your wallet instantly with flutterwave,</br>
+                                Fund your wallet by transfering to our Bank A</br>
                                 2.5% charges will apply.
                               </p>
 
