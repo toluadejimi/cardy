@@ -77,15 +77,15 @@
                 <div class="card-body">
 
 
-                  <h5 class="title"> Instant Funding</h5>
+                  <h5 class="title">Withdraw to Main Account</h5>
                   <p class="mb-4">
-                    Fund your wallet instantly with flutterwave,</br>
+                    Withdraw the funds in your wallat to your bank Account,</br>
                     2.5% charges will apply.
                   </p>
 
 
                   <p>
-                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#mtn" role="button" aria-expanded="false" aria-controls="mtn">Fund Wallet</a>
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#mtn" role="button" aria-expanded="false" aria-controls="mtn">Withdraw</a>
                   </p>
 
 
@@ -93,8 +93,13 @@
                     <div class="collapse multi-collapse" id="mtn">
 
 
-                      <form action="/pay-now" class="mb-3" method="POST">
+                      <form action="/withdraw-now" class="mb-3" method="POST">
                         <div class="mb-3">
+
+                        <label class="form-label" for="">Account Number</label>
+                          <input type="number" class="form-control" name=" " id="account_no" value ="{{$account_number}} " />
+                          <span> Min - 100 | Max - 1,000,000</span>
+
 
                           <label class="form-label" for="">Amount (NGN)</label>
                           <input type="number" class="form-control" name="amount_to_fund" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
@@ -174,7 +179,6 @@
 
 </div>
 
-@endsection
 
 
 <script>
@@ -184,12 +188,12 @@
 
   function makePayment($amount_to_fund) {
     FlutterwaveCheckout({
-      public_key: "{{$fpk}}",
+      public_key: "",
       tx_ref: r,
       amount: document.getElementById('amount_to_fund').value,
       currency: "NGN",
       payment_options: "card, banktransfer, ussd",
-      redirect_url: "{{$url}}",
+      redirect_url: "",
       meta: {
         user_id: "{{Auth::id()}}",
       },
@@ -207,3 +211,5 @@
     });
   }
 </script>
+
+@endsection

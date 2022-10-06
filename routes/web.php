@@ -76,6 +76,14 @@ Route::get('send-verification-code', [MainController::class,'send_verification_c
 Route::post('register-verify-email', [MainController::class,'email_verify_code']);
 
 
+Route::get('/add-account', [MainController::class,'add_account']);
+Route::get('/add-account-now', [MainController::class,'add_account_now']);
+
+
+Route::get('/confirmation', [MainController::class,'confirmation']);
+
+
+
 
 
 
@@ -87,7 +95,9 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
     Route::get('/my-card', [MainController::class,'my_card']);
     
-    
+    Route::get('/bank-transfer', [MainController::class,'bank_transfer']);
+
+   
     
     
     

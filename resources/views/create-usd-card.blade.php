@@ -27,7 +27,7 @@
                                 <h5 class="card-title text-primary">Hey!!! {{Auth::user()->f_name}}! 🎉</h5>
                                 <p class="mb-4">
                                     Create USD <b>Virtual Card</b>.
-                                <p>We charge 2 USD for card creation</p><br>
+                                <p>We charge 2 USD for card creation</p>
                                 <p>1.5USD will be charged at end the month for card maintainace fee</p>
 
                                 </p>
@@ -86,12 +86,13 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Creation Fee (NGN) </label>
-                                                <input type="text" disabled class="form-control" id="usd_card_conversion_rate_to_naira" value="{{ number_format($usd_card_conversion_rate_to_naira) }}" />
+                                                <input type="text" name=rate2 disabled class="form-control" id="rate2" value="{{ number_format($rate2) }}" />
+
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to fund card (NGN)</label>
-                                            <input type="number" class="form-control" name="amount" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
+                                            <input type="number" class="form-control" name="amount_to_fund" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
                                             <span> Min - 10USD | Max - 250USD</span>
 
                                         </div>
@@ -100,12 +101,12 @@
 
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
-                                            <input type="number" id="result" disabled class="form-control" value="result"> </h4>
+                                            <input type="number"name=result id="result" disabled class="form-control" value="result"> </h4>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" for="">Total (NGN)</label>
-                                            <input type="number" id="result2" disabled class="form-control" value="result2"> </h4>
+                                            <input type="number" id="second_result" disabled class="form-control" value="second_result"> </h4>
                                         </div>
 
 
@@ -138,10 +139,10 @@
                                     <h5 class="title">USD Virtual Card</h5>
 
 
-                                    <div class="cnard">
-                                        <div class="card__front card__part">
+                                    <div class="ccard">
+                                        <div class="cnard__front card__part">
                                             <h3 class="card_numer"> USD</h3>
-                                            <img class="card__front-logo card__logo" src="{{url('')}}/public/assets/img/illustrations/logo.png">
+                                            <img class="card__front-logo card__logo" src="{{url('')}}/public/assets/img/illustrations/visa.png">
                                             <p class="card_numer">**** **** **** 6258</p>
                                             <div class="card__space-75">
                                                 <span class="card__label">Card holder</span>
@@ -159,7 +160,7 @@
                                                 <div class="card__secret">
                                                     <p class="card__secret--last">420</p>
                                                 </div>
-                                                <img class="card__back-square card__square" src="{{url('')}}/public/assets/img/illustrations/logo.png">
+                                                <img class="card__back-square card__square" src="{{url('')}}/public/assets/img/illustrations/logo_white.png">
                                             </div>
                                         </div>
                                     </div>
@@ -260,18 +261,18 @@
 
         </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        @endif
+
+
 
 <script>
-$('input').keyup(function(){ // run anytime the value changes
-    var usd_card_conversion_rate_to_naira  = Number($('#usd_card_conversion_rate_to_naira').val());   // get value of field
-    var amount_to_fund = Number($('#amount_to_fund').val()); // convert it to a float
+$('input').keyup(function() { // run anytime the value changes
+                var rate = Number($('#rate2').val()); // get value of field
+                var amount = Number($('#amount_to_fund').val()); // convert it to a float
 
-    document.getElementById('result').value = Math.round(amount_to_fund / usd_card_conversion_rate_to_naira * 100) / 100;
-    document.getElementById('result2').value = amount_to_fund + usd_card_conversion_rate_to_naira;
-
-// add them and output it
-});
+                document.getElementById('result').value = Math.round(amount / rate * 100) / 100;
+                // add them and output it
+            });
 </script>
 
 

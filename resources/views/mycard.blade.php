@@ -40,7 +40,7 @@
                             <div class="col-sm-5 text-center text-sm-left">
                                 <div class="card-body pb-0 px-0 px-md-4">
                                 <img
-                                    src="../assets/img/illustrations/card.png"
+                                    src="{{url('')}}/public/assets/img/illustrations/card.png"
                                     height="140"
                                     alt="View Badge User"
                                     data-app-dark-img="illustrations/man-with-laptop-dark.png"
@@ -84,7 +84,7 @@
                                                     <div class="ccard mb-1">
                                                         <div class="cnard__front card__part">
                                                                 <h4 class="card_numer">{{number_format($card_amount),2 ?? 0000 }} USD</h4>
-                                                                <img class="card__front-logo card__logo" src="../assets/img/illustrations/visa.png">
+                                                                <img class="card__front-logo card__logo" src="{{url('')}}/public/assets/img/illustrations/visa.png">
                                                                 <p class="card_numer">**** **** **** {{ $usd_card_last_decrypt  ?? 2345 }}</p>
 
                                                           <div class="card__space-75 ">
@@ -103,7 +103,7 @@
                                                                     <div class="card__secret">
                                                                         <p class="card__secret--last">{{ $usd_card_cvv_decrypt ?? 123 }}</p>
                                                                     </div>
-                                                                    <img class="card__back-square card__square" src="../assets/img/illustrations/logo.png">    
+                                                                    <img class="card__back-square card__square" src="{{url('')}}/public/assets/img/illustrations/logo_white.png">    
                                                                 </div>
                                                             </div>
 
@@ -132,7 +132,7 @@
                                                     <div class="cncard">
                                                         <div class="cnard__front cnard__part">
                                                                 <h3 class="card_numer"> NGN</h3>
-                                                                <img class="card__front-logo card__logo" src="../assets/img/illustrations/logo.png">
+                                                                <img class="card__front-logo card__logo" src="{{url('')}}/public/assets/img/illustrations/visa.png">
                                                                 <p class="card_numer">**** **** **** 6258</p>
                                                             <div class="card__space-75">
                                                                 <span class="card__label">Card holder</span>
@@ -150,7 +150,7 @@
                                                                     <div class="card__secret">
                                                                         <p class="card__secret--last">420</p>
                                                                     </div>
-                                                                    <img class="card__back-square card__square" src="../assets/img/illustrations/logo.png">    
+                                                                    <img class="card__back-square card__square" src="{{url('')}}/public/assets/img/illustrations/logo_white.png">    
                                                                 </div>
                                                             </div>
                                                         </div>

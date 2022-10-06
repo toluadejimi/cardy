@@ -41,7 +41,7 @@
 
                         <div class="col-sm-5 text-center text-sm-left">
                             <div class="card-body pb-0 px-0 px-md-4">
-                                <img src="../assets/img/illustrations/card.png" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
+                                <img src="{{url('')}}/public/assets/img/illustrations/card.png" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
                             </div>
                         </div>
                     </div>
@@ -145,26 +145,7 @@
                 </div>
 
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
             @if(Auth::user()->is_kyc_verified =='0')
             @else
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -176,7 +157,6 @@
                                     <div class="card-body">
 
                                         <h5 class="title">Fund USD Card</h5>
-
                                         <form action="/fund-usd-card" class="mb-3" method="POST">
                                             @csrf
                                             @if ($errors->any())
@@ -213,50 +193,32 @@
                                                 <span> Min - 10USD | Max - USD250</span>
 
                                             </div>
-
-
-
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
                                                 <input type="number" id="result" disabled class="form-control" value="result"> </h4>
                                             </div>
-
-
-
-
-
-
                                             <button type="submit" class="btn btn-primary">Fund Card</button>
                                         </form>
-
-
-
-
-
-
-
-                                    </div>
+                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-3 order-0">
+
+
+                    
+
+                    <div class="col-lg-6 mb-1 order-0">
                         <div class="card">
                             <div class="d-flex align-items-end row">
                                 <div class="col-sm-12">
                                     <div class="card-body">
-
-
-
-
                                         <h5 class="title">USD Virtual Card</h5>
-
-
-                                        <div class="ccard mb-5">
+                                        <div class="ccard mb-2">
                                             <div class="cnard__front card__part">
                                                 <h4 class="card_numer">{{$card_amount}} USD</h4>
-                                                <img class="card__front-logo card__logo" src="../assets/img/illustrations/visa.png">
+                                                <img class="card__front-logo card__logo" src="{{url('')}}/public/assets/img/illustrations/visa.png">
                                                 <p class="card_numer">**** **** **** {{ $usd_card_last_decrypt  }}</p>
 
                                                 <div class="card__space-75 ">
@@ -275,15 +237,12 @@
                                                     <div class="card__secret">
                                                         <p class="card__secret--last">{{ $usd_card_cvv_decrypt }}</p>
                                                     </div>
-                                                    <img class="card__back-square card__square" src="../assets/img/illustrations/logo.png">
+                                                    <img class="card__back-square card__square" src="{{url('')}}/public/assets/img/illustrations/logo_white.png">
                                                 </div>
                                             </div>
-
-
-
-
                                         </div>
-                                        <div class="row">
+
+                                        <div class="row ">
                                             <div class="col-lg-3">
                                                 <a class="btn btn-danger mt-5" href="/delet-usd-card" role="button" aria-expanded="false" aria-controls="card_info">Delete</a></p>
                                             </div>
@@ -317,11 +276,7 @@
                     </div>
 
                 </div>
-                <p>
-
-
-
-
+            
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div class="col-lg-12 mb-4 order-0">
@@ -429,7 +384,6 @@
         </div>
         <!-- / Content -->
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
         <script>
             $('input').keyup(function() { // run anytime the value changes
