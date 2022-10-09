@@ -117,6 +117,10 @@
                               <td><span class="badge rounded-pill bg-warning text-dark">Debit</span></td>
                               @elseif($item->transaction_type == "Withdrawl")
                               <td><span class="badge rounded-pill bg-warning text-dark">Debit</span></td>
+                              @elseif($item->transaction_type  == "Cardy Transfer" &&  $item->from_user_id  == Auth::id())
+                              <td><span class="badge rounded-pill bg-warning text-dark">Debit</span></td>
+                              @elseif($item->transaction_type  == "Cardy Transfer" &&  $item->to_user_id  == Auth::id())
+                              <td><span class="badge rounded-pill bg-warning text-dark">Credit</span></td>
                               @else
                               <td><span class="badge rounded-pill bg-success">Credit</span></td>
                               @endif
