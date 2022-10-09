@@ -103,7 +103,7 @@
                                             @csrf
                                             <div class="mb-3">
 
-                                                <div class="mb-3 col-sm-6">
+                                                <div class="mb-3 col-sm-8">
                                                     <label class=" form-label" for="">Enter User Phone Number</label>
                                                     <div class="input-group input-group-merge">
                                                         <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
@@ -111,7 +111,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="mb-3 col-sm-6">
+                                                <div class="mb-3 col-sm-8">
                                                     <label class=" form-label" for="">Amount (NGN)</label>
                                                     <div class="input-group input-group-merge">
                                                         <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-money"></i></span>
@@ -120,7 +120,7 @@
                                                 </div>
 
 
-                                                <div class="mb-5 col-sm-6 form-password-toggle">
+                                                <div class="mb-5 col-sm-8 form-password-toggle">
                                                     <label class="form-label" for="pin">Pin</label>
                                                     <div class="input-group input-group-merge">
                                                         <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-lock-alt"></i></span>
