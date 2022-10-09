@@ -136,7 +136,7 @@
               </form>
 
               <p class="text-center">
-                <p>No code yet? Please wait for 1 min before you can resend code</p>
+                <p> No code yet?  Please wait for 1 min before you can resend code or check your spam folder and report not spam.   Please wait for 1 min before you can resend code or check your spam folder and report not spam. </p>
                 <span></span>
 
                 <a href="/send-verification-code">
