@@ -409,14 +409,11 @@ class MainController extends Controller
             $update = User::where('email', Auth::user()->email)
                 ->update(['is_email_verified' => 1]);
 
-        $user_wallet = EMoney::where('user_id',Auth::id())
-        ->first()->current_balance;
-
-        if($user_wallet == null){
+      
             $wallet = new EMoney();
             $wallet->user_id = Auth::id();
             $wallet->save();
-        }
+        
 
 
             return redirect('/user-dashboard')->with('message', 'Your Email has been verified');

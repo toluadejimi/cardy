@@ -491,7 +491,7 @@
                                 <p class="mb-4">
                                     Your verification status is pending kindly wait while we verify you.<br>
 
-                                    Thanks. For more info please call or text<b> +23408105059613</b>
+                                    Thanks. For more info please call or text<b> 23408105059613</b>
                         
                                 </p>
 

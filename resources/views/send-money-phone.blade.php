@@ -107,7 +107,7 @@
                                                     <label class=" form-label" for="">Enter User Phone Number</label>
                                                     <div class="input-group input-group-merge">
                                                         <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                                                        <input type="text" required class="form-control" name="phone" id="phone" value="+234" />
+                                                        <input type="text" required class="form-control" name="phone" id="phone" value="234" />
                                                     </div>
                                                 </div>
 

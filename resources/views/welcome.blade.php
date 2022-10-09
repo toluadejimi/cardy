@@ -112,8 +112,8 @@
                     class="form-control"
                     id="phon-number"
                     name="phone"
-                    value="+234"
-                    placeholder="Incluce country code ex +234"
+                    value="234"
+                    placeholder="Incluce country code ex 234"
                     autofocus
 
                   />

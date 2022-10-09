@@ -120,7 +120,7 @@
                 <label class="form-label" for="basic-icon-default-fullname">Enter Your Phone NUmber</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-phone"></i></span>
-                  <input type="text" class="form-control" value="+234" name="phone" id="basic-icon-default-fullname" placeholder="123 456 789" aria-label="" aria-describedby="basic-icon-default-fullname2" />
+                  <input type="number" class="form-control" value="234" name="phone" id="basic-icon-default-fullname"  required placeholder="123 456 789" aria-label="" aria-describedby="basic-icon-default-fullname2" />
                 </div>
               </div>
 

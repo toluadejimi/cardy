@@ -785,7 +785,7 @@ use Flutterwave\EventHandlers\EventHandlers\EventHandlers\EventHandlers\EventHan
 
 $data = array(
     "country"=> "NG",
-	"customer"=> "+23490803840303",
+	"customer"=> "23490803840303",
 	"amount"=> 500,
 	"recurrence"=> "ONCE",
 	"type"=> "AIRTIME",
@@ -799,7 +799,7 @@ $bulkdata = array(
     "bulk_data"=> array(
         array(
         "country"=> "NG",
-        "customer"=> "+23490803840303",
+        "customer"=> "23490803840303",
         "amount"=> 500,
         "recurrence"=> "WEEKLY",
         "type"=> "AIRTIME",
@@ -807,7 +807,7 @@ $bulkdata = array(
         ),
         array(
         "country"=>"NG",
-        "customer"=> "+23490803840304",
+        "customer"=> "23490803840304",
         "amount"=> 500,
         "recurrence"=> "WEEKLY",
         "type"=>"AIRTIME",
