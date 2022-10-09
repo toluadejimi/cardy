@@ -113,12 +113,12 @@
                             @forelse ($transactions as $item)
                             <tr>
                               <td>{{$item->ref_trans_id}}</td>
-                              @if($item->transaction_type == "cash_out")
+                              @if($item->transaction_type  == "Cardy Transfer" &&  $item->from_user_id  == Auth::user()->id)
+                              <td><span class="badge rounded-pill bg-warning ">Debit</span></td>
+                              @elseif($item->transaction_type == "cash_out")
                               <td><span class="badge rounded-pill bg-warning">Debit</span></td>
                               @elseif($item->transaction_type == "Withdrawl")
                               <td><span class="badge rounded-pill bg-warning">Debit</span></td>
-                              @elseif($item->transaction_type  == "Cardy Transfer" &&  $item->from_user_id  == Auth::id())
-                              <td><span class="badge rounded-pill bg-warning ">Debit</span></td>
                               @else
                               <td><span class="badge rounded-pill bg-success">Credit</span></td>
                               @endif

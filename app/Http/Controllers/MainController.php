@@ -467,8 +467,11 @@ class MainController extends Controller
 
         $users = User::all();
 
+        $uuid = Auth::id();
+
         $transactions = Transaction::orderBy('id', 'DESC')
-            ->where('user_id', Auth::id())
+            ->where('user_id', $uuid)
+            ->orWhere('to_user_id', $uuid)
             ->paginate(10);
 
 
