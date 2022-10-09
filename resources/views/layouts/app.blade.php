@@ -282,7 +282,11 @@
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="{{url('')}}/public/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                          @if(Auth::user()->gender == 'male')
+                    <img src="{{url('')}}/public/assets/img/avatars/male.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                    @else
+                    <img src="{{url('')}}/public/assets/img/avatars/female.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                  @endif
                           </div>
                         </div>
                         <div class="flex-grow-1">
@@ -309,14 +313,7 @@
                       <span class="align-middle">My Profile</span>
                     </a>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="bx bx-cog me-2"></i>
-                      <span class="align-middle">Settings</span>
-                    </a>
-                  </li>
-                  <li>
-
+                
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
