@@ -73,8 +73,6 @@
 								<p style="margin:0;">Your verification code is <br>
 								<h3>{{$new_email_code}}</h3>
 
-								if you didn't make this request, reset your password.
-
 
 								</p>
 

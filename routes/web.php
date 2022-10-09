@@ -85,6 +85,14 @@ Route::get('/confirmation', [MainController::class,'confirmation']);
 
 
 
+Route::get('/pin-verify-account', [MainController::class,'pin_verify_account']);
+
+Route::get('/verify-change-account', [MainController::class,'verify_change_account']);
+
+
+
+
+
 
 
 
@@ -96,6 +104,48 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::get('/my-card', [MainController::class,'my_card']);
     
     Route::get('/bank-transfer', [MainController::class,'bank_transfer']);
+    Route::post('/withdraw-now', [MainController::class,'withdraw_now']);
+    Route::post('/send-other-bank', [MainController::class,'verify_account_info']);
+
+    Route::get('/confirm-account-before-sending', [MainController::class,'confirm_account_before_sending']);
+
+
+
+    Route::post('/transfer-money', [MainController::class,'transfer_money']);
+
+    Route::post('/otherbank-transfer-now', [MainController::class,'otherbank_transfer_now']);
+
+
+
+    Route::get('/send-money-phone', [MainController::class,'send_funds_with_phone_number']);
+
+    Route::post('/confirm-user-now', [MainController::class,'confirm_user_now']);
+
+    Route::post('/confirm-user', [MainController::class,'confirm_user']);
+
+    Route::post('/send-money-phone-now', [MainController::class,'send_funds_with_phone_numbe_now']);
+   
+
+
+    
+
+    
+
+    
+
+   
+
+    Route::get('/profile', [MainController::class,'profile']);
+    Route::get('/bank-account', [MainController::class,'bank_account']);
+    Route::get('/add-account-now', [MainController::class,'add_account_now']);
+
+
+    Route::get('/security', [MainController::class,'secutiry']);
+
+
+    Route::post('/delete', [MainController::class,'delete']);
+
+
 
    
     
@@ -150,6 +200,18 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::post('/pay-now', [MainController::class, 'pay_now']);
     // The callback url after a payment
     Route::get('/verify-pay', [MainController::class, 'callback']);
+
+
+    Route::post('/bank-transfer-fund', [MainController::class, 'bank_transfer_fund']);
+
+
+
+
+
+
+
+
+
     
     
     
@@ -162,8 +224,9 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     
     
     
-    Route::get('update-password', [MainController::class,'update_password']);
-    Route::post('updatepassword', [MainController::class,'updatepassword']);
+    
+    Route::get('updatepassword', [MainController::class,'update_password']);
+    Route::post('update-password-now', [MainController::class,'update_password_now']);
     
     
     

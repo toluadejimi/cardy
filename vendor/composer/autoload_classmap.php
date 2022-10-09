@@ -42,6 +42,7 @@ return array(
     'App\\Models\\BailedDetailsHistory' => $baseDir . '/app/Models/BailedDetailsHistory.php',
     'App\\Models\\BailedTotal' => $baseDir . '/app/Models/BailedTotal.php',
     'App\\Models\\Bailing' => $baseDir . '/app/Models/Bailing.php',
+    'App\\Models\\Bank' => $baseDir . '/app/Models/Bank.php',
     'App\\Models\\Charge' => $baseDir . '/app/Models/Charge.php',
     'App\\Models\\CollectedDetails' => $baseDir . '/app/Models/CollectedDetails.php',
     'App\\Models\\Collection' => $baseDir . '/app/Models/Collection.php',

@@ -40,7 +40,7 @@
             </div>
             <div class="col-sm-5 text-center text-sm-left">
               <div class="card-body pb-0 px-0 px-md-4">
-                <img src="../assets/img/illustrations/phone.png" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
+                <img src="{{url('')}}/public/assets/img/illustrations/phone.png" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@
 
 
 
-                  <h5 class="title"> <img src="../assets/img/illustrations/mtn.jpeg" width="50" /> MTN DATA BUNDLE </h5>
+                  <h5 class="title"> <img src="{{url('')}}/public/assets/img/illustrations/mtn.jpeg" width="50" /> MTN DATA BUNDLE </h5>
 
 
                   <p>
@@ -171,7 +171,7 @@
                 <div class="card-body">
 
 
-                  <h5 class="title"> <img src="../assets/img/illustrations/glo.jpg" width="50" /> GLO DATA BUNDLE </h5>
+                  <h5 class="title"> <img src="{{url('')}}/public/assets/img/illustrations/glo.jpg" width="50" /> GLO DATA BUNDLE </h5>
 
 
                   <p>
@@ -245,7 +245,7 @@
               <div class="col-sm-12">
                 <div class="card-body">
 
-                  <h5 class="title"> <img src="../assets/img/illustrations/airtel.png" width="50" /> AIRTEL DATA BUNDLE </h5>
+                  <h5 class="title"> <img src="{{url('')}}/public/assets/img/illustrations/airtel.png" width="50" /> AIRTEL DATA BUNDLE </h5>
 
 
                   <p>
@@ -325,7 +325,7 @@
               <div class="col-sm-12">
                 <div class="card-body">
 
-                  <h5 class="title"> <img src="../assets/img/illustrations/9mobile.jpg" width="50" /> 9MOBILE DATA BUNDLE </h5>
+                  <h5 class="title"> <img src="{{url('')}}/public/assets/img/illustrations/9mobile.jpg" width="50" /> 9MOBILE DATA BUNDLE </h5>
 
 
                   <p>
@@ -412,17 +412,8 @@
   </div>
 
 </div>
-</div>
 
 
 
-
-
-
-
-
-
-
-<!-- / Content -->
 
 @endsection

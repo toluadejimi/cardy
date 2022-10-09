@@ -68,17 +68,9 @@
 							<td style="padding:30px;background-color:#ffffff;">
 								<h1
 									style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;">
-									Hi {{$f_name}}</h1>
-								<p style="margin:0;">Your verification code is <br>
-								<h3>{{$new_email_code}}</h3>
-								</p>
-
-								<p style="margin:0;"><a href="https://dashboard.cardy4u.com/reset-password"
-									style="background: #284ef8; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 4px; display:inline-block; mso-padding-alt:0;text-underline-color:#ff3884">
-									<!--[if mso]><i style="letter-spacing: 25px;mso-font-width:-100%;mso-text-raise:20pt">&nbsp;</i><![endif]--><span
-										style="mso-text-raise:10pt;font-weight:bold;">Reset your password</span>
-									<!--[if mso]><i style="letter-spacing: 25px;mso-font-width:-100%">&nbsp;</i><![endif]-->
-								</a></p>
+									Hi {{$sf_name}}</h1>
+                                <p style="margin:0;">This is to inform you that<br>
+								<p style="margin:0;">NGN{{number_format($amount), 2}}  has left your wallet <br>
 							</td>
 						</tr>
 						

@@ -8,7 +8,7 @@ class Address extends \Faker\Provider\Address
     protected static $citySuffix = ['kylä', 'niemi', 'järvi', 'joki', 'lampi', 'mäki', 'vesi', 'niemi', 'harju', 'lahti', 'harju', 'salmi', 'koski', 'pudas', 'saari'];
     protected static $buildingNumber = ['%###', '%##', '%#', '%'];
     protected static $streetSuffix = [
-        'tie', 'kuja', 'polku', 'kierros', 'kulma', 'katu', 'kaarre', 'kaari', 'rinne', 'kaarto', 'haka', 'silta', 'rinne', 'töyry',
+        'tie', 'kuja', 'polku', 'kierrors', 'kulma', 'katu', 'kaarre', 'kaari', 'rinne', 'kaarto', 'haka', 'silta', 'rinne', 'töyry',
     ];
     protected static $postcode = ['#####'];
     protected static $state = [

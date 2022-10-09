@@ -55,17 +55,22 @@
                 <div class="card card-body">
                     <h6 class="title">Card Information</h6>
 
-                    <div class="mb-2">
+                    <div class="mb-3">
 
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <h6 class="title">Card Number </h6>
-                                    <div>
-                                        <p>{{ $usd_card_no_decrypt }}</p>
+                                    <div class="mb-5 form-password-toggle">
+                                        <h6 class="form-label" for="card">Card Number </h6>
+                                            <div class="input-group input-group-merge">
+                                                <input type="password" disabled id="pin" autofocus required class="form-control" name="pin" value="{{$usd_card_no_decrypt}}" aria-describedby="password" />
+                                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -76,11 +81,15 @@
                                 </div>
                             </div>
 
+               
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <h6 class="title">Card CVV</h6>
-                                    <div>
-                                        <p>{{ $usd_card_cvv_decrypt }}</p>
+                                    <div class="mb-5 form-password-toggle">
+                                        <h6 class="form-label" for="card">Card CVV </h6>
+                                            <div class="input-group input-group-merge">
+                                                <input type="password" disabled id="pin" autofocus required class="form-control" name="pin" value="{{$usd_card_cvv_decrypt}}" aria-describedby="password" />
+                                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +104,7 @@
                             </div>
 
 
-                            <div class="col-lg-12 mt-3">
+                            <div class="col-lg-12 mt-3 mb-4">
                                 <h6 class="title">Billling Information</h6>
                             </div>
 
@@ -235,7 +244,7 @@
                                                 <div class="card__black-line"></div>
                                                 <div class="card__back-content">
                                                     <div class="card__secret">
-                                                        <p class="card__secret--last">{{ $usd_card_cvv_decrypt }}</p>
+                                                        <p class="card__secret--last">***</p>
                                                     </div>
                                                     <img class="card__back-square card__square" src="{{url('')}}/public/assets/img/illustrations/logo_white.png">
                                                 </div>
@@ -387,7 +396,7 @@
 
         <script>
             $('input').keyup(function() { // run anytime the value changes
-                var rate = Number($('#rate').val()); // get value of field
+                var rate = Number($('#rate2').val()); // get value of field
                 var amount = Number($('#amount_to_fund').val()); // convert it to a float
 
                 document.getElementById('result').value = Math.round(amount / rate * 100) / 100;

@@ -904,7 +904,7 @@ não falámos nada; o muro falou por nós. Não nos movemos, as mãos é que
 se estenderam pouco a pouco, todas quatro, pegando-se, apertando-se,
 fundindo-se. Não marquei a hora exacta daquelle gesto. Devia tel-a
 marcado; sinto a falta de uma nota escripta naquella mesma noite, e
-que eu poria aqui com os erros de orthographia que trouxesse, mas não
+que eu poria aqui com os errors de orthographia que trouxesse, mas não
 traria nenhum, tal era a differença entre o estudante e o adolescente.
 Conhecia as regras do escrever, sem suspeitar as do amar; tinha orgias
 de latim e era virgem de mulheres.

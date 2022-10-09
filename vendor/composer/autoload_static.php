@@ -640,6 +640,7 @@ class ComposerStaticInit3c01c7a27027794966c07550716c950d
         'App\\Models\\BailedDetailsHistory' => __DIR__ . '/../..' . '/app/Models/BailedDetailsHistory.php',
         'App\\Models\\BailedTotal' => __DIR__ . '/../..' . '/app/Models/BailedTotal.php',
         'App\\Models\\Bailing' => __DIR__ . '/../..' . '/app/Models/Bailing.php',
+        'App\\Models\\Bank' => __DIR__ . '/../..' . '/app/Models/Bank.php',
         'App\\Models\\Charge' => __DIR__ . '/../..' . '/app/Models/Charge.php',
         'App\\Models\\CollectedDetails' => __DIR__ . '/../..' . '/app/Models/CollectedDetails.php',
         'App\\Models\\Collection' => __DIR__ . '/../..' . '/app/Models/Collection.php',

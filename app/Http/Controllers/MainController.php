@@ -25,6 +25,7 @@ use App\Http\Traits\HistoryTrait;
 use App\Models\SortDetails;
 use App\Models\BailedDetails;
 use App\Models\BailedDetailsHistory;
+use App\Models\BankTransfer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
@@ -73,9 +74,6 @@ class MainController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-
-
-
         $check_email = User::where('email', $request->email)->first()->email ?? null;
 
 
@@ -100,8 +98,19 @@ class MainController extends Controller
         $user->save();
 
 
+
+
+
         return redirect('/')->with('message', 'Your account has been successfully created, Login to continue');
     }
+
+
+
+
+
+
+
+
 
 
     public function  verify_email_code(Request $request)
@@ -165,23 +174,23 @@ class MainController extends Controller
                 // The response to get
                 $res = $client->request('GET', '/v2/email/send', [
                     'query' => [
-                        
+
                         'apikey' => "$api_key",
-                        'from'=> "$from",
-                        'fromName'=> 'Cardy' ,
-                        'sender'=>"$from",
-                        'senderName'=>'Cardy',
-                        'subject'=>'Verification Code',
-                        'to'=>"$email",
-                        'bodyHtml'=> view('verifyemail', compact('new_email_code','f_name'))->render(),
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Verification Code',
+                        'to' => "$email",
+                        'bodyHtml' => view('verifyemail', compact('new_email_code', 'f_name'))->render(),
                         'encodingType' => 0,
-                    
+
                     ]
                 ]);
 
                 $body = $res->getBody();
                 $array_body = json_decode($body);
-            
+
 
 
                 return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
@@ -211,31 +220,31 @@ class MainController extends Controller
             $user_email = User::where('id', Auth::id())->first()->email;
 
 
-                require_once "vendor/autoload.php";
-                $client = new Client([
-                    'base_uri' => 'https://api.elasticemail.com',
-                ]);
+            require_once "vendor/autoload.php";
+            $client = new Client([
+                'base_uri' => 'https://api.elasticemail.com',
+            ]);
 
-                // The response to get
-                $res = $client->request('GET', '/v2/email/send', [
-                    'query' => [
-                        
-                        'apikey' => "$api_key",
-                        'from'=> "$from",
-                        'fromName'=> 'Cardy' ,
-                        'sender'=>"$from",
-                        'senderName'=>'Cardy',
-                        'subject'=>'Verification Code',
-                        'to'=>"$user_email",
-                        'bodyHtml'=> view('verification', compact('new_email_code','f_name'))->render(),
-                        'encodingType' => 0,
-                    
-                    ]
-                ]);
+            // The response to get
+            $res = $client->request('GET', '/v2/email/send', [
+                'query' => [
 
-                $body = $res->getBody();
-                $array_body = json_decode($body);
-            
+                    'apikey' => "$api_key",
+                    'from' => "$from",
+                    'fromName' => 'Cardy',
+                    'sender' => "$from",
+                    'senderName' => 'Cardy',
+                    'subject' => 'Verification Code',
+                    'to' => "$user_email",
+                    'bodyHtml' => view('verification', compact('new_email_code', 'f_name'))->render(),
+                    'encodingType' => 0,
+
+                ]
+            ]);
+
+            $body = $res->getBody();
+            $array_body = json_decode($body);
+
 
 
             return redirect('pin-verify')->with('message', "Enter the verification code sent to $email");
@@ -243,6 +252,12 @@ class MainController extends Controller
             return back()->with('error', 'Invalid Credentials');
         }
     }
+
+
+
+
+
+
 
 
     public function send_verification_code(Request $request)
@@ -261,34 +276,34 @@ class MainController extends Controller
         $f_name = User::where('id', Auth::id())
             ->first()->f_name;
 
-        $email = User::where('id', Auth::id())
+        $user_email = User::where('id', Auth::id())
             ->first()->email;
 
 
-            require_once "vendor/autoload.php";
-            $client = new Client([
-                'base_uri' => 'https://api.elasticemail.com',
-            ]);
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
 
-            // The response to get
-            $res = $client->request('GET', '/v2/email/send', [
-                'query' => [
-                    
-                    'apikey' => "$api_key",
-                    'from'=> "$from",
-                    'fromName'=> 'Cardy' ,
-                    'sender'=>"$from",
-                    'senderName'=>'Cardy',
-                    'subject'=>'Verification Code',
-                    'to'=>"$user_email",
-                    'bodyHtml'=> view('verification', compact('new_email_code','f_name'))->render(),
-                    'encodingType' => 0,
-                
-                ]
-            ]);
+        // The response to get
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
 
-            $body = $res->getBody();
-            $array_body = json_decode($body);
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Verification Code',
+                'to' => "$user_email",
+                'bodyHtml' => view('verification', compact('new_email_code', 'f_name'))->render(),
+                'encodingType' => 0,
+
+            ]
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
 
 
 
@@ -304,15 +319,81 @@ class MainController extends Controller
         return view('pin-verify', compact('user'));
     }
 
+    public function pin_verify_account(Request $request)
+    {
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
+
+        $email_code = random_int(100000, 999999);
+
+        $user = User::all();
+
+        $email_code = User::where('id', Auth::id())
+            ->update(['email_code' => $email_code]);
+
+        $f_name = User::where('id', Auth::id())
+            ->first()->f_name;
+
+        $new_email_code = User::where('id', Auth::id())
+            ->first()->email_code;
+
+        $user_email = User::where('id', Auth::id())->first()->email;
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
+
+        // The response to get
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
+
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Verification Code',
+                'to' => "$user_email",
+                'bodyHtml' => view('change-account', compact('new_email_code', 'f_name'))->render(),
+                'encodingType' => 0,
+
+            ]
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
+
+
+        return view('pin-verify-account', compact('user', 'new_email_code', 'f_name'))->with('message', "Enter the verification code sent to $user_email");
+    }
+
+
+
+
+
+    public function verify_change_account(Request $request)
+    {
+        $user_code = User::where('email', Auth::user()->email)
+            ->first()->email_code;
+
+        $codes = $request->code;
+
+        if ($codes == $user_code) {
+            return redirect('/add-account');
+        }
+
+        return back()->with('error', 'Invalid Code');
+    }
+
+
+
+
+
+
+
 
     public function email_verify_code(Request $request)
     {
-
-
-
-
-
-
 
         $user_code = User::where('email', Auth::user()->email)
             ->first()->email_code;
@@ -325,15 +406,23 @@ class MainController extends Controller
 
         if ($codes == $user_code) {
 
-
-
             $update = User::where('email', Auth::user()->email)
                 ->update(['is_email_verified' => 1]);
+
+        $user_wallet = EMoney::where('user_id',Auth::id())
+        ->first()->current_balance;
+
+        if($user_wallet == null){
+            $wallet = new EMoney();
+            $wallet->user_id = Auth::id();
+            $wallet->save();
+        }
 
 
             return redirect('/user-dashboard')->with('message', 'Your Email has been verified');
         }
 
+        
 
         return back()->with('error', 'Invalid Code');
     }
@@ -383,7 +472,7 @@ class MainController extends Controller
 
         $transactions = Transaction::orderBy('id', 'DESC')
             ->where('user_id', Auth::id())
-            ->take(10)->get();
+            ->paginate(10);
 
 
 
@@ -1037,15 +1126,29 @@ class MainController extends Controller
 
         $fpk = env('FLWPKEY');
 
+        $banktransfers = BankTransfer::orderBy('id', 'DESC')
+            ->where('user_id', Auth::id())
+            ->take(10)->get();
 
 
-        return view('fund-wallet', compact('users', 'url', 'user_wallet', 'fpk'));
+
+
+
+        $trx = Str::random(10);
+
+
+
+        return view('fund-wallet', compact('users', 'banktransfers', 'trx', 'user_wallet', 'fpk'));
     }
 
 
     public function callback(Request $request)
 
     {
+
+
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
 
 
         $fpk = env('FLWPKEY');
@@ -1079,6 +1182,8 @@ class MainController extends Controller
 
             $res = json_decode($response);
 
+            $new_amount = $res->data->charged_amount;
+
 
 
 
@@ -1109,22 +1214,64 @@ class MainController extends Controller
 
 
 
-                $user_send = User::where('id', Auth::id())
+                $transfer = new BankTransfer();
+                $transfer->amount = $res->data->charged_amount;
+                $transfer->user_id = $res->data->meta->user_id;
+                $transfer->ref_id = $res->data->flw_ref;
+                $transfer->status = 1;
+                $transfer->type = "Instant Funding";
+                $transfer->save();
+
+
+
+
+                $users = User::where('id', Auth::id())
                     ->first();
 
-                $details = [
-                    'greeting' => "Hello, $first_name",
-                    'body' => "NGN $amount has Landed in your Cardy Wallet.",
-                    'thanks' => 'Thanks for choosing Cardy',
-                    'actionText' => 'Login to Cardy',
-                    'actionURL' => 'https://dashboard.cardy4u.com/',
-                ];
+                $email = User::where('id', Auth::id())
+                    ->first()->email;
 
-                $user_send->notify(new CardyNotification($details));
+                $f_name = User::where('id', Auth::id())
+                    ->first()->f_name;
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Fund Wallet',
+                        'to' => "$email",
+                        'bodyHtml' => view('wallet-fund-nofication', compact('f_name', 'new_amount'))->render(),
+                        'encodingType' => 0,
+
+                    ]
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
             }
             return redirect('/fund-wallet')->with('message', 'Your Wallet has been successfully credited');
+        } else {
+
+            $transfer = new BankTransfer();
+            $transfer->amount = $request->amount_to_fund;
+            $transfer->user_id = Auth::id();
+            $transfer->ref_id = "failed";
+            $transfer->status = 0;
+            $transfer->type = "Instant Funding";
+            $transfer->save();
+
+
+            return redirect('/fund-wallet')->with('error', 'Sorry Unable to fund wallet Please contact support');
         }
-        return redirect('/fund-wallet')->with('error', 'Sorry Unable to fund wallet Please contact support');
     }
 
 
@@ -1204,22 +1351,7 @@ class MainController extends Controller
 
         $usd_card_number = openssl_decrypt($card_number, $algorithm, $mono_api_key, OPENSSL_RAW_DATA, $iv);
 
-
-
-
-
-
         dd($usd_card_number);
-
-
-
-
-
-
-
-
-
-
 
         return view('usd-card', compact('card_number', 'user_wallet', 'rate', 'cardTranscation'));
     }
@@ -1502,15 +1634,411 @@ class MainController extends Controller
         $user = User::all();
 
         $account_number = User::where('id', Auth::id())
-        ->first()->account_number;
+            ->first()->account_number;
+
+
+        $banktransfers = BankTransfer::orderBy('id', 'DESC')
+            ->where('user_id', Auth::id())
+            ->where('type', 'Withdrawal')
+            ->take(10)->get();
+
+        
+        //get banks
+
+        $country = "NG";
+
+        $databody = array(
+            "country" => $country,
+        );
+
+
+        $body = json_encode($databody);
+        $curl = curl_init();
+
+        $key = env('FLW_SECRET_KEY');
+        //"Authorization: $key",
+        curl_setopt($curl, CURLOPT_URL, "https://api.flutterwave.com/v3/banks/$country");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: $key",
+            )
+        );
+
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $result = json_decode($var);
+
+        $banks = $result->data;
 
 
 
-       
 
-
-        return view('bank-transfer', compact('user', 'user_wallet'));
+        return view('bank-transfer', compact('user', 'user_wallet','banks', 'banktransfers'));
     }
+
+
+
+
+
+
+
+
+    public function send_funds_with_phone_number(Request $request)
+    {
+        $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        $user = User::all();
+
+        $banktransfers = BankTransfer::orderBy('id', 'DESC')
+        ->where('user_id', Auth::id())
+        ->where('type', 'Cardy-User')
+        ->take(10)->get();
+
+
+        return view('send-money-phone', compact('user', 'user_wallet','banktransfers'));
+    }
+
+
+    public function confirm_user(Request $request)
+    {
+     
+        $input = $request->validate([
+            'amount' => ['required', 'string'],
+            'phone' => ['required', 'string'],
+            'pin' => ['required', 'string'],
+        ]);
+
+
+        $sender_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+            $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        $user = User::all();
+
+        $phone  = $request->phone;
+
+        $amount  = $request->amount;
+
+
+        $transfer_pin = $request->pin;
+
+
+        $getpin = Auth()->user()->pin;
+        $user_pin = $getpin;
+
+        if (Hash::check($transfer_pin, $user_pin)) {
+
+
+
+            $receiver = User::where('phone', $request->phone)
+            ->first();
+
+            if($receiver == null){
+
+                return back()->with('error', 'Sorry!! User not found');
+
+            } 
+
+
+            $surname = $receiver->l_name;
+            $first_name = $receiver->f_name;
+            $status = $receiver->is_kyc_verified;
+            $receiver_id = $receiver->id;
+
+
+            $receiver_amount =EMoney::where('user_id', $receiver_id)
+            ->first()->current_balance;
+            
+
+
+            if(Auth::user()->phone == $phone){
+
+                return back()->with('error', 'Sorry!! You can not send money to yourslef');
+
+            }
+
+            if($user_wallet < $amount){
+
+                return back()->with('error', 'Sorry!! Insufficent Funds, Fund your wallet');
+
+            }
+
+
+            if($status == 0){
+
+                return back()->with('error', 'Sorry!! User is not verified');
+
+            }
+        return view('confirm-user', compact('user', 'user_wallet', 'surname', 'amount','phone', 'first_name'));
+
+
+
+
+
+    }return back()->with('error', 'Invalid Pin');
+
+
+
+    }
+
+
+
+    public function send_funds_with_phone_numbe_now(Request $request)
+    {
+
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
+
+
+        $sender_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+            $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        $user = User::all();
+
+        $phone  = $request->phone;
+
+        $amount  = $request->amount;
+
+
+            $receiver = User::where('phone', $request->phone)
+            ->first();
+            $surname = $receiver->l_name;
+            $first_name = $receiver->f_name;
+            $status = $receiver->is_kyc_verified;
+            $receiver_id = $receiver->id;
+            $receiver_email = $receiver->email;
+
+
+            $receiver_amount =EMoney::where('user_id', $receiver_id)
+            ->first()->current_balance;
+            
+
+
+            if(Auth::user()->phone == $phone){
+
+                return back()->with('error', 'Sorry!! You can not send money to yourslef');
+
+            }
+
+            if($user_wallet < $amount){
+
+                return back()->with('error', 'Sorry!! Insufficent Funds, Fund your wallet');
+
+            }
+
+
+            if($status == 0){
+
+                return back()->with('error', 'Sorry!! User is not verified');
+
+            }
+
+            if($receiver == null){
+
+                return back()->with('error', 'Sorry!! User not found');
+
+            }
+
+
+            $sender_debit = $sender_wallet - $amount;
+
+            $receiver_credit =   $receiver_amount + $amount;
+
+            //update sender
+            $update_sender = EMoney::where('user_id', Auth::id())
+            ->update(['current_balance' => $sender_debit]);
+
+             //update receiver
+             $update_receiver = EMoney::where('user_id',$receiver_id)
+             ->update(['current_balance' => $receiver_credit]);
+
+
+
+        //sender debit notfifcation
+
+        $email = Auth::user()->email;
+        $sf_name = Auth::user()->f_name;
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
+
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
+
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Cardy Transfer',
+                'to' => "$email",
+                'bodyHtml' => view('send-by-phone-debit-notification', compact('sf_name', 'amount'))->render(),
+                'encodingType' => 0,
+
+            ]
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
+
+
+
+
+        //credit notofication
+        
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
+
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
+
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Cardy Transfer',
+                'to' => "$receiver_email",
+                'bodyHtml' => view('credit-notification', compact('first_name', 'amount'))->render(),
+                'encodingType' => 0,
+
+            ]
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
+
+
+
+
+
+
+        return redirect('/send-money-phone')->with('message', "You have successfully sent NGN $amount  to  $surname $first_name ");
+    
+
+
+
+
+
+             
+
+
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public function bank_transfer_fund(Request $request)
+    {
+
+        $fpk = env('FLWPKEY');
+
+
+        $trx = Str::random(10);
+
+        $user_wallet = EMoney::where('user_id', Auth::id())
+            ->first()->current_balance;
+
+        $amount = $request->amount;
+
+        $user_id = Auth::id();
+
+        $ref_id = "CA-" . Auth::id() . "-" . Str::random(3);
+
+        $account_number = Bank::where('id', '1')
+            ->first()->account_number;
+
+        $account_name = Bank::where('id', '1')
+            ->first()->account_name;
+
+        $bank_name = Bank::where('id', '1')
+            ->first()->bank_name;
+
+
+        $transfer = new BankTransfer();
+        $transfer->amount = $amount;
+        $transfer->user_id = $user_id;
+        $transfer->ref_id = $ref_id;
+        $transfer->type = "Bank Transfer";
+        $transfer->save();
+
+
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
+
+        $user = User::where('id', Auth::id())
+            ->first();
+
+        $email = User::where('id', Auth::id())
+            ->first()->email;
+
+        $f_name = User::where('id', Auth::id())
+            ->first()->f_name;
+
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
+
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
+
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Fund Wallet With Transfer',
+                'to' => "$email",
+                'bodyHtml' => view('bank-transfer-notification', compact('f_name', 'amount', 'account_number', 'account_name', 'bank_name', 'ref_id'))->render(),
+                'encodingType' => 0,
+
+            ]
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
+
+
+
+
+
+        return redirect('/fund-wallet')->with('message', "Transafer created Successfully, Check your email - ($email) for further instructions");
+    }
+
+
+
 
 
     public function add_account(Request $request)
@@ -1519,60 +2047,50 @@ class MainController extends Controller
         $api_key = env('FLW_SECRET_KEY');
 
         $users = User::where('id', Auth::id())
-        ->first();
+            ->first();
 
         //get banks
 
         $country = "NG";
-        
+
         $databody = array(
-                 "country" => $country,
+            "country" => $country,
         );
-        
-        
+
+
         $body = json_encode($databody);
         $curl = curl_init();
 
         $key = env('FLW_SECRET_KEY');
         //"Authorization: $key",
         curl_setopt($curl, CURLOPT_URL, "https://api.flutterwave.com/v3/banks/$country");
-              curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-              curl_setopt($curl, CURLOPT_ENCODING, '');
-              curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-              curl_setopt($curl, CURLOPT_TIMEOUT, 0);
-              curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-              curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-              curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-              curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-              curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-              curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                        'Content-Type: application/json',
-                        'Accept: application/json',
-                        "Authorization: $key",
-                      )
-            );
-        
-
-                $var = curl_exec($curl);
-                curl_close($curl);
-                $result = json_decode($var);
-
-                $banks = $result->data;
-
-             
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: $key",
+            )
+        );
 
 
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $result = json_decode($var);
 
-
-
-
-
-
-                
+        $banks = $result->data;
 
         return view('add-account', compact('users', 'banks'));
-
-
     }
 
     public function add_account_now(Request $request)
@@ -1585,75 +2103,790 @@ class MainController extends Controller
         $bank_name = preg_replace('/\d+/', '', $bank);
 
 
-    $databody = array(
-        "account_number" => $account_number,
-        "account_bank" => $code,
+        $databody = array(
+            "account_number" => $account_number,
+            "account_bank" => $code,
 
-);
+        );
 
 
-$body = json_encode($databody);
-$curl = curl_init();
+        $body = json_encode($databody);
+        $curl = curl_init();
 
-$key = env('FLW_SECRET_KEY');
-//"Authorization: $key",
-curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve');
-     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-     curl_setopt($curl, CURLOPT_ENCODING, '');
-     curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-     curl_setopt($curl, CURLOPT_TIMEOUT, 0);
-     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-     curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-     curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        $key = env('FLW_SECRET_KEY');
+        //"Authorization: $key",
+        curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: $key",
+            )
+        );
+
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $result = json_decode($var);
+
+        $acc_name = $result->data->account_name;
+
+
+        if ($result->status == 'success') {
+
+
+            //update user
+
+            $update = User::where('id', Auth::id())
+                ->update([
+
+                    'account_number' => $account_number,
+                    'bank_code' => $code,
+                    'bank_name' => $bank_name,
+                    'bank_name' => $bank_name,
+                    'account_name' => $acc_name,
+
+
+                ]);
+
+            return redirect('/confirmation')->with('message', "$acc_name");
+        }
+        return back()->with('error', "Account Name is  $result->message");
+    }
+
+
+    public function withdraw_now(Request $request)
+    {
+        $api_key = env('FLW_SECRET_KEY');
+
+
+
+
+        $user_amount = EMoney::where('user_id', Auth::id())
+            ->first()->current_balance;
+
+        $amount = $request->amount;
+
+        $account_number = User::where('id', Auth::id())
+            ->first()->account_number;
+
+        $bank_code = User::where('id', Auth::id())
+            ->first()->bank_code;
+
+        $ref = Str::random(10);
+
+
+        if ($user_amount <= $amount) {
+
+            return back()->with('error', 'Insufficient balance, fund your wallet');
+        }
+
+      
+
+            $transfer_pin = $request->pin;
+
+            $getpin = Auth()->user();
+            $user_pin = $getpin->pin;
+    
+            if (Hash::check($transfer_pin, $user_pin)) {
+
+
+
+            $databody = array(
+                "account_number" => $account_number,
+                "account_bank" => $bank_code,
+                "amount" => $amount,
+                "narration" => 'Withdrwal from Cardy',
+                "currency" => 'NGN',
+                "reference" => $ref,
+                "debit_currency" => 'NGN',
+
+            );
+
+
+            $body = json_encode($databody);
+            $curl = curl_init();
+
+            $key = env('FLW_SECRET_KEY');
+            //"Authorization: $key",
+            curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/transfers');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_ENCODING, '');
+            curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    "Authorization: $key",
+                )
+            );
+
+
+            $var = curl_exec($curl);
+            curl_close($curl);
+            $result = json_decode($var);
+
+
+            $trans_id = $result->data->id;
+
+
+
+            if ($result->status == 'success') {
+
+                //debit
+
+                $charges = Charge::where('title', 'withdrawal')
+                    ->first()->amount;
+
+                $new_amount = $charges + $amount;
+
+                $debit = $user_amount - $new_amount;
+
+                $update = EMoney::where('user_id', Auth::id())
+                    ->update(['current_balance' => $debit]);
+
+
+
+                $transaction = new Transaction();
+                $transaction->ref_trans_id = $ref;
+                $transaction->user_id = Auth::id();
+                $transaction->transaction_type = "Withdrawl";
+                $transaction->debit = $amount;
+                $transaction->note = "Withdrawal to main account";
+                $transaction->transaction_id = $trans_id;
+                $transaction->save();
+
+
+                $transfer = new BankTransfer();
+                $transfer->amount = $new_amount;
+                $transfer->user_id = Auth::id();
+                $transfer->ref_id = $ref;
+                $transfer->type = "Withdrawal";
+                $transfer->status = 1;
+                $transfer->save();
+
+
+
+
+
+
+                //Send Email
+                $api_key = env('ELASTIC_API');
+                $from = env('FROM_API');
+
+                $users = User::where('id', Auth::id())
+                    ->first();
+
+                $email = User::where('id', Auth::id())
+                    ->first()->email;
+
+                $f_name = User::where('id', Auth::id())
+                    ->first()->f_name;
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Wallet Debited',
+                        'to' => "$email",
+                        'bodyHtml' => view('debit-notification', compact('f_name', 'new_amount'))->render(),
+                        'encodingType' => 0,
+
+                    ]
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
+
+
+
+
+
+                return redirect('/bank-transfer')->with('message', "Transaction Successful");
+            }
+        }
+        return back()->with('error', "Invalid Pin");
+
+
+
+
+
+        return back()->with('error', "Transaction not successful");
+    }
+
+
+    public function otherbank_transfer_now(Request $request)
+    {
+        $api_key = env('FLW_SECRET_KEY');
+
+        $user_amount = EMoney::where('user_id', Auth::id())
+            ->first()->current_balance;
+
+        $amount = $request->amount;
+
+        $charge = Charge::where('title', 'other-banks')
+        ->first()->amount;
+
+        $flw_amount = $amount -  $charge;
+
+
+        $account_number = $request->account_number;
+        $bank_code = $request->code;
+        $bank_name = $request->bank_name;
+        $acc_name = $request->acc_name;
+
+
+        $ref = Str::random(10);
+
+
+
+
+            $databody = array(
+                "account_number" => $account_number,
+                "account_bank" => $bank_code,
+                "amount" => $flw_amount,
+                "narration" => "Transfer to other bank | $acc_name",
+                "currency" => 'NGN',
+                "reference" => $ref,
+                "debit_currency" => 'NGN',
+
+            );
+
+
+            $body = json_encode($databody);
+            $curl = curl_init();
+
+            $key = env('FLW_SECRET_KEY');
+            //"Authorization: $key",
+            curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/transfers');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_ENCODING, '');
+            curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    "Authorization: $key",
+                )
+            );
+
+
+            $var = curl_exec($curl);
+            curl_close($curl);
+            $result = json_decode($var);
+
+
+            
+
+
+
+            if ($result->status == 'success') {
+
+                $trans_id = $result->data->id;
+
+
+                //debit
+                $debit = $user_amount - $amount;
+
+                $update = EMoney::where('user_id', Auth::id())
+                    ->update(['current_balance' => $debit]);
+
+
+
+                $transaction = new Transaction();
+                $transaction->ref_trans_id = $ref;
+                $transaction->user_id = Auth::id();
+                $transaction->transaction_type = "Withdrawl";
+                $transaction->debit = $amount;
+                $transaction->note = "Transfer to other bank | $acc_name";
+                $transaction->transaction_id = $trans_id;
+                $transaction->save();
+
+
+                $transfer = new BankTransfer();
+                $transfer->amount = $amount;
+                $transfer->user_id = Auth::id();
+                $transfer->ref_id = $ref;
+                $transfer->type = "Withdrawal";
+                $transfer->status = 1;
+                $transfer->save();
+
+
+
+
+
+
+                //Send Email
+                $api_key = env('ELASTIC_API');
+                $from = env('FROM_API');
+
+                $users = User::where('id', Auth::id())
+                    ->first();
+
+                $email = User::where('id', Auth::id())
+                    ->first()->email;
+
+                $f_name = User::where('id', Auth::id())
+                    ->first()->f_name;
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Wallet Debited',
+                        'to' => "$email",
+                        'bodyHtml' => view('otherbank-debit-notification', compact('f_name', 'amount'))->render(),
+                        'encodingType' => 0,
+
+                    ]
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
+
+
+
+
+
+                return redirect('/bank-transfer')->with('message', "Transaction Successful");
+            }
+        
+
+        return back()->with('error', "Transaction not successful");
+    }
+
+
+   
+   public function verify_account_info(Request $request)
+   {
+
+       $account_number = $request->account_number;
+       $amount = $request->amount;
+       $bank = $request->code;
+       $transfer_pin = $request->pin;
+
+       $charges = Charge::where('title', 'other-banks')
+       ->first()->amount;
+
+      $new_amount = $charges + $amount;
+
+       $code = str_replace(['+', '-'], '', filter_var($bank, FILTER_SANITIZE_NUMBER_INT));
+       $bank_name = preg_replace('/\d+/', '', $bank);
+
+       $bank_code = $code;
+
+       $user_wallet = EMoney::where('user_id', Auth::id())
+       ->first()->current_balance;
+
+       $own_account_number = Auth::user()->account_number;
+
+       if($amount > $user_wallet ){
+        return back()->with('error', 'Insufficient balance, fund your wallet');
+       }
+
+       if($account_number == $own_account_number ){
+        return back()->with('error', 'Use Withdraw to main account section');
+       }
+
+       $getpin = Auth()->user();
+        $user_pin = $getpin->pin;
+
+        if (Hash::check($transfer_pin, $user_pin)) {
+
+       $databody = array(
+           "account_number" => $account_number,
+           "account_bank" => $code,
+
+       );
+
+
+       $body = json_encode($databody);
+       $curl = curl_init();
+
+       $key = env('FLW_SECRET_KEY');
+       //"Authorization: $key",
+       curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve');
+       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+       curl_setopt($curl, CURLOPT_ENCODING, '');
+       curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+       curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+       curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+       curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+       curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+       curl_setopt(
+           $curl,
+           CURLOPT_HTTPHEADER,
+           array(
                'Content-Type: application/json',
                'Accept: application/json',
                "Authorization: $key",
-             )
-   );
+           )
+       );
 
 
        $var = curl_exec($curl);
        curl_close($curl);
        $result = json_decode($var);
 
-       $acc_name = $result->data->account_name;
 
-
-       if($result->status == 'success' ){
-
-
-       //update user
-
-       $update = User::where('id', Auth::id())
-       ->update([
        
-         'account_number' =>$account_number,
-         'bank_code' =>$code,
-         'bank_name' =>$bank_name,
-         'bank_name' =>$bank_name,
-         'account_name' => $acc_name,
+
+       if ($result->status == 'success') {
+        
+        $acc_name = $result->data->account_name;
 
 
-        ]);
+           return view('/confirm-account-before-sending', compact('account_number','bank_code', 'bank_name', 'user_wallet', 'new_amount', 'acc_name'))->with('message', "$acc_name");
+       }
+       return back()->with('error', "Check account details for errors");
+    } return back()->with('error', "Invalid Pin");
 
-                return redirect('/confirmation')->with('message', "$acc_name");
+   }
 
 
-       } return back()->with('error', "Account Name is  $result->message");
+
+
+
+
+
+
+
+
+
+   public function confirm_account_before_sending(Request $request)
+    {
+        $user_wallet = EMoney::where('user_id', Auth::id())
+        ->first()->current_balance;
+
+        return view('confirm-account-before-sending',compact('user_wallet'));
+    }
+
+
+
+
+    public function transfer_money(Request $request)
+    {
+
+       dd($request->all());
 
     }
+
+   
+
+
+
+
+
+
+
+
+    public function send_other_bank(Request $request)
+    {
+        $api_key = env('FLW_SECRET_KEY');
+
+
+
+        $user_amount = EMoney::where('user_id', Auth::id())
+            ->first()->current_balance;
+
+        $amount = $request->amount;
+
+        $account_number = User::where('id', Auth::id())
+            ->first()->account_number;
+
+        $bank_code = User::where('id', Auth::id())
+            ->first()->bank_code;
+
+        $ref = Str::random(10);
+
+
+        if ($user_amount <= $amount) {
+
+            return back()->with('error', 'Insufficient balance, fund your wallet');
+        }
+
+      
+
+            $transfer_pin = $request->pin;
+
+            $getpin = Auth()->user();
+            $user_pin = $getpin->pin;
+    
+            if (Hash::check($transfer_pin, $user_pin)) {
+
+
+
+            $databody = array(
+                "account_number" => $account_number,
+                "account_bank" => $bank_code,
+                "amount" => $amount,
+                "narration" => 'Withdrwal from Cardy',
+                "currency" => 'NGN',
+                "reference" => $ref,
+                "debit_currency" => 'NGN',
+
+            );
+
+
+            $body = json_encode($databody);
+            $curl = curl_init();
+
+            $key = env('FLW_SECRET_KEY');
+            //"Authorization: $key",
+            curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/transfers');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_ENCODING, '');
+            curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    "Authorization: $key",
+                )
+            );
+
+
+            $var = curl_exec($curl);
+            curl_close($curl);
+            $result = json_decode($var);
+
+
+            $trans_id = $result->data->id;
+
+
+
+            if ($result->status == 'success') {
+
+                //debit
+
+                $charges = Charge::where('title', 'withdrawal')
+                    ->first()->amount;
+
+                $new_amount = $charges + $amount;
+
+                $debit = $user_amount - $new_amount;
+
+                $update = EMoney::where('user_id', Auth::id())
+                    ->update(['current_balance' => $debit]);
+
+
+
+                $transaction = new Transaction();
+                $transaction->ref_trans_id = $ref;
+                $transaction->user_id = Auth::id();
+                $transaction->transaction_type = "Withdrawl";
+                $transaction->debit = $amount;
+                $transaction->note = "Withdrawal to main account";
+                $transaction->transaction_id = $trans_id;
+                $transaction->save();
+
+
+                $transfer = new BankTransfer();
+                $transfer->amount = $new_amount;
+                $transfer->user_id = Auth::id();
+                $transfer->ref_id = $ref;
+                $transfer->type = "Withdrawal";
+                $transfer->status = 1;
+                $transfer->save();
+
+
+
+
+
+
+                //Send Email
+                $api_key = env('ELASTIC_API');
+                $from = env('FROM_API');
+
+                $users = User::where('id', Auth::id())
+                    ->first();
+
+                $email = User::where('id', Auth::id())
+                    ->first()->email;
+
+                $f_name = User::where('id', Auth::id())
+                    ->first()->f_name;
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Wallet Debited',
+                        'to' => "$email",
+                        'bodyHtml' => view('debit-notification', compact('f_name', 'new_amount'))->render(),
+                        'encodingType' => 0,
+
+                    ]
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
+
+
+
+
+
+                return redirect('/bank-transfer')->with('message', "Transaction Successful");
+            }
+        }
+        return back()->with('error', "Invalid Pin");
+
+
+
+
+
+        return back()->with('error', "Transaction not successful");
+    }
+
+
+ 
 
 
     public function confirmation(Request $request)
     {
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
+
         $users = User::where('id', Auth::id())
-        ->first();
+            ->first();
+
+        $email = User::where('id', Auth::id())
+            ->first()->email;
+
+        $f_name = User::where('id', Auth::id())
+            ->first()->f_name;
+
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
+
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
+
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Account Details Changed',
+                'to' => "$email",
+                'bodyHtml' => view('account-chnage-confirmation', compact('f_name'))->render(),
+                'encodingType' => 0,
+
+            ]
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
+
 
         return view('confirmation', compact('users'));
     }
+
+
+    public function profile(Request $request)
+    {
+        $users = User::where('id', Auth::id())
+            ->first();
+
+        $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        return view('profile', compact('users', 'user_wallet'));
+    }
+
+
+    public function bank_account(Request $request)
+    {
+        $users = User::where('id', Auth::id())
+            ->first();
+
+        $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        return view('bank-account', compact('users', 'user_wallet'));
+    }
+
+
+    public function delete(Request $request)
+    {
+
+        $user_id = Auth::id();
+
+
+        //$user = User::where('id', $id)->firstorfail()->delete();
+        $user = User::where('id', $user_id)->delete();
+
+        return  redirect('/login')->with('error', 'Account Deleted Successfully');
+    }
+
+
+
 
 
 
@@ -1679,16 +2912,8 @@ curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve
         ]);
 
 
-
-
-
-
-
-
         $data_amount = DataType::where('data_bundle', $request->data_bundle)
             ->first()->amount;
-
-
 
 
         $recipient_mobilenumber = $request->phone_number;
@@ -1785,7 +3010,7 @@ curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve
     }
 
 
-   
+
 
 
 
@@ -1901,7 +3126,8 @@ curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve
                     'state' => $request->state,
                     'lga' => $request->lga,
                     'bvn' => $request->bvn,
-                    'mono_customer_id' => $var->data->id
+                    'mono_customer_id' => $var->data->id,
+                    'is_kyc_verified' => 1
 
                 ]);
         }
@@ -1925,14 +3151,16 @@ curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve
 
     public function update_password()
     {
+        $user_wallet = EMoney::where('user_id', Auth::id())
+        ->first()->current_balance;
 
         $user = User::all();
 
-        return view('updatepassword', compact('user'));
+        return view('updatepassword', compact('user', 'user_wallet'));
     }
 
 
-    public function updatepassword(Request $request)
+    public function update_password_now(Request $request)
     {
         $user = User::all();
         $input = $request->all();
@@ -1982,8 +3210,4 @@ curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/accounts/resolve
 
         return redirect('/');
     }
-
-
-    
-  
 }

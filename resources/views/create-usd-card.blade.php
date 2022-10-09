@@ -50,6 +50,8 @@
 
 
         @if(Auth::user()->is_kyc_verified =='0')
+
+
         @else
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
@@ -86,7 +88,7 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Creation Fee (NGN) </label>
-                                                <input type="text" name=rate2 disabled class="form-control" id="rate2" value="{{ number_format($rate2) }}" />
+                                                <input type="number" name=rate2 disabled class="form-control" id="rate2" value="{{ number_format($rate2) }}" />
 
                                             </div>
                                         </div>
@@ -101,7 +103,7 @@
 
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
-                                            <input type="number"name=result id="result" disabled class="form-control" value="result"> </h4>
+                                            <input type="number" name=result id="result" disabled class="form-control" value="result"> </h4>
                                         </div>
 
                                         <div class="mb-3">
@@ -248,7 +250,6 @@
 
             </div>
 
-            @endif
 
 
 
@@ -265,17 +266,15 @@
 
 
 
-<script>
-$('input').keyup(function() { // run anytime the value changes
-                var rate = Number($('#rate2').val()); // get value of field
-                var amount = Number($('#amount_to_fund').val()); // convert it to a float
-
-                document.getElementById('result').value = Math.round(amount / rate * 100) / 100;
+        <script>
+            $('input').keyup(function() { // run anytime the value changes
+                // let rate2 = {{$rate2}}
+                // var amount_to_fund = Number($('#amount_to_fund').val()); // convert it to a float
+                let text = {{$rate2}};
+                document.getElementById('result').value = Math.round((amount_to_fund)/ rate2);
                 // add them and output it
             });
-</script>
+        </script>
 
 
         @endsection
-
-

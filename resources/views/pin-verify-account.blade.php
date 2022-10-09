@@ -7,9 +7,7 @@
 * Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
 * Created by: Cardy
 * Tos: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright Cardy (https://themeselection.com)
 
-=========================================================
  -->
 <!-- beautify ignore:start -->
 <html
@@ -27,7 +25,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Register</title>
+    <title>Login</title>
 
     <meta name="description" content="" />
 
@@ -83,12 +81,16 @@
                                     alt="View Badge User"
                                     data-app-dark-img="illustrations/man-with-laptop-dark.png"
                                     data-app-light-img="illustrations/man-with-laptop-light.png"
-                                />
-                  </span>
+                                />              </span>
                   <span class="app-brand-text demo text-body fw-bolder"></span>
                 </a>
               </div>
               <!-- /Logo -->
+              <h4 class="mb-2">Hello {{Auth::user()->f_name}} 👋</h4>
+              <p class="mb-4">Enter the verification code sent to your email to chnage your account details</p>
+
+              <form action="/verify-change-account" class="mb-3" method="GET">
+                                @csrf
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
@@ -99,7 +101,7 @@
                                     </div>
                                 @endif
                                 @if (session()->has('message'))
-                                    <div class="alert alert-success">
+                                    <div class="alert alert-primary">
                                         {{ session()->get('message') }}
                                     </div>
                                 @endif
@@ -108,102 +110,42 @@
                                         {{ session()->get('error') }}
                                     </div>
                                 @endif
-
-
-              <h4 class="mb-2">Welcome to Cardy!</h4>
-              <p class="mb-4">Please register a new account to enjoy our services</p>
-
-              <form action="/register_now" class="mb-3" method="POST">
-              @csrf
-                                
-              <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">Enter Your Phone NUmber</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-phone"></i></span>
-                  <input type="text" class="form-control" value="+234" name="phone" id="basic-icon-default-fullname" placeholder="123 456 789" aria-label="" aria-describedby="basic-icon-default-fullname2" />
-                </div>
-              </div>
-
-
-              <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">Surname</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                  <input type="text" class="form-control"requried  autofocus  name="l_name" id="l_name" placeholder="Enter your  surname" aria-label="" aria-describedby="basic-icon-default-fullname2" />
-                </div>
-              </div>
-
-
-              <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">First Name</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                  <input type="text" class="form-control"requried  autofocus  name="f_name" id="f_name" placeholder="Enter your  First name" aria-label="" aria-describedby="basic-icon-default-fullname2" />
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">Gender</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                  <select name="gender" id="" class="form-control">
-                  <option value="">Select your gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                 </select>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">Email</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bxs-envelope"></i></span>
-                  <input type="email" class="form-control"requried  autofocus  name="email" id="email" placeholder="Enter your valid email" aria-label="" aria-describedby="basic-icon-default-fullname2" />
-                </div>
-              </div>
-
-              <div class="mb-3 form-password-toggle">
-                <label class="form-label" for="password">Password</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bxs-lock-alt"></i></span>
-                  <input type="password" id="password" autofocus required class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-              </div>
-
-
-
-              <div class="mb-3 form-password-toggle">
-                <label class="form-label" for="password">Pin</label>
-                <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-lock-alt"></i></span>
-                  <input type="password" id="pin" autofocus required class="form-control" name="pin" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-              </div>
-       
-
-                <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" required type="checkbox" id="terms-conditions" name="terms" />
-                    <label class="form-check-label" for="terms-conditions">
-                      I agree to
-                      <a href="/terms-condition">privacy policy & terms</a>
-                    </label>
+                
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Code</label>
+                    <a href="auth-forgot-password-basic.html">
+                    </a>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="text"
+                      id="code"
+                      class="form-control"
+                      name="code"
+                      placeholder="Enter code"
+                      aria-describedby="text"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100">Sign up</button>
+                
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Continue</button>
+                </div>
               </form>
 
               <p class="text-center">
-                <span>Already have an account?</span>
-                <a href="/">
-                  <span>Sign in instead</span>
+                <p>No code yet? Please wait for 1 min before you can resend code</p>
+                <span></span>
+
+                <a href="/send-verification-code">
+                  <span>Resend Code</span>
                 </a>
               </p>
             </div>
           </div>
-          <!-- Register Card -->
+          <!-- /Register -->
         </div>
       </div>
     </div>
