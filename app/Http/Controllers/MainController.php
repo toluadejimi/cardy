@@ -1940,7 +1940,7 @@ class MainController extends Controller
         $body = $res->getBody();
         $array_body = json_decode($body);
 
-        $transaction_id = Str::random(10);
+        $ref = Str::random(10);
 
         $transaction = new Transaction();
         $transaction->ref_trans_id = $ref;
