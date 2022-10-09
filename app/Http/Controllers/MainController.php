@@ -1951,7 +1951,6 @@ class MainController extends Controller
         $transaction->debit = $amount;
         $transaction->credit = $amount;
         $transaction->note = "Transfer to Cardy User";
-        $transaction->transaction_id = $trans_id;
         $transaction->save();
 
 
