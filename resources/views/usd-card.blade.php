@@ -396,7 +396,7 @@
 
         <script>
             $('input').keyup(function() { // run anytime the value changes
-                var rate = Number($('#rate2').val()); // get value of field
+                var rate = Number($('#rate').val()); // get value of field
                 var amount = Number($('#amount_to_fund').val()); // convert it to a float
 
                 document.getElementById('result').value = Math.round(amount / rate * 100) / 100;

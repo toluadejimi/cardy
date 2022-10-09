@@ -28,15 +28,8 @@
   <link rel="stylesheet" href="{{url('')}}/public/assets/css/card.css" />
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script>
- $(function(){
-  $("#bank").select2();
- }); 
-</script>
+
 
 
 
@@ -219,13 +212,13 @@
           <!-- Misc -->
           <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
           <li class="menu-item">
-            <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="menu-link">
+            <a href="https://suppport.cardy4u.com" target="_blank" class="menu-link">
               <i class="menu-icon tf-icons bx bx-support"></i>
               <div data-i18n="Support">Chat With us</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="menu-link">
+            <a href="/terms" target="_blank" class="menu-link">
               <i class="menu-icon tf-icons bx bx-file"></i>
               <div data-i18n="Documentation">Terms and Condition</div>
             </a>
@@ -346,13 +339,7 @@
               <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Cardy</a>
             </div>
             <div>
-              <a href="https://cardy.enkwave.com/tos/" class="footer-link me-4" target="_blank">Tos</a>
-              <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-              <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
-
-              <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support</a>
-            </div>
+               </div>
           </div>
         </footer>
         <!-- / Footer -->

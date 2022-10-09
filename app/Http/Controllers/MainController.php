@@ -554,6 +554,9 @@ class MainController extends Controller
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
 
+        $conversion_rate = Charge::where('title', 'rate')->first()->amount;
+
+
         $get_usd_creation_fee = Charge::where('title', 'usd_card_creation')->first();
         $usd_creation_fee = $get_usd_creation_fee->amount;
 
@@ -572,7 +575,7 @@ class MainController extends Controller
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
 
-        return view('create-usd-card', compact('user', 'user_wallet', 'card', 'rate', 'rate2', 'get_usd_card_records'));
+        return view('create-usd-card', compact('user', 'user_wallet', 'card', 'rate', 'rate2', 'get_usd_card_records', 'conversion_rate'));
     }
 
     public function create_ngn_card(Request $request)
@@ -903,6 +906,13 @@ class MainController extends Controller
     {
 
         if (Auth::user()->is_kyc_verified == '0') {
+            return redirect('/user-dashboard');
+        }
+
+        $check = Vcard::where('user_id', Auth::id())
+        ->get();
+
+        if ($check == null) {
             return redirect('/user-dashboard');
         }
 

@@ -88,15 +88,19 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Creation Fee (NGN) </label>
-                                                <input type="number" name=rate2 disabled class="form-control" id="rate2" value="{{ number_format($rate2) }}" />
+                                                <input type="text" name=rate2 disabled class="form-control" id="rate2" value="{{$rate2}}" />
 
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to fund card (NGN)</label>
                                             <input type="number" class="form-control" name="amount_to_fund" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
-                                            <span> Min - 10USD | Max - 250USD</span>
+                                            <span> Min - NGN 10,000 | Max - NGN 1,000,000.00</span>
 
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <input type="number" hidden class="form-control" name="conversion_rate" id="conversion_rate" value="{{$conversion_rate}}"/>
                                         </div>
 
 
@@ -108,7 +112,7 @@
 
                                         <div class="mb-3">
                                             <label class="form-label" for="">Total (NGN)</label>
-                                            <input type="number" id="second_result" disabled class="form-control" value="second_result"> </h4>
+                                            <input type="number" id="result2" disabled class="form-control" value="second_result"> </h4>
                                         </div>
 
 
@@ -268,10 +272,16 @@
 
         <script>
             $('input').keyup(function() { // run anytime the value changes
-                // let rate2 = {{$rate2}}
-                // var amount_to_fund = Number($('#amount_to_fund').val()); // convert it to a float
-                let text = {{$rate2}};
-                document.getElementById('result').value = Math.round((amount_to_fund)/ rate2);
+                var conversion = Number($('#conversion_rate').val()); // convert it to a float
+                var amount_to_fund = document.getElementById('amount_to_fund').value; // convert it to a float
+                var rate = document.getElementById('rate2').value; // convert it to a float
+
+                document.getElementById('result').value = Math.round(amount_to_fund / conversion * 100) / 100;
+                document.getElementById('result2').value = Number(amount_to_fund) + Number(rate);
+
+
+                // document.getElementById('result').value = Math.round((amount_to_fund)/ rate2);
+                
                 // add them and output it
             });
         </script>
