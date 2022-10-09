@@ -1940,6 +1940,23 @@ class MainController extends Controller
         $body = $res->getBody();
         $array_body = json_decode($body);
 
+        $transaction_id = Str::random(10);
+
+        $transaction = new Transaction();
+        $transaction->ref_trans_id = $ref;
+        $transaction->user_id = Auth::id();
+        $transaction->from_user_id = Auth::id();
+        $transaction->to_user_id = $receiver_id;
+        $transaction->transaction_type = "Cardy Transfer";
+        $transaction->debit = $amount;
+        $transaction->credit = $amount;
+        $transaction->note = "Transfer to Cardy User";
+        $transaction->transaction_id = $trans_id;
+        $transaction->save();
+
+
+
+
 
 
 
