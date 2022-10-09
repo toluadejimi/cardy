@@ -909,12 +909,7 @@ class MainController extends Controller
             return redirect('/user-dashboard');
         }
 
-        $check = Vcard::where('user_id', Auth::id())
-        ->get();
-
-        if ($check == null) {
-            return redirect('/user-dashboard');
-        }
+      
 
 
         $get_rate = Charge::where('title', 'rate')->first();
@@ -928,6 +923,13 @@ class MainController extends Controller
 
 
         $users = User::all();
+
+        $check = Vcard::where('user_id', Auth::id())
+        ->first();
+
+        if ($check == null) {
+            return redirect('/user-dashboard');
+        }
 
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
