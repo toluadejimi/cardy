@@ -51,7 +51,7 @@
           <div class="card-body">
             <!-- Logo -->
             <div class="app-brand justify-content-center">
-              <a href="index.html" class="app-brand-link gap-2">
+              <a href=" user-dashboard" class="app-brand-link gap-2">
                 <span class="app-brand-logo demo">
                   <img src="{{url('')}}/public/assets/img/illustrations/logo.png" height="50" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
                 </span>

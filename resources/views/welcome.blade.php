@@ -64,7 +64,7 @@
             <div class="card-body">
               <!-- Logo -->
               <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+                <a href=" user-dashboard" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
                   <img
                                     src="{{url('')}}/public/assets/img/illustrations/logo.png"
@@ -99,12 +99,12 @@
                                         {{ session()->get('error') }}
                                     </div>
                                 @endif
-                                
+
               <h4 class="mb-2">Welcome to Cardy! 👋</h4>
               <p class="mb-4">Please sign-in to your account to enjoy our services</p>
 
               <form action="/signin" class="mb-3" method="GET">
-                                
+
                 <div class="mb-3">
                   <label for="phone" class="form-label">Enter your phone number</label>
                   <input
@@ -163,7 +163,7 @@
 
     <!-- / Content -->
 
-   
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

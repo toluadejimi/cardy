@@ -64,10 +64,10 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href=" user-dashboard" class="app-brand-link">
               <span class="app-brand-logo demo">
               <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+                <a href=" user-dashboard" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
                   <img
                                     src="{{url('')}}/public/assets/img/illustrations/logo.png"
@@ -119,7 +119,7 @@
                     <div data-i18n="Notifications">In - Transfer</div>
                   </a>
                 </li>
-            
+
               </ul>
             </li>
 
@@ -139,7 +139,7 @@
                     <div data-i18n="Notifications">Data</div>
                   </a>
                 </li>
-            
+
               </ul>
             </li>
 
@@ -159,14 +159,14 @@
                     <div data-i18n="Notifications">Exams Strach Card</div>
                   </a>
                 </li>
-            
+
               </ul>
             </li>
-            
-        
+
+
             <!-- Components -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Cards</span></li>
-            
+
             <!-- User interface -->
             <li class="menu-item ">
               <a href="/my-cards" class="menu-link menu-toggle">
@@ -189,14 +189,14 @@
                     <div data-i18n="Alerts">NGN Card</div>
                   </a>
                 </li>
-                
- 
+
+
               </ul>
             </li>
 
-            
 
-            
+
+
             <!-- Forms & Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Account</span></li>
             <!-- Forms -->
@@ -223,8 +223,8 @@
                 </li>
               </ul>
             </li>
-            
-           
+
+
             <!-- Misc -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
             <li class="menu-item">
@@ -264,25 +264,25 @@
                 <i class="bx bx-menu bx-sm"></i>
               </a>
 
-              
+
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              
 
-            <h4 class="mb-0">NGN {{number_format ($user_wallet), 2}}</h4> 
+
+            <h4 class="mb-0">NGN {{number_format ($user_wallet), 2}}</h4>
 
 
               </div>
               <!-- /Search -->
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              
+
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
                 <li class="nav-item lh-1 me-3">
-                  
+
                 </li>
 
                 <!-- User -->
@@ -303,15 +303,15 @@
                           </div>
                           <div class="flex-grow-1">
                             <span class="fw-semibold d-block">{{Auth::user()->f_name}} {{Auth::user()->l_name}}</span>
-                            
-                            @if(Auth::user()->type =='2')         
+
+                            @if(Auth::user()->type =='2')
                             <small class="text-muted">Customer</small>
                              @elseif(Auth::user()->type =='1')
                              <small class="text-muted">Admin</small>
                              @else
                              <small class="text-muted">Agent</small>
                              @endif
-                                                
+
                           </div>
                         </div>
                       </a>
@@ -332,7 +332,7 @@
                       </a>
                     </li>
                     <li>
-                   
+
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
@@ -355,7 +355,7 @@
           <div class="content-wrapper">
             <!-- Content -->
 
-          
+
 
 
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -369,16 +369,16 @@
                                 <h5 class="card-title text-primary">Account Verification</h5>
                                 <p class="mb-4">
                                     Please verify your account to have full access to Card features.
-                        
+
                                 </p>
 
-                                    
 
-                                
+
+
                                 </div>
                             </div>
                             <div class="col-sm-5 text-center text-sm-left">
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -402,7 +402,7 @@
                 <div class="col-xl">
                   <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-        
+
                     </div>
                     <div class="card-body">
 
@@ -467,7 +467,7 @@
                     </div>
                   </div>
                 </div>
-               
+
 
 
 
@@ -492,16 +492,16 @@
                                     Your verification status is pending kindly wait while we verify you.<br>
 
                                     Thanks. For more info please call or text<b> 23408105059613</b>
-                        
+
                                 </p>
 
-                                    
 
-                                
+
+
                                 </div>
                             </div>
                             <div class="col-sm-5 text-center text-sm-left">
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -539,7 +539,7 @@
 
 
 
-                
+
             </div>
             <!-- / Content -->
 
@@ -551,7 +551,7 @@
                   <script>
                     document.write(new Date().getFullYear());
                   </script>
-                  , 
+                  ,
                   <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Cardy</a>
                 </div>
                 <div>
@@ -588,7 +588,7 @@
     </div>
     <!-- / Layout wrapper -->
 
-    
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

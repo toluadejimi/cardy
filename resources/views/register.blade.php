@@ -75,7 +75,7 @@
             <div class="card-body">
               <!-- Logo -->
               <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+                <a href=" user-dashboard" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
                   <img
                                     src="{{url('')}}/public/assets/img/illustrations/logo.png"
@@ -115,7 +115,7 @@
 
               <form action="/register_now" class="mb-3" method="POST">
               @csrf
-                                
+
               <div class="mb-3">
                 <label class="form-label" for="basic-icon-default-fullname">Enter Your Phone NUmber</label>
                 <div class="input-group input-group-merge">
@@ -181,7 +181,7 @@
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
               </div>
-       
+
 
                 <div class="mb-3">
                   <div class="form-check">
@@ -210,7 +210,7 @@
 
     <!-- / Content -->
 
-   
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

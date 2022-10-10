@@ -61,7 +61,7 @@
 
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-          <a href="index.html" class="app-brand-link">
+          <a href=" user-dashboard" class="app-brand-link">
             <span class="app-brand-logo demo">
               <img src="{{url('')}}/public/assets/img/illustrations/logo.png" height="50" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" /> </span>
             <span class="app-brand-text demo menu-text fw-bolder ms-2"></span>
@@ -306,7 +306,7 @@
                       <span class="align-middle">My Profile</span>
                     </a>
                   </li>
-                
+
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>

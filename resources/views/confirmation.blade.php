@@ -76,7 +76,7 @@
             <div class="card-body">
               <!-- Logo -->
               <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+                <a href=" user-dashboard" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
                   <img
                                     src="{{url('')}}/public/assets/img/illustrations/logo.png"
@@ -112,7 +112,7 @@
                                         {{ session()->get('error') }}
                                     </div>
                                 @endif
-                
+
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password"></label>
@@ -122,16 +122,16 @@
 
                 </div>
 
-              
-                
+
+
                 <div class="mb-3">
                   <a class="btn btn-primary d-grid w-100" a href="/user-dashboard"> Go to Dashboard</a></button>
                 </div>
               </form>
 
-              
 
-                
+
+
               </p>
             </div>
           </div>
@@ -142,7 +142,7 @@
 
     <!-- / Content -->
 
-   
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
