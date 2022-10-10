@@ -56,6 +56,10 @@ class MainController extends Controller
     }
 
 
+    public function login_view(){
+
+        return view('login');
+    }
 
 
 
@@ -409,17 +413,17 @@ class MainController extends Controller
             $update = User::where('email', Auth::user()->email)
                 ->update(['is_email_verified' => 1]);
 
-      
+
             $wallet = new EMoney();
             $wallet->user_id = Auth::id();
             $wallet->save();
-        
+
 
 
             return redirect('/user-dashboard')->with('message', 'Your Email has been verified');
         }
 
-        
+
 
         return back()->with('error', 'Invalid Code');
     }
@@ -912,7 +916,7 @@ class MainController extends Controller
             return redirect('/user-dashboard');
         }
 
-      
+
 
         $fund = Charge::where('title', 'funding')->first()->amount;
 
@@ -1657,7 +1661,7 @@ class MainController extends Controller
             ->where('type', 'Withdrawal')
             ->take(10)->get();
 
-        
+
         //get banks
 
         $country = "NG";
@@ -1731,7 +1735,7 @@ class MainController extends Controller
 
     public function confirm_user(Request $request)
     {
-     
+
         $input = $request->validate([
             'amount' => ['required', 'string'],
             'phone' => ['required', 'string'],
@@ -1769,7 +1773,7 @@ class MainController extends Controller
 
                 return back()->with('error', 'Sorry!! User not found');
 
-            } 
+            }
 
 
             $surname = $receiver->l_name;
@@ -1780,7 +1784,7 @@ class MainController extends Controller
 
             $receiver_amount =EMoney::where('user_id', $receiver_id)
             ->first()->current_balance;
-            
+
 
 
             if(Auth::user()->phone == $phone){
@@ -1846,7 +1850,7 @@ class MainController extends Controller
 
             $receiver_amount =EMoney::where('user_id', $receiver_id)
             ->first()->current_balance;
-            
+
 
 
             if(Auth::user()->phone == $phone){
@@ -1921,7 +1925,7 @@ class MainController extends Controller
 
 
         //credit notofication
-        
+
         require_once "vendor/autoload.php";
         $client = new Client([
             'base_uri' => 'https://api.elasticemail.com',
@@ -1968,16 +1972,16 @@ class MainController extends Controller
 
 
         return redirect('/send-money-phone')->with('message', "You have successfully sent NGN $amount  to  $surname $first_name ");
-    
 
 
 
 
 
-             
 
 
-        
+
+
+
     }
 
 
@@ -2223,13 +2227,13 @@ class MainController extends Controller
             return back()->with('error', 'Insufficient balance, fund your wallet');
         }
 
-      
+
 
             $transfer_pin = $request->pin;
 
             $getpin = Auth()->user();
             $user_pin = $getpin->pin;
-    
+
             if (Hash::check($transfer_pin, $user_pin)) {
 
 
@@ -2443,7 +2447,7 @@ class MainController extends Controller
             $result = json_decode($var);
 
 
-            
+
 
 
 
@@ -2526,13 +2530,13 @@ class MainController extends Controller
 
                 return redirect('/bank-transfer')->with('message', "Transaction Successful");
             }
-        
+
 
         return back()->with('error', "Transaction not successful");
     }
 
 
-   
+
    public function verify_account_info(Request $request)
    {
 
@@ -2607,10 +2611,10 @@ class MainController extends Controller
        $result = json_decode($var);
 
 
-       
+
 
        if ($result->status == 'success') {
-        
+
         $acc_name = $result->data->account_name;
 
 
@@ -2649,7 +2653,7 @@ class MainController extends Controller
 
     }
 
-   
+
 
 
 
@@ -2683,13 +2687,13 @@ class MainController extends Controller
             return back()->with('error', 'Insufficient balance, fund your wallet');
         }
 
-      
+
 
             $transfer_pin = $request->pin;
 
             $getpin = Auth()->user();
             $user_pin = $getpin->pin;
-    
+
             if (Hash::check($transfer_pin, $user_pin)) {
 
 
@@ -2834,7 +2838,7 @@ class MainController extends Controller
     }
 
 
- 
+
 
 
     public function confirmation(Request $request)
