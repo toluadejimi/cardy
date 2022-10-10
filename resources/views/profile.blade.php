@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.profile')
 
 @section('content')
 <div class="content-wrapper">
@@ -93,7 +93,7 @@
                                     <input type="text" disabled class="form-control" id="zipCode" name="zipCode" value="{{Auth::user()->lga}}" maxlength="6" />
                                 </div>
                             </div>
-                         
+
                         </form>
                     </div>
                     <!-- /Account -->

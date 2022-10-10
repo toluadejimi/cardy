@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.transfernavtootherbank')
 
 @section('content')
 
@@ -196,12 +196,12 @@
                                                         @endforeach
                                                     </select>
 
-                                                    
+
                                                     <label class="form-label mt-3" for="">Account Number</label>
                                                     <input type="number"  class="form-control " name="account_number" id="account_no" placeholder="Enter account number" />
 
 
-                                                    <div> 
+                                                    <div>
                                                         <label class="form-label mt-3" for="">Amount (NGN)</label>
                                                         <div class="input-group input-group-merge">
                                                             <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-money"></i></span>
@@ -220,7 +220,7 @@
                                                     </div>
 
 
-                                                    
+
 
 
 
@@ -316,7 +316,7 @@
 <script>
  $(function(){
   $("#bank").select2();
- }); 
+ });
 </script>
 
 

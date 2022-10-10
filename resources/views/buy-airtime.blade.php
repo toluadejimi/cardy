@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.buyairtime')
 
 @section('content')
 
@@ -14,15 +14,15 @@
                             <div class="col-sm-7">
                                 <div class="card-body">
 
-                                @if(Auth::user()->is_kyc_verified =='0')         
+                                @if(Auth::user()->is_kyc_verified =='0')
                                 <h5 class="card-title text-primary">Congratulations {{Auth::user()->f_name}}! 🎉</h5>
                                 <p class="mb-4">
                                     <b>Welcome onboard.</b> To enjoy all the features of cardy please verify your account.
-                        
+
                                 </p>
 
                                 <a href="/verify-account" class="btn btn-sm btn-outline-primary">Verify Account</a>
-                                    
+
                                 @else
                                 <h5 class="card-title text-primary">Hey!!! {{Auth::user()->f_name}}! 🎉</h5>
                                 <p class="mb-4">
@@ -33,7 +33,7 @@
                                 <a href="/fund-wallet" class="btn btn-sm btn-outline-primary">Fund Wallet</a>
                                 @endif
 
-                                
+
                                 </div>
                             </div>
                             <div class="col-sm-5 text-center text-sm-left">
@@ -99,7 +99,7 @@
                                                                 </select>
                                                                 </div>
 
-                                                             
+
 
                                                             <div class="mb-3">
                                                             <label class="form-label" for="">Enter Phone Number </label>
@@ -120,7 +120,7 @@
                                                             <input type="password" class="form-control" name = "pin" id="amount_to_fund" placeholder= "Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
 
                                                             </div>
-                                 
+
                                                             <button type="submit" class="btn btn-primary">Buy Airtime</button>
                                                         </form>
 
@@ -128,25 +128,25 @@
 
 
 
-                                                    
-                                                        
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        
+
 
 
                         <div class="container-xxl flex-grow-1 container-p-y">
-                           
+
                         </div>
 
 
-                        
+
                     </div>
-                    
+
 
 
 
@@ -162,7 +162,6 @@
 
                 @endif
 
-                
 
 
 
@@ -170,6 +169,7 @@
 
 
 
-                
+
+
             </div>
   @endsection

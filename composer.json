@@ -23,6 +23,16 @@
         "bitpay/php-client": "~2.2.20",
         "mercadopago/dx-php": "1.5.0"
     },
+
+    "repositories": [{
+        "type": "path",
+        "url": "addchat-laravel-pro/"
+        }],
+
+
+
+
+
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.14",

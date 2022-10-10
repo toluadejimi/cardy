@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.createusdcard')
 
 @section('content')
 
@@ -281,7 +281,7 @@
 
 
                 // document.getElementById('result').value = Math.round((amount_to_fund)/ rate2);
-                
+
                 // add them and output it
             });
         </script>

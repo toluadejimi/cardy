@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.cardytransfer')
 
 @section('content')
 

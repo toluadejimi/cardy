@@ -914,6 +914,7 @@ class MainController extends Controller
 
       
 
+        $fund = Charge::where('title', 'funding')->first()->amount;
 
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
@@ -1119,7 +1120,7 @@ class MainController extends Controller
 
 
 
-        return view('usd-card', compact('users', 'cardTransaction', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'carddetails', 'usd_card_conversion_rate_to_naira'));
+        return view('usd-card', compact('users', 'cardTransaction', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
     }
 
 
@@ -1387,6 +1388,8 @@ class MainController extends Controller
 
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
+
+        $fund = Charge::where('title', 'funding')->first()->amount;
 
 
         $users = User::all();

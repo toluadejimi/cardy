@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.usdcard')
 
 @section('content')
 
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
 
-               
+
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <div class="mb-5 form-password-toggle">
@@ -154,7 +154,7 @@
                 </div>
 
             </div>
-            
+
             @if(Auth::user()->is_kyc_verified =='0')
             @else
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -202,6 +202,17 @@
                                                 <span> Min - 10USD | Max - USD250</span>
 
                                             </div>
+
+
+                                            <div class="mb-3">
+                                                <input type="number" hidden class="form-control" name="fund" id="fund" value="{{$fund}}" />
+                                            </div>
+
+
+
+
+
+
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
                                                 <input type="number" id="result" disabled class="form-control" value="result"> </h4>
@@ -216,7 +227,7 @@
 
 
 
-                    
+
 
                     <div class="col-lg-6 mb-1 order-0">
                         <div class="card">
@@ -285,7 +296,7 @@
                     </div>
 
                 </div>
-            
+
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div class="col-lg-12 mb-4 order-0">
@@ -397,9 +408,11 @@
         <script>
             $('input').keyup(function() { // run anytime the value changes
                 var rate = Number($('#rate').val()); // get value of field
+                var funding_fee = Number($('#fund').val()); // get value of field
+
                 var amount = Number($('#amount_to_fund').val()); // convert it to a float
 
-                document.getElementById('result').value = Math.round(amount / rate * 100) / 100;
+                document.getElementById('result').value = Math.round(amount / rate * 100 ) / 100 + funding_fee;
                 // add them and output it
             });
         </script>
