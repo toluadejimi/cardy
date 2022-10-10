@@ -37,7 +37,7 @@
 
                                 </div>
                                @if(Auth::user()->is_kyc_verified == 1)
-                                <span class="badge bg-success">Account Verified</span>  |  <span class="badge bg-success">Email Verified</span>
+                                <span class="badge bg-success mb-3">Account Verified</span>  |  <span class="badge bg-success">Email Verified</span>
 
                                 @else
                                 <span class="badge bg-danger">Not verified</span> |  <span class="badge bg-success">Email Verified</span>

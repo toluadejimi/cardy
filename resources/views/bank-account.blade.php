@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.profile')
 
 @section('content')
 <div class="content-wrapper">
@@ -32,7 +32,7 @@
                                 <p>Registred Bank Account</p>
                                 <!-- Connections -->
                                 <div class="d-flex mb-3">
-                                    
+
                                     <div class="flex-grow-1 row">
                                         <div class="col-7 mb-sm-0 mb-3">
                                             <h6 class="mb-0">Bank Name</h6>
@@ -43,7 +43,7 @@
                                             <h6 class="mb-0">Account Number</h6>
                                             <small class="text-muted">{{Auth::user()->account_number}}</small>
                                         </div>
-           
+
 
                                     </div>
                                 </div>
@@ -54,17 +54,17 @@
                                             <h6 class="mb-0">Benefeciary Name</h6>
                                             <small class="text-muted">{{Auth::user()->account_name}}</small>
                                         </div>
-                                   
+
                                 </div>
 
 
-                            <a button href="/pin-verify-account" type="button" class="btn btn-primary"><span  class="tf-icons bx bxs-send"></span>&nbsp; Update Account</a></button> 
+                            <a button href="/pin-verify-account" type="button" class="btn btn-primary"><span  class="tf-icons bx bxs-send"></span>&nbsp; Update Account</a></button>
 
 
 
 
 
-                            
+
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
 
 
 
-                    
+
                 </div>
             </div>
         </div>

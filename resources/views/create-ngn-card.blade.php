@@ -40,8 +40,8 @@
                             </div>
                             <div class="col-sm-5 text-center text-sm-left">
                                 <div class="card-body pb-0 px-0 px-md-4">
-                                    <img src="../assets/img/illustrations/card.png" height="140" alt="View Badge User"
-                                        data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                    <img src="{{ url('') }}/public/assets/img/illustrations/card.png" height="140"
+                                        alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
                                         data-app-light-img="illustrations/man-with-laptop-light.png" />
                                 </div>
                             </div>
@@ -88,8 +88,8 @@
 
                                                     <div class="mb-3">
                                                         <label class="form-label" for="">Creation Fee (NGN) </label>
-                                                        <input type="text" disabled class="form-control"
-                                                            id="basic-default-fullname"
+                                                        <input type="number" disabled class="form-control"
+                                                            id="ngn_creation_fee"
                                                             value="{{ number_format($ngn_creation_fee) }}" />
                                                     </div>
                                                 </div>
@@ -132,20 +132,14 @@
                         <div class="col-lg-6 mb-4 order-0">
                             <div class="card">
                                 <div class="d-flex align-items-end row">
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-8">
                                         <div class="card-body">
-
-
-
-
                                             <h5 class="title">NGN Virtual Card</h5>
-
-
                                             <div class="ccard">
-                                                <div class="card__front card__part">
+                                                <div class="cnard__front card__part">
                                                     <h3 class="card_numer"> NGN</h3>
                                                     <img class="card__front-logo card__logo"
-                                                        src="../assets/img/illustrations/logo.png">
+                                                        src="{{ url('') }}/public/assets/img/illustrations/visa.png">
                                                     <p class="card_numer">**** **** **** 6258</p>
                                                     <div class="card__space-75">
                                                         <span class="card__label">Card holder</span>
@@ -164,7 +158,7 @@
                                                             <p class="card__secret--last">420</p>
                                                         </div>
                                                         <img class="card__back-square card__square"
-                                                            src="../assets/img/illustrations/logo.png">
+                                                            src="{{ url('') }}/public/assets/img/illustrations/logo_white.png">
                                                     </div>
                                                 </div>
                                             </div>
@@ -259,7 +253,17 @@
 
             @endif
 
+            <script>
+                $('input').keyup(function() { // run anytime the value changes
 
+                    var amount_to_fund = document.getElementById('amount_to_fund').value; // convert it to a float
+                    var rate = document.getElementById('ngn_creation_fee').value; // convert it to a float
+
+                    document.getElementById('result2').value = Number(amount_to_fund) + Number(rate);
+
+
+                });
+            </script>
 
 
 

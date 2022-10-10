@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userdashboardnav')
 
 @section('content')
 <!-- Content wrapper -->
@@ -134,7 +134,7 @@
                       </div>
                       </tbody>
                       </table>
-                      
+
                     </div>
                   </div>
 

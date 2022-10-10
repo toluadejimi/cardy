@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.profile')
 
 @section('content')
 <div class="content-wrapper">
@@ -42,7 +42,7 @@
                         <a class="nav-link active" href="/updatepassword"><i class="bx bxs-lock-alt me-1"></i>Security</a>
                     </li>
                 </ul>
-  
+
                 <div class="card">
                     <div class="card-body">
 
@@ -95,9 +95,9 @@
 
             </div>
 
-            
+
         </div>
 
-        
+
     </div>
     @endsection

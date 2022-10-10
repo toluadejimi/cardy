@@ -157,8 +157,8 @@
               <i class="menu-icon tf-icons bx bx-collection"></i>
               <div data-i18n="User interface">My Virtual Cards</div>
             </a>
-            <ul class="menu-sub active">
-              <li class="menu-item">
+            <ul class="menu-sub">
+              <li class="menu-item active">
                 <a href="/my-card" class="menu-link">
                   <div data-i18n="Accordion">All Cards</div>
                 </a>

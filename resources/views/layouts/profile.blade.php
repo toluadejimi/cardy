@@ -199,8 +199,8 @@
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div data-i18n="Form Elements">Profile</div>
             </a>
-            <ul class="menu-sub active">
-              <li class="menu-item">
+            <ul class="menu-sub">
+              <li class="menu-item active">
                 <a href="/profile" class="menu-link">
                   <div data-i18n="Basic Inputs">My Profile</div>
                 </a>
