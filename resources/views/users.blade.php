@@ -20,7 +20,7 @@
             <div class="col-md-12 ">
                 <form action="/createUser" method="post" class="mb-4 p-2">
                     @csrf
-                    
+
                     <div class="row d-flex p-2">
                         <div class="col">
                             <div class="form-group">
@@ -40,10 +40,10 @@
                                 <input type="email" name="email" class="form-control">
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row d-flex p-2">
-                        
+
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Phone</label>
@@ -57,7 +57,7 @@
                                     @forelse ($collection as $items)
                                     <option value="{{$items->id}}">{{$items->name}}({{$items->type}})</option>
                                     @empty
-                                    <option value="">No Record Found </option>
+                                    <option value="">No Records Found </option>
                                     @endforelse
                                 </select>
                             </div>
@@ -69,30 +69,30 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
+
                     <div class="row d-flex p-2">
                         <div class="col">
                              <div class="form-group">
                                 <label for="">Role</label>
                                 <select name="role_id" id="" class="form-control">
                                     <option value="">Select Role</option>
-                                    
+
                                     @forelse ($roles as $item)
-                                        
+
                                     <option value="{{$item->id}}">{{$item->name}}</option>
                                     @empty
                                     <option value="">No Record Found</option>
                                     @endforelse
-                                   
+
                                 </select>
                             </div>
                         </div>
-                        
+
                            <div class="col">
                              <div class="form-group">
                                 <label for="">Select User Type</label>
@@ -104,18 +104,18 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                     </div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
+
+
+
+
+
                     <div class="col-md-2">
                         <input type="submit" value="Create User" class="btn btn-primary">
                     </div>
@@ -146,7 +146,7 @@
                             <td>{{$item->phone}}</td>
                             <td>{{$item->role->name}}</td>
                             <td>{{$item->location->name ?? "No Location Found"}}</td>
-                           
+
                             <td>
                                 <form action="/userDelete/{{$item->id}}" method="post">
                                     @csrf
@@ -160,8 +160,8 @@
                         @empty
                             <tr colspan="20" class="text-center">No Users Found</tr>
                         @endforelse
-                        
-                        
+
+
                     </tbody>
                 </table>
             </div>
