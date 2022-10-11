@@ -247,7 +247,7 @@
 
   function makePayment($amount_to_fund) {
     FlutterwaveCheckout({
-      public_key: "{{}}",
+      public_key: "{{$fkl}}",
       tx_ref: "{{$trx}}",
       amount: document.getElementById('amount_to_fund').value,
       currency: "NGN",
