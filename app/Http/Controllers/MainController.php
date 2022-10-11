@@ -615,10 +615,10 @@ class MainController extends Controller
     public function create_usd_card_now(Request $request)
     {
         $input = $request->validate([
-            'amount' => ['required', 'string'],
+            'amount_to_fund' => ['required', 'string'],
         ]);
 
-        $amount_in_ngn = $request->amount;
+        $amount_in_ngn = $request->amount_to_fund;
 
 
         $get_rate = Charge::where('title', 'rate')->first();
