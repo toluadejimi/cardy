@@ -557,7 +557,6 @@ class MainController extends Controller
 
 
 
-
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
 
@@ -568,6 +567,15 @@ class MainController extends Controller
         $usd_creation_fee = $get_usd_creation_fee->amount;
 
         $rate2 = $usd_creation_fee * $rate;
+
+
+
+        $min_amount = $rate * 10;
+        $max_amount = $rate * 250;
+
+
+        $funding_fee = Charge::where('title', 'funding')
+        ->first('amount');
 
         $get_usd_card_records = Vcard::where('card_type', 'usd')
             ->where('user_id', Auth::id())
@@ -582,7 +590,7 @@ class MainController extends Controller
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
 
-        return view('create-usd-card', compact('user', 'user_wallet', 'card', 'rate', 'rate2', 'get_usd_card_records', 'conversion_rate'));
+        return view('create-usd-card', compact('user', 'user_wallet','funding_fee', 'max_amount', 'min_amount', 'card', 'rate', 'rate2', 'get_usd_card_records', 'conversion_rate'));
     }
 
     public function create_ngn_card(Request $request)
@@ -619,6 +627,10 @@ class MainController extends Controller
         ]);
 
         $amount_in_ngn = $request->amount_to_fund;
+
+
+        $funding_fee = Charge::where('title', 'funding')
+        ->first('amount');
 
 
         $get_rate = Charge::where('title', 'rate')->first();

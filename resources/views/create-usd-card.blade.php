@@ -95,7 +95,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to fund card (NGN)</label>
                                             <input type="number" class="form-control" name="amount_to_fund" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
-                                            <span> Min - NGN 10,000 | Max - NGN 1,000,000.00</span>
+                                            <span> Min - NGN {{number_format($min_amount), 2}} | Max - NGN  {{number_format($max_amount), 2}} </span>
 
                                         </div>
 
@@ -108,6 +108,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
                                             <input type="number" name=result id="result" disabled class="form-control" value="result"> </h4>
+                                            <span> Min - USD10 | Max - USD 250</span>
                                         </div>
 
                                         <div class="mb-3">
