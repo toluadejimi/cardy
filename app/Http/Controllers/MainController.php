@@ -962,7 +962,7 @@ class MainController extends Controller
             curl_close($curl);
             $res = json_decode($response);
 
-            $new_amount = $res->data->charged_amount;
+            $new_amount = $res->data->amount;
 
             if ($res->status == 'success') {
                 //fund user wallet
@@ -973,7 +973,7 @@ class MainController extends Controller
                 $user_wallet = EMoney::where('user_id', $res->data->meta->user_id)
                     ->first()->current_balance;
 
-                $credit = (int) $res->data->charged_amount + (int) $user_wallet;
+                $credit = (int) $res->data->amount + (int) $user_wallet;
 
                 $update = EMoney::where('user_id', $res->data->meta->user_id)
                     ->update([
@@ -984,12 +984,12 @@ class MainController extends Controller
                 $transaction->ref_trans_id = $res->data->flw_ref;
                 $transaction->user_id = $res->data->meta->user_id;
                 $transaction->transaction_type = "Cash in";
-                $transaction->debit = $res->data->charged_amount;
+                $transaction->debit = $res->data->amount;
                 $transaction->note = "Funding ot Wallet";
                 $transaction->save();
 
                 $transfer = new BankTransfer();
-                $transfer->amount = $res->data->charged_amount;
+                $transfer->amount = $res->data->amount;
                 $transfer->user_id = $res->data->meta->user_id;
                 $transfer->ref_id = $res->data->flw_ref;
                 $transfer->status = 1;
