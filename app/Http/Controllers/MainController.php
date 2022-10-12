@@ -432,6 +432,7 @@ class MainController extends Controller
     public function create_usd_card(Request $request)
     {
 
+
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
 
@@ -485,34 +486,75 @@ class MainController extends Controller
 
     public function create_usd_card_now(Request $request)
     {
+
+
+
         $input = $request->validate([
             'amount_to_fund' => ['required', 'string'],
+            'result' => ['required', 'string'],
+
         ]);
+
+
+        $final_amount_ngn = $request->result;
 
         $amount_in_ngn = $request->amount_to_fund;
 
         $funding_fee = Charge::where('title', 'funding')
             ->first('amount');
 
+
+
+
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
+
 
         $get_usd_creation_fee = Charge::where('title', 'usd_card_creation')->first();
         $usd_creation_fee = $get_usd_creation_fee->amount;
 
         $usd_card_conversion_rate_to_naira = $usd_creation_fee * $rate;
 
+
+
+
+
+        $get_amount_to_fund_mono = $amount_in_ngn - $usd_card_conversion_rate_to_naira;
+
+        $amount_to_fund_mono = $get_amount_to_fund_mono / $rate;
+
+
+
+
+
+
+
+
+
+
         $get_user_amount = EMoney::where('user_id', Auth::id())
             ->first();
         $user_amount = $get_user_amount->current_balance;
+
+
+
 
         $get_amount_in_usd = (int) $amount_in_ngn / (int) $rate;
 
         $get_total_in_ngn = (int) $amount_in_ngn + (int) $usd_card_conversion_rate_to_naira;
 
-        $get_amount_in_usd_to_cent = $get_amount_in_usd * 100;
 
-        $amount_in_usd = round($get_amount_in_usd_to_cent, 2);
+
+        $get_amount_in_usd_to_cent = $amount_to_fund_mono * 100;
+
+
+
+
+
+
+        $mono_amount_in_cent  = round($get_amount_in_usd_to_cent, 2);
+
+
 
         $get_usd_card_records = Vcard::where('card_type', 'usd')
             ->where('user_id', Auth::id())
@@ -529,12 +571,14 @@ class MainController extends Controller
         $check_for_usd_virtual_card = Vcard::where('user_id', Auth::id())
             ->where('card_type', 'usd')
             ->first();
+
+
         if (empty($check_for_usd_virtual_card)) {
 
             $databody = array(
                 "account_holder" => Auth::user()->mono_customer_id,
                 "currency" => "usd",
-                "amount" => $amount_in_usd,
+                "amount" => $mono_amount_in_cent,
             );
 
             $mono_api_key = env('MONO_KEY');
@@ -568,26 +612,36 @@ class MainController extends Controller
 
             $var = json_decode($var);
 
+
+
+
             if ($var->status == 'successful') {
 
-                $debit = $user_amount - $get_total_in_ngn;
+                $card = new Vcard();
+                $card->card_id = $var->data->id;
+                $card->user_id = Auth::id();
+                $card->card_type = 'usd';
+                $card->save();
+
+                $debit = $user_amount - $amount_in_ngn;
                 $update = EMoney::where('user_id', Auth::id())
                     ->update([
                         'current_balance' => $debit,
                     ]);
 
+
+
+
                 $transaction = new Transaction();
                 $transaction->ref_trans_id = Str::random(10);
                 $transaction->user_id = Auth::id();
                 $transaction->transaction_type = "cash_out";
-                $transaction->debit = $get_total_in_ngn;
+                $transaction->debit = $amount_in_ngn;
                 $transaction->note = "USD Card Creation and Funding";
                 $transaction->save();
 
-                $card = new Vcard();
-                $card->card_id = $var->data->id;
-                $card->user_id = Auth::id();
-                $card->save;
+
+
 
                 return back()->with('message', 'Card creation is been processed');
             } else {

@@ -107,13 +107,13 @@
 
                                         <div class="mb-3">
                                             <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
-                                            <input type="number" name=result id="result" disabled class="form-control" value="result"> </h4>
+                                            <input type="number" name=result id="result3" disabled class="form-control" value="result3"> </h4>
                                             <span> Min - USD10 | Max - USD 250</span>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" for="">Total (NGN)</label>
-                                            <input type="number" id="result2" disabled class="form-control" value="second_result"> </h4>
+                                            <input type="number" id="result" name="result" readonly class="form-control" value="result"> </h4>
                                         </div>
 
 
@@ -277,12 +277,33 @@
                 var amount_to_fund = document.getElementById('amount_to_fund').value; // convert it to a float
                 var rate = document.getElementById('rate2').value; // convert it to a float
 
-                document.getElementById('result').value = Math.round(amount_to_fund / conversion * 100) / 100;
-                document.getElementById('result2').value = Number(amount_to_fund) + Number(rate);
+
+                var result2 = document.getElementById('result').value;
+
+                document.getElementById('result3').value = result2 ;
+
+
+
+
+
+                document.getElementById('result').value = Number(amount_to_fund) - Number(rate);
+
+                var result2 = document.getElementById('result').value;
+
+
+                document.getElementById('result3').value = Math.round(result2  / conversion * 100) / 100 ;
+
+
+
+
+
+
+
+
+
 
 
                 // document.getElementById('result').value = Math.round((amount_to_fund)/ rate2);
-
                 // add them and output it
             });
         </script>
