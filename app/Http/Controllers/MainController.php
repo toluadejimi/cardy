@@ -1132,7 +1132,7 @@ class MainController extends Controller
         } else {
 
             $transfer = new BankTransfer();
-            $transfer->amount = $request->amount_to_fund;
+            $transfer->amount = $res->data->amount;
             $transfer->user_id = Auth::id();
             $transfer->ref_id = "failed";
             $transfer->status = 0;
