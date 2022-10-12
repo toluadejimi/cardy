@@ -212,7 +212,7 @@
           <!-- Misc -->
           <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
           <li class="menu-item">
-            <a href="https://suppport.cardy4u.com" target="_blank" class="menu-link">
+            <a href="https://cardysupport.tawk.help/" target="_blank" class="menu-link">
               <i class="menu-icon tf-icons bx bx-support"></i>
               <div data-i18n="Support">Chat With us</div>
             </a>
