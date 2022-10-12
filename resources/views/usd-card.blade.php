@@ -199,7 +199,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Amount to fund card (NGN)</label>
                                                 <input type="number" class="form-control" name="amount_to_fund" id="amount_to_fund" placeholder="Please Enter Amount in NGN  " />
-                                                <span> Min - 10USD | Max - USD250</span>
+                                                <span> Min - NGN {{number_format($min_amount), 2}} | Max - NGN  {{number_format($max_amount), 2}} </span>
 
                                             </div>
 
@@ -216,6 +216,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Amount to be funded on USD card (USD)</label>
                                                 <input type="number" id="result" disabled class="form-control" value="result"> </h4>
+                                                <small> {{$fund}} USD | funding fee applies </small>
+
                                             </div>
                                             <button type="submit" class="btn btn-primary">Fund Card</button>
                                         </form>
@@ -412,7 +414,7 @@
 
                 var amount = Number($('#amount_to_fund').val()); // convert it to a float
 
-                document.getElementById('result').value = Math.round(amount / rate * 100 ) / 100 + funding_fee;
+                document.getElementById('result').value = Math.round(amount / rate * 100 ) / 100 - funding_fee;
                 // add them and output it
             });
         </script>

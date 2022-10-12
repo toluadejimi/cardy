@@ -737,6 +737,11 @@ class MainController extends Controller
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
 
+        $sd = $rate * $fund;
+
+        $min_amount = ($rate * 10) + $sd;
+        $max_amount = ($rate  * 250) +$sd ;
+
         $get_usd_creation_fee = Charge::where('title', 'usd_card_creation')->first();
         $usd_creation_fee = $get_usd_creation_fee->amount;
 
@@ -899,7 +904,7 @@ class MainController extends Controller
         $usd_card_expiry_year_decrypt = Encryption::decryptString($carddetails->expiry_year);
         $usd_card_last_decrypt = Encryption::decryptString($carddetails->last_four);
 
-        return view('usd-card', compact('users', 'cardTransaction', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
+        return view('usd-card', compact('users', 'cardTransaction', 'min_amount', 'fund', 'max_amount', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
     }
 
     public function fund_wallet(Request $request)
@@ -1128,7 +1133,11 @@ class MainController extends Controller
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
 
-        $fund = Charge::where('title', 'funding')->first()->amount;
+        $get_fund = Charge::where('title', 'funding')->first()->amount;
+
+        $fund = $get_fund * 100;
+
+
 
         $users = User::all();
 
@@ -1137,7 +1146,13 @@ class MainController extends Controller
 
         $get_usd_amount = (int) $amount_to_fund / (int) $rate;
 
-        $usd_amount = round($get_usd_amount * 100);
+        $get_usd_amount = round($get_usd_amount * 100 );
+
+
+
+        $usd_amount = $get_usd_amount - $fund;
+
+
 
         if ($amount_to_fund < $user_wallet_banlance) {
 
