@@ -489,6 +489,7 @@ class MainController extends Controller
 
 
 
+
         $input = $request->validate([
             'amount_to_fund' => ['required', 'string'],
             'result' => ['required', 'string'],
@@ -575,6 +576,9 @@ class MainController extends Controller
 
         if (empty($check_for_usd_virtual_card)) {
 
+            $api_key = env('ELASTIC_API');
+            $from = env('FROM_API');
+
             $databody = array(
                 "account_holder" => Auth::user()->mono_customer_id,
                 "currency" => "usd",
@@ -643,7 +647,43 @@ class MainController extends Controller
 
 
 
+
+                $email = User::where('id', Auth::id())
+                ->first()->email;
+
+            $f_name = User::where('id', Auth::id())
+                ->first()->f_name;
+
+            require_once "vendor/autoload.php";
+            $client = new Client([
+                'base_uri' => 'https://api.elasticemail.com',
+            ]);
+
+            $res = $client->request('GET', '/v2/email/send', [
+                'query' => [
+
+                    'apikey' => "$api_key",
+                    'from' => "$from",
+                    'fromName' => 'Cardy',
+                    'sender' => "$from",
+                    'senderName' => 'Cardy',
+                    'subject' => 'Fund Wallet',
+                    'to' => "$email",
+                    'bodyHtml' => view('card-creation-notification', compact('f_name'))->render(),
+                    'encodingType' => 0,
+
+                ],
+            ]);
+
+            $body = $res->getBody();
+            $array_body = json_decode($body);
+
+
+
+
                 return back()->with('message', 'Card creation is been processed');
+
+
             } else {
 
                 return back()->with('error', 'Opps!! Unable to fund card this time, Please Try again Later');
