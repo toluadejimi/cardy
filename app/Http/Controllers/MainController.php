@@ -1211,6 +1211,8 @@ class MainController extends Controller
 
             $res = json_decode($response);
 
+            dd($res);
+
             $new_amount = $res->data->charged_amount;
 
 
