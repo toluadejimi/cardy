@@ -264,7 +264,7 @@
       customizations: {
         title: "Cardy",
         description: "Wallet Top UP",
-        logo: "{{url('')}}/public/assets/img/illustrations/logo.png"
+        logo: "{{url('')}}/public/assets/img/illustrations/logo_round.png"
       },
 
     });
