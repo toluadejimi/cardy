@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 
+<!-- =========================================================
+* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
+==============================================================
+
+* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
+* Created by: Cardy
+* Tos: You must have a valid license purchased in order to legally use the theme for your project.
+
+ -->
+<!-- beautify ignore:start -->
 <html
   lang="en"
   class="light-style customizer-hide"
@@ -76,10 +86,10 @@
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Hello {{Auth::user()->f_name}} 👋</h4>
-              <p class="mb-4">Lets Verify Its you</p>
+              <h4 class="mb-2">Hello 👋</h4>
+              <p class="mb-4">Lets help you recover your account</p>
 
-              <form action="/verify" class="mb-3" method="GET">
+              <form action="/forgot-password-now" class="mb-3" method="POST">
                                 @csrf
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -103,18 +113,18 @@
 
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">Code</label>
+                    <label class="form-label" for="password">Enter Email</label>
                     <a href="auth-forgot-password-basic.html">
                     </a>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
-                      type="text"
-                      id="code"
+                      type="email"
+                      id="email"
                       class="form-control"
-                      name="code"
-                      placeholder="Enter code"
-                      aria-describedby="text"
+                      name="email"
+                      placeholder="Enter your email"
+                      aria-describedby="email"
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
@@ -125,14 +135,6 @@
                 </div>
               </form>
 
-              <p class="text-center">
-                <p> No code yet?  Please wait for 1 min before you can resend code or check your spam folder and report not spam. </p>
-                <span></span>
-
-                <a href="/send-verification-code">
-                  <span>Resend Code</span>
-                </a>
-              </p>
             </div>
           </div>
           <!-- /Register -->

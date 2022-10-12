@@ -172,6 +172,19 @@
               </div>
 
 
+              <div class="mb-3 form-password-toggle">
+                <label class="form-label" for="password">Confirm Password</label>
+                <div class="input-group input-group-merge">
+                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bxs-lock-alt"></i></span>
+                  <input type="password" id="password" autofocus required class="form-control" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+
+
+
+
+
 
               <div class="mb-3 form-password-toggle">
                 <label class="form-label" for="password">Pin</label>

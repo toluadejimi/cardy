@@ -76,10 +76,10 @@
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Hello {{Auth::user()->f_name}} 👋</h4>
+              <h4 class="mb-2">Hello 👋</h4>
               <p class="mb-4">Lets Verify Its you</p>
 
-              <form action="/verify" class="mb-3" method="GET">
+              <form action="/verify-reset-code-now" class="mb-3" method="POST">
                                 @csrf
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -125,14 +125,6 @@
                 </div>
               </form>
 
-              <p class="text-center">
-                <p> No code yet?  Please wait for 1 min before you can resend code or check your spam folder and report not spam. </p>
-                <span></span>
-
-                <a href="/send-verification-code">
-                  <span>Resend Code</span>
-                </a>
-              </p>
             </div>
           </div>
           <!-- /Register -->

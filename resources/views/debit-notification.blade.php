@@ -60,7 +60,7 @@
 						<tr>
 							<td style="padding:40px 30px 30px 30px;text-align:center;font-size:24px;font-weight:bold;">
 								<a href="http://www.example.com/" style="text-decoration:none;"><img
-										src="https://dashboard.cardy4u.com/public/assets/img/illustrations/logo.png" width="165" alt="Logo"
+										src="{{url('')}}/public/assets/img/illustrations/logo.png" width="165" alt="Logo"
 										style="width:165px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;"></a>
 							</td>
 						</tr>
@@ -73,8 +73,8 @@
 								<p style="margin:0;">NGN{{number_format($new_amount), 2}}  has left your wallet <br>
 							</td>
 						</tr>
-						
-						
+
+
 						<tr>
 							<td style="padding:30px;background-color:#ffffff;">
 								<p style="margin:0;">Thanks for choosing Cardy<br>
@@ -83,7 +83,7 @@
 
 							</td>
 						</tr>
-						
+
 					</table>
 				</td>
 			</tr>

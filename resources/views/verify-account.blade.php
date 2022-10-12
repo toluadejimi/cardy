@@ -487,12 +487,10 @@
                             <div class="col-sm-9">
                                 <div class="card-body">
 
-                                <h5 class="card-title text-danger">Verification Pending</h5>
+                                <h5 class="card-title text-success">Verification Completed</h5>
                                 <p class="mb-4">
-                                    Your verification status is pending kindly wait while we verify you.<br>
-
-                                    Thanks. For more info please call or text<b> 23408105059613</b>
-
+                                    Congratulations your account has been verified successfully
+                                    <p> Logout and Login again to start enjoing cardy </p>
                                 </p>
 
 

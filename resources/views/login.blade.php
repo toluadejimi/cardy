@@ -107,7 +107,7 @@
               </div>
 
               <div class="input-group input-group-merge">
-                <a href="auth-forgot-password-basic.html">
+                <a href="/forgot-password">
                   <small>Forgot Password?</small>
                 </a>
               </div>

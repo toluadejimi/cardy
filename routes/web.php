@@ -57,6 +57,32 @@ Route::get('/', function () {
 Route::get('/welcome', [MainController::class,'login_view']);
 
 
+
+Route::get('forgot-password', [MainController::class, 'forgot_password']);
+
+Route::post('forgot-password-now', [MainController::class, 'forgot_password_send_code']);
+
+Route::get('reset-password', [MainController::class, 'reset_password']);
+
+Route::get('verify-reset-code',[MainController::class, 'verify_reset_code']);
+
+Route::post('verify-reset-code-now', [MainController::class, 'verify_reset_code_now']);
+
+Route::post('reset-password-now', [MainController::class, 'reset_password_now']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::get('login_notification', 'MainController@loginNotification');
 
 Route::get('signin', [MainController::class,'signin']);
