@@ -120,7 +120,7 @@
                 <label class="form-label" for="basic-icon-default-fullname">Enter Your Phone NUmber</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-phone"></i></span>
-                  <input type="number"  required class="form-control" value="234" name="phone" id="basic-icon-default-fullname"  required placeholder="123 456 789" aria-label="" aria-describedby="basic-icon-default-fullname2" />
+                  <input type="number" class="form-control" value="234" required name="phone" id="basic-icon-default-fullname"  required placeholder="123 456 789" aria-label="" aria-describedby="basic-icon-default-fullname2" />
                 </div>
               </div>
 
@@ -129,7 +129,7 @@
                 <label class="form-label" for="basic-icon-default-fullname">Surname</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                  <input type="text"  required class="form-control"requried  autofocus  name="l_name" id="l_name" placeholder="Enter your  surname" aria-label="" aria-describedby="basic-icon-default-fullname2" />
+                  <input type="text"  required class="form-control"required  autofocus  name="l_name" id="l_name" placeholder="Enter your  surname" aria-label="" aria-describedby="basic-icon-default-fullname2" />
                 </div>
               </div>
 
@@ -138,7 +138,7 @@
                 <label class="form-label" for="basic-icon-default-fullname">First Name</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                  <input type="text" required class="form-control"requried  autofocus  name="f_name" id="f_name" placeholder="Enter your  First name" aria-label="" aria-describedby="basic-icon-default-fullname2" />
+                  <input type="text" required class="form-control"required  autofocus  name="f_name" id="f_name" placeholder="Enter your  First name" aria-label="" aria-describedby="basic-icon-default-fullname2" />
                 </div>
               </div>
 
@@ -158,7 +158,7 @@
                 <label class="form-label" for="basic-icon-default-fullname">Email</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bxs-envelope"></i></span>
-                  <input type="email" class="form-control"requried  autofocus  name="email" id="email" placeholder="Enter your valid email" aria-label="" aria-describedby="basic-icon-default-fullname2" />
+                  <input type="email" class="form-control"required  autofocus  name="email" id="email" placeholder="Enter your valid email" aria-label="" aria-describedby="basic-icon-default-fullname2" />
                 </div>
               </div>
 
