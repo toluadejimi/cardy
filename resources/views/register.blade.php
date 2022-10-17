@@ -135,7 +135,7 @@
 
 
               <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">Middle Name</label>
+                <label class="form-label" for="basic-icon-default-fullname">First Name</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
                   <input type="text" required class="form-control"required  autofocus  name="f_name" id="f_name" placeholder="Enter your  First name" aria-label="" aria-describedby="basic-icon-default-fullname2" />
@@ -144,10 +144,10 @@
 
 
               <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">Last Name</label>
+                <label class="form-label" for="basic-icon-default-fullname">Middle Name</label>
                 <div class="input-group input-group-merge">
                   <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                  <input type="text" required class="form-control"required  autofocus  name="m_name" id="f_name" placeholder="Enter your  First name" aria-label="" aria-describedby="basic-icon-default-fullname2" />
+                  <input type="text" required class="form-control"required  autofocus  name="m_name" id="m_name" placeholder="Enter your  Middle name" aria-label="" aria-describedby="basic-icon-default-fullname2" />
                 </div>
               </div>
 
