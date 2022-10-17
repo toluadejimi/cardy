@@ -431,17 +431,17 @@
 
                         <div class="mb-3">
                           <label class="form-label" for="">Surname</label>
-                          <input type="text"   class="form-control" id="" value= {{Auth::user()->l_name}} />
+                          <input type="text" name="l_name"   class="form-control" id="" value= {{Auth::user()->l_name}} />
                          </div>
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="">First Name</label>
-                          <input type="text"  class="form-control" id="" value= {{Auth::user()->f_name}} />
+                          <input type="text" name="f_name"  class="form-control" id="" value= {{Auth::user()->f_name}} />
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="">Middle Name</label>
-                            <input type="text"  class="form-control" id="" value= {{Auth::user()->m_name}} />
+                            <input type="text"  name="m_name" class="form-control" id="" value= {{Auth::user()->m_name}} />
                           </div>
 
 

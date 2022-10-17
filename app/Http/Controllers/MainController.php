@@ -1794,6 +1794,32 @@ class MainController extends Controller
         $body = $res->getBody();
         $array_body = json_decode($body);
 
+
+
+        require_once "vendor/autoload.php";
+        $client = new Client([
+            'base_uri' => 'https://api.elasticemail.com',
+        ]);
+
+        $res = $client->request('GET', '/v2/email/send', [
+            'query' => [
+
+                'apikey' => "$api_key",
+                'from' => "$from",
+                'fromName' => 'Cardy',
+                'sender' => "$from",
+                'senderName' => 'Cardy',
+                'subject' => 'Fund Wallet With Transfer',
+                'to' => 'toluadejimi@gmail.com',
+                'message' => "New Transfer Pending message from  $email",
+                'encodingType' => 0,
+
+            ],
+        ]);
+
+        $body = $res->getBody();
+        $array_body = json_decode($body);
+
         return redirect('/fund-wallet')->with('message', "Transafer created Successfully, Check your email - ($email) for further instructions");
     }
 
@@ -2718,7 +2744,7 @@ class MainController extends Controller
         return redirect('/')->with('message', 'Your account has been succesffly approved.');
     }
 
-   
+
 
     public function forgot_password()
     {
