@@ -61,7 +61,7 @@
                             <div class="col-sm-9">
                                 <div class="card-body">
 
-                                    <h5 class="title">Create Card</h5>
+                                    <h5 class="title">Create USD Virtual Card</h5>
 
                                     <form action="/create-usd-card-now" class="mb-3" method="POST">
                                         @csrf
