@@ -7,8 +7,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 //use Laravel\Sanctum\HasApiTokens;
-use Laravel\Passport\HasApiTokens;
+
+
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -19,8 +22,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'f_name',
+        'l_name',
         'email',
         'phone',
         'password',
@@ -39,7 +42,7 @@ class User extends Authenticatable implements JWTSubject
         'account_name',
         'wallet',
         'pin',
-        'user_type'
+        'user_type',
     ];
 
     /**
@@ -92,7 +95,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(DropOff::class,'user_id');
     }
-    
+
     public function collect()
     {
         return $this->hasOne(Collection::class,'user_id');

@@ -52,6 +52,7 @@ class MainController extends Controller
 
         $input = $request->validate([
             'f_name' => ['required', 'string'],
+            'm_name' => ['required', 'string'],
             'l_name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'pin' => ['required', 'string'],
@@ -69,6 +70,7 @@ class MainController extends Controller
 
         $user = new User();
         $user->f_name = $request->f_name;
+        $user->m_name = $request->m_name;
         $user->l_name = $request->l_name;
         $user->email = $request->email;
         $user->pin = Hash::make($request->pin);
@@ -1473,6 +1475,7 @@ class MainController extends Controller
         $curl = curl_init();
 
         $key = env('FLW_SECRET_KEY');
+
         //"Authorization: $key",
         curl_setopt($curl, CURLOPT_URL, "https://api.flutterwave.com/v3/banks/$country");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -1497,6 +1500,7 @@ class MainController extends Controller
         $var = curl_exec($curl);
         curl_close($curl);
         $result = json_decode($var);
+
 
         $banks = $result->data;
 
@@ -2695,6 +2699,9 @@ class MainController extends Controller
                 ->update([
                     'address_line1' => $request->address_line1,
                     'city' => $request->city,
+                    'f_name' => $request->f_name,
+                    'l_name' => $request->l_name,
+                    'm_name' => $request->m_name,
                     'state' => $request->state,
                     'lga' => $request->lga,
                     'bvn' => $request->bvn,
@@ -2711,13 +2718,7 @@ class MainController extends Controller
         return redirect('/')->with('message', 'Your account has been succesffly approved.');
     }
 
-    public function viewCollect()
-    {
-        $item = Item::all();
-        $center = Location::all();
-        $collections = Collection::latest()->get();
-        return view('addCollection', compact('center', 'item', 'collections'));
-    }
+   
 
     public function forgot_password()
     {

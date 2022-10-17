@@ -5,8 +5,24 @@ namespace Laravel\Passport\Http\Middleware;
 use Illuminate\Auth\AuthenticationException;
 use Laravel\Passport\Exceptions\MissingScopeException;
 
+
+
+
+
+
 class CheckClientCredentials extends CheckCredentials
 {
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Validate token credentials.
      *
@@ -21,6 +37,8 @@ class CheckClientCredentials extends CheckCredentials
             throw new AuthenticationException;
         }
     }
+
+
 
     /**
      * Validate token credentials.
