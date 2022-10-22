@@ -1363,6 +1363,38 @@ class MainController extends Controller
                     $transaction->note = "Refund";
                     $transaction->save();
 
+
+                    $api_key = env('ELASTIC_API');
+                $from = env('FROM_API');
+
+
+                $err_message = $var->message;
+
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Card Creation Error',
+                        'to' => 'toluadejimi@gmail.com',
+                        'bodyText' => "Error from Mono -  $err_message",
+                        'encodingType' => 0,
+
+                    ],
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
+
                     return back()->with('error', "Sorry!! Unable to fund card, Contact Support");
                 }
                 return back()->with('message', "Card Funded with $get_usd_amount");
