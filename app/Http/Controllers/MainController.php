@@ -1292,6 +1292,8 @@ class MainController extends Controller
 
             if ($usd_amount >= 1000) {
 
+                dd('good');
+
                 //debit user for card funding
                 $debit = (int) $user_wallet_banlance - (int) $amount_to_fund;
 
