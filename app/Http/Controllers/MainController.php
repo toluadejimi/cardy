@@ -1122,7 +1122,7 @@ class MainController extends Controller
                 $transaction = new Transaction();
                 $transaction->ref_trans_id = $res->data->flw_ref;
                 $transaction->user_id = $res->data->meta->user_id;
-                $transaction->transaction_type = "Cash in";
+                $transaction->transaction_type = "cash_in";
                 $transaction->debit = $res->data->amount;
                 $transaction->note = "Funding ot Wallet";
                 $transaction->save();
