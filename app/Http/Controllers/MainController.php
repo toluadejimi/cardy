@@ -1288,7 +1288,7 @@ class MainController extends Controller
 
 
 
-        if ($amount_to_fund < $user_wallet_banlance) {
+        if ($amount_to_fund > $user_wallet_banlance) {
 
             if ($usd_amount >= 1000) {
 
