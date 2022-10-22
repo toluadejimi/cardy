@@ -693,6 +693,9 @@ class MainController extends Controller
             } else {
 
 
+                $api_key = env('ELASTIC_API');
+                $from = env('FROM_API');
+
 
                 $err_message = $var->message;
 
