@@ -107,7 +107,7 @@
             </ul>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-phone"></i>
               <div data-i18n="Account Settings">Airtime & Data</div>
@@ -133,7 +133,7 @@
               <div data-i18n="Account Settings">Others</div>
             </a>
             <ul class="menu-sub">
-              <li class="menu-item">
+              <li class="menu-item active">
                 <a href="/cable" class="menu-link">
                   <div data-i18n="Account">Cable Tv</div>
                 </a>
@@ -158,7 +158,7 @@
           <li class="menu-header small text-uppercase"><span class="menu-header-text">Cards</span></li>
 
           <!-- User interface -->
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="/my-cards" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-collection"></i>
               <div data-i18n="User interface">My Virtual Cards</div>
@@ -184,7 +184,7 @@
                   <div data-i18n="Accordion">USD Card</div>
                 </a>
               </li>
-              <li class="menu-item active">
+              <li class="menu-item">
                 <a href="/ngn-card" class="menu-link">
                   <div data-i18n="Alerts">NGN Card</div>
                 </a>

@@ -134,7 +134,7 @@
             </a>
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="/buy-airtime" class="menu-link">
+                <a href="/cable" class="menu-link">
                   <div data-i18n="Account">Cable Tv</div>
                 </a>
               </li>
@@ -147,6 +147,12 @@
             </ul>
           </li>
 
+
+          <li class="menu-item">
+            <a href="/buy-eletricity" class="menu-link">
+              <div data-i18n="Notifications">Eletricity</div>
+            </a>
+          </li>
 
           <!-- Components -->
           <li class="menu-header small text-uppercase"><span class="menu-header-text">Cards</span></li>

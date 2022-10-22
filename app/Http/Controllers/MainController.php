@@ -11,13 +11,17 @@ use App\Models\EMoney;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Vcard;
+use App\Models\Power;
+use App\Models\Cable;
+
 use App\Services\Encryption;
 use Auth;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleClient;
 use Session;
 
 class MainController extends Controller
@@ -688,9 +692,40 @@ class MainController extends Controller
 
             } else {
 
+
+
+                $err_message = $var->message;
+
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Card Creation Error',
+                        'to' => 'toluadejimi@gmail.com',
+                        'bodyText' => "Error from Mono -  $err_message",
+                        'encodingType' => 0,
+
+                    ],
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
+
+
                 return back()->with('error', 'Opps!! Unable to fund card this time, Please Try again Later');
             }
         }
+
         return back()->with('error', 'Sorry!! You can only have one USD Virtual Card');
 
         $card = Vcard::all();
@@ -2950,4 +2985,439 @@ class MainController extends Controller
 
         return redirect('/');
     }
+
+    public function verify_meter(Request $request){
+
+
+
+
+
+        $userid = env('CKUSER');
+        $apikey = env('CKKEY');
+
+        $input = $request->validate([
+            // 'eletric_company' => ['required', 'string'],
+            // 'meter_type' => ['required', 'string'],
+            'meter_number' => ['required', 'string'],
+            // 'amount' => ['required', 'string'],
+            // 'phone_number' => ['required', 'string'],
+            // 'pin' => ['required', 'string'],
+
+        ]);
+
+        $get_eletric_company = $request->eletric_company;
+        $meter_type = $request->meter_type;
+        $meter_number = $request->meter_number;
+        $order_amount = $request->amount;
+        $phone_number = $request->phone_number;
+        $transfer_pin = $request->pin;
+
+
+        $eletric_company = str_replace(['+', '-'], '', filter_var($get_eletric_company, FILTER_SANITIZE_NUMBER_INT));
+        $get_biller_name = preg_replace('/\d+/','',$get_eletric_company);
+        $biller_name = trim($get_biller_name);
+
+
+
+
+
+
+
+
+
+
+
+
+        $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
+        ->first()->current_balance;
+
+
+        $getpin = Auth()->user();
+        $user_pin = $getpin->pin;
+
+        // if (Hash::check($transfer_pin, $user_pin)) {
+
+        //     if ($order_amount < 1000) {
+        //         return back()->with('error', 'Amount must not be less than NGN 1000');
+        //     }
+
+        //     if ($order_amount <= $user_wallet_banlance) {
+
+                $curl = curl_init();
+
+                curl_setopt($curl, CURLOPT_URL, "https://www.nellobytesystems.com/APIVerifyElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterNo=$meter_number");
+
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl, CURLOPT_ENCODING, '');
+                curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+                curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+                curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt(
+                    $curl,
+                    CURLOPT_HTTPHEADER,
+                    array(
+                        'Content-Type: application/json',
+                        'Accept: application/json',
+                    )
+                );
+                // $final_results = curl_exec($curl);
+
+                $var = curl_exec($curl);
+                curl_close($curl);
+
+                $var = json_decode($var);
+
+                $customer_name = $var->customer_name;
+
+
+                if($var-> status == 00){
+
+                    $update = User::where('id', Auth::id())
+                    ->update([
+                        'meter_number' => $request->meter_number,
+                        'eletric_company' => $request->eletric_company
+                    ]);
+
+                    return back()->with('mm', "$customer_name");
+
+                }
+
+
+
+
+
+    //         } return back()->with('error', 'Sorry!! Invalid Pin');
+
+
+    //     } return back()->with('error', 'Sorry!! Insufficient Balance');
+
+
+    }
+
+
+
+    public function buy_eletricity(){
+
+
+        $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        $meter_number = User::where('id', Auth::user()->id)
+        ->first()->meter_number ?? null;
+
+
+        $eletric_company = User::where('id', Auth::user()->id)
+        ->first()->eletric_company ?? null;
+
+
+        $phone = User::where('id', Auth::user()->id)
+            ->first()->phone;
+
+        $power = Power::all();
+
+
+
+
+
+
+
+        return view('buy-electricty', compact('user_wallet', 'eletric_company','meter_number','phone', 'power' ));
+
+    }
+
+
+    public function buy_eletricity_now(Request $request){
+
+
+
+
+        $userid = env('CKUSER');
+        $apikey = env('CKKEY');
+        $url = 'https://dashboard.cardy4u.com/buy-eletricty';
+
+
+
+
+
+
+
+
+        $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
+        ->first()->current_balance;
+
+        $get_eletric_company = $request->eletric_company;
+        $meter_type = $request->meter_type;
+        $meter_number = $request->meter_number;
+        $order_amount = $request->amount;
+        $phone_number = $request->phone_number;
+        $transfer_pin = $request->pin;
+
+        $eletric_company = str_replace(['+', '-'], '', filter_var($get_eletric_company, FILTER_SANITIZE_NUMBER_INT));
+        $get_biller_name = preg_replace('/\d+/','',$get_eletric_company);
+        $biller_name = trim($get_biller_name);
+
+
+
+        $getpin = Auth()->user();
+        $user_pin = $getpin->pin;
+
+        if (Hash::check($transfer_pin, $user_pin)) {
+
+            if ($order_amount < 1000) {
+                return back()->with('error', 'Amount must not be less than NGN 1000');
+            }
+
+            if ($order_amount <= $user_wallet_banlance) {
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                  CURLOPT_URL => "https://www.nellobytesystems.com/APIElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterType=$meter_type&MeterNo=$meter_number&Amount=$order_amount&PhoneNo=$phone_number&CallBackURL=https://cardy4u.com",
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'GET',
+                  CURLOPT_HTTPHEADER => array(
+                  ),
+                ));
+
+                $response = curl_exec($curl);
+
+                $var = curl_exec($curl);
+                curl_close($curl);
+
+                $var = json_decode($var);
+
+                $status = $var->status;
+
+                dd($var);
+
+
+
+                if($status !== 'ORDER_RECEIVED' ){
+
+                    $databody = array(
+                        'country' => "NG",
+                        'customer' =>  $meter_number,
+                        'amount' => $order_amount,
+                        'type' =>  $biller_name,
+                        'reference'=> Str::random(10),
+
+                    );
+
+                    $body = json_encode($databody);
+                    $curl = curl_init();
+
+                    $key = env('FLW_SECRET_KEY');
+                    //"Authorization: $key",
+                    curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/bills');
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($curl, CURLOPT_ENCODING, '');
+                    curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+                    curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+                    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt(
+                        $curl,
+                        CURLOPT_HTTPHEADER,
+                        array(
+                            'Content-Type: application/json',
+                            'Accept: application/json',
+                            "Authorization: $key",
+                        )
+                    );
+
+                    $var = curl_exec($curl);
+                    curl_close($curl);
+                    $result = json_decode($var);
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                $request_id = "6454722129";
+
+
+                $client = new \GuzzleHttp\Client();
+                $request = $client->get("https://www.nellobytesystems.com/APIQueryV1.asp?UserID=$userid&APIKey=$apikey&OrderID=$request_id");
+                $response = $request->getBody();
+
+                $result = json_decode($response);
+
+                $statuscode = $result->statuscode;
+
+                $token = $result->metertoken;
+
+                if($statuscode == 200){
+
+                    $email = User::where('id', Auth::id())
+                    ->first()->email;
+
+                    $f_name = User::where('id', Auth::id())
+                    ->first()->f_name;
+
+
+                    $api_key = env('ELASTIC_API');
+                    $from = env('FROM_API');
+
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
+
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
+
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Eletricity Token',
+                        'to' => "$email",
+                        'bodyHtml' => view('token-notification', compact('token', 'f_name'))->render(),
+                        'encodingType' => 0,
+
+                    ],
+                ]);
+
+                $body = $res->getBody();
+                $array_body = json_decode($body);
+
+
+
+                return back()->with('message', "Your Meter Token $token has been sent to your email");
+
+
+                } return back()->with('error', "Failed!! Please try again later");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // if($var-> status == 00){
+
+                //     $update = User::where('id', Auth::id())
+                //     ->update([
+                //         'meter_number' => $request->meter_number,
+                //         'eletric_company' => $request->eletric_company
+                //     ]);
+
+                //     return back()->with('mm', "$customer_name");
+
+                // }
+
+
+
+
+
+            } return back()->with('error', 'Sorry!! Insufficient Balance');
+
+
+        }return back()->with('error', 'Sorry!! Invalid Pin');
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+    public function cable(){
+
+        $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+
+        $client = new \GuzzleHttp\Client();
+                $request = $client->get('https://www.nellobytesystems.com/APICableTVPackagesV2.asp');
+                $response = $request->getBody();
+
+                $result = json_decode($response);
+                dd($result->TV_ID->DStv);
+
+                $cable_company = $result->TV_ID->Dstv;
+
+
+
+                return view('cable', compact('cable_company', 'user_wallet'));
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 }

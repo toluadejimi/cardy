@@ -155,6 +155,16 @@ Route::group(['middleware' => 'adminAuth'],function(){
 
 
 
+    Route::get('/buy-eletricity', [MainController::class,'buy_eletricity']);
+    Route::get('/buy-eletricity-now', [MainController::class,'buy_eletricity_now']);
+    Route::get('/verify-meter', [MainController::class,'verify_meter']);
+
+
+
+
+    Route::get('cable', [MainController::class, 'cable']);
+    Route::get('buy-cable', [MainController::class, 'buy_cable']);
+
 
 
 
