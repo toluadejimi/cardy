@@ -1475,6 +1475,8 @@ class MainController extends Controller
 
                 $var = json_decode($var);
 
+                dd($var);
+
                 if ($var->status == 'INSUFFICIENT_BALANCE') {
 
                     return back()->with('error', "Sorry!! Unable to Recharge, Please contact our support");
