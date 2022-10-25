@@ -5,23 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Traits\HistoryTrait;
 use App\Models\Bank;
 use App\Models\BankTransfer;
+use App\Models\Cable;
 use App\Models\Charge;
 use App\Models\DataType;
 use App\Models\EMoney;
+use App\Models\Power;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Vcard;
-use App\Models\Power;
-use App\Models\Cable;
-
 use App\Services\Encryption;
 use Auth;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use GuzzleHttp\Client;
-use GuzzleHttp\Client as GuzzleClient;
 use Session;
 
 class MainController extends Controller
@@ -438,7 +436,6 @@ class MainController extends Controller
     public function create_usd_card(Request $request)
     {
 
-
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
 
@@ -493,15 +490,14 @@ class MainController extends Controller
     public function create_usd_card_now(Request $request)
     {
 
-
-
+        $fund_source = Charge::where('title', 'funding_wallet')
+            ->first()->amount;
 
         $input = $request->validate([
             'amount_to_fund' => ['required', 'string'],
             'result' => ['required', 'string'],
 
         ]);
-
 
         $final_amount_ngn = $request->result;
 
@@ -510,58 +506,29 @@ class MainController extends Controller
         $funding_fee = Charge::where('title', 'funding')
             ->first('amount');
 
-
-
-
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
-
 
         $get_usd_creation_fee = Charge::where('title', 'usd_card_creation')->first();
         $usd_creation_fee = $get_usd_creation_fee->amount;
 
         $usd_card_conversion_rate_to_naira = $usd_creation_fee * $rate;
 
-
-
-
-
         $get_amount_to_fund_mono = $amount_in_ngn - $usd_card_conversion_rate_to_naira;
 
         $amount_to_fund_mono = $get_amount_to_fund_mono / $rate;
-
-
-
-
-
-
-
-
-
 
         $get_user_amount = EMoney::where('user_id', Auth::id())
             ->first();
         $user_amount = $get_user_amount->current_balance;
 
-
-
-
         $get_amount_in_usd = (int) $amount_in_ngn / (int) $rate;
 
         $get_total_in_ngn = (int) $amount_in_ngn + (int) $usd_card_conversion_rate_to_naira;
 
-
-
         $get_amount_in_usd_to_cent = $amount_to_fund_mono * 100;
 
-
-
-
-
-
-        $mono_amount_in_cent  = round($get_amount_in_usd_to_cent, 2);
-
-
+        $mono_amount_in_cent = round($get_amount_in_usd_to_cent, 2);
 
         $get_usd_card_records = Vcard::where('card_type', 'usd')
             ->where('user_id', Auth::id())
@@ -579,7 +546,6 @@ class MainController extends Controller
             ->where('card_type', 'usd')
             ->first();
 
-
         if (empty($check_for_usd_virtual_card)) {
 
             $api_key = env('ELASTIC_API');
@@ -588,6 +554,7 @@ class MainController extends Controller
             $databody = array(
                 "account_holder" => Auth::user()->mono_customer_id,
                 "currency" => "usd",
+                "fund_source" => $fund_source,
                 "amount" => $mono_amount_in_cent,
             );
 
@@ -622,9 +589,6 @@ class MainController extends Controller
 
             $var = json_decode($var);
 
-
-
-
             if ($var->status == 'successful') {
 
                 $card = new Vcard();
@@ -639,9 +603,6 @@ class MainController extends Controller
                         'current_balance' => $debit,
                     ]);
 
-
-
-
                 $transaction = new Transaction();
                 $transaction->ref_trans_id = Str::random(10);
                 $transaction->user_id = Auth::id();
@@ -650,55 +611,44 @@ class MainController extends Controller
                 $transaction->note = "USD Card Creation and Funding";
                 $transaction->save();
 
-
-
-
-
                 $email = User::where('id', Auth::id())
-                ->first()->email;
+                    ->first()->email;
 
-            $f_name = User::where('id', Auth::id())
-                ->first()->f_name;
+                $f_name = User::where('id', Auth::id())
+                    ->first()->f_name;
 
-            require_once "vendor/autoload.php";
-            $client = new Client([
-                'base_uri' => 'https://api.elasticemail.com',
-            ]);
+                require_once "vendor/autoload.php";
+                $client = new Client([
+                    'base_uri' => 'https://api.elasticemail.com',
+                ]);
 
-            $res = $client->request('GET', '/v2/email/send', [
-                'query' => [
+                $res = $client->request('GET', '/v2/email/send', [
+                    'query' => [
 
-                    'apikey' => "$api_key",
-                    'from' => "$from",
-                    'fromName' => 'Cardy',
-                    'sender' => "$from",
-                    'senderName' => 'Cardy',
-                    'subject' => 'Fund Wallet',
-                    'to' => "$email",
-                    'bodyHtml' => view('card-creation-notification', compact('f_name'))->render(),
-                    'encodingType' => 0,
+                        'apikey' => "$api_key",
+                        'from' => "$from",
+                        'fromName' => 'Cardy',
+                        'sender' => "$from",
+                        'senderName' => 'Cardy',
+                        'subject' => 'Fund Wallet',
+                        'to' => "$email",
+                        'bodyHtml' => view('card-creation-notification', compact('f_name'))->render(),
+                        'encodingType' => 0,
 
-                ],
-            ]);
+                    ],
+                ]);
 
-            $body = $res->getBody();
-            $array_body = json_decode($body);
-
-
-
+                $body = $res->getBody();
+                $array_body = json_decode($body);
 
                 return back()->with('message', 'Card creation is been processed');
 
-
             } else {
-
 
                 $api_key = env('ELASTIC_API');
                 $from = env('FROM_API');
 
-
                 $err_message = $var->message;
-
 
                 require_once "vendor/autoload.php";
                 $client = new Client([
@@ -724,7 +674,6 @@ class MainController extends Controller
                 $body = $res->getBody();
                 $array_body = json_decode($body);
 
-
                 return back()->with('error', 'Opps!! Unable to fund card this time, Please Try again Later');
             }
         }
@@ -746,6 +695,9 @@ class MainController extends Controller
         ]);
 
         $amount_in_ngn = $request->amount;
+
+        $fund_source = Charge::where('title', 'funding_wallet')
+            ->first()->amount;
 
         $get_rate = Charge::where('title', 'rate')->first();
         $rate = $get_rate->amount;
@@ -776,6 +728,7 @@ class MainController extends Controller
             $databody = array(
                 "account_holder" => Auth::user()->mono_customer_id,
                 "currency" => "ngn",
+                "fund_source" => $fund_source,
                 "amount" => $amount_in_ngn,
             );
 
@@ -874,7 +827,7 @@ class MainController extends Controller
         $sd = $rate * $fund;
 
         $min_amount = ($rate * 10) + $sd;
-        $max_amount = ($rate  * 250) +$sd ;
+        $max_amount = ($rate * 250) + $sd;
 
         $get_usd_creation_fee = Charge::where('title', 'usd_card_creation')->first();
         $usd_creation_fee = $get_usd_creation_fee->amount;
@@ -1253,6 +1206,9 @@ class MainController extends Controller
     public function fund_usd_card(Request $request)
     {
 
+        $fund_source = Charge::where('title', 'funding_wallet')
+            ->first()->amount;
+
         $amount_to_fund = $request->validate([
             'amount_to_fund' => ['required', 'string'],
         ]);
@@ -1271,8 +1227,6 @@ class MainController extends Controller
 
         $fund = $get_fund * 100;
 
-
-
         $users = User::all();
 
         $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
@@ -1280,13 +1234,9 @@ class MainController extends Controller
 
         $get_usd_amount = (int) $amount_to_fund / (int) $rate;
 
-        $get_usd_amount = round($get_usd_amount * 100 );
-
-
+        $get_usd_amount = round($get_usd_amount * 100);
 
         $usd_amount = $get_usd_amount - $fund;
-
-
 
         if ($amount_to_fund <= $user_wallet_banlance) {
 
@@ -1313,7 +1263,7 @@ class MainController extends Controller
                 $databody = array(
 
                     "amount" => $usd_amount,
-                    "fund_source" => 'usd',
+                    "fund_source" => $fund_source,
                 );
 
                 $body = json_encode($databody);
@@ -1363,37 +1313,34 @@ class MainController extends Controller
                     $transaction->note = "Refund";
                     $transaction->save();
 
-
                     $api_key = env('ELASTIC_API');
-                $from = env('FROM_API');
+                    $from = env('FROM_API');
 
+                    $err_message = $var->message;
 
-                $err_message = $var->message;
+                    require_once "vendor/autoload.php";
+                    $client = new Client([
+                        'base_uri' => 'https://api.elasticemail.com',
+                    ]);
 
+                    $res = $client->request('GET', '/v2/email/send', [
+                        'query' => [
 
-                require_once "vendor/autoload.php";
-                $client = new Client([
-                    'base_uri' => 'https://api.elasticemail.com',
-                ]);
+                            'apikey' => "$api_key",
+                            'from' => "$from",
+                            'fromName' => 'Cardy',
+                            'sender' => "$from",
+                            'senderName' => 'Cardy',
+                            'subject' => 'Card Creation Error',
+                            'to' => 'toluadejimi@gmail.com',
+                            'bodyText' => "Error from Mono -  $err_message",
+                            'encodingType' => 0,
 
-                $res = $client->request('GET', '/v2/email/send', [
-                    'query' => [
+                        ],
+                    ]);
 
-                        'apikey' => "$api_key",
-                        'from' => "$from",
-                        'fromName' => 'Cardy',
-                        'sender' => "$from",
-                        'senderName' => 'Cardy',
-                        'subject' => 'Card Creation Error',
-                        'to' => 'toluadejimi@gmail.com',
-                        'bodyText' => "Error from Mono -  $err_message",
-                        'encodingType' => 0,
-
-                    ],
-                ]);
-
-                $body = $res->getBody();
-                $array_body = json_decode($body);
+                    $body = $res->getBody();
+                    $array_body = json_decode($body);
 
                     return back()->with('error', "Sorry!! Unable to fund card, Contact Support");
                 }
@@ -1475,12 +1422,11 @@ class MainController extends Controller
 
                 $var = json_decode($var);
 
-                if ($var->status !== 'ORDER_RECEIVED'){
+                if ($var->status !== 'ORDER_RECEIVED') {
 
                     return back()->with('error', "Sorry!! Unable to Recharge, Please contact our support");
 
                 }
-
 
                 if ($var->status == 'INSUFFICIENT_BALANCE') {
 
@@ -1577,7 +1523,6 @@ class MainController extends Controller
         $var = curl_exec($curl);
         curl_close($curl);
         $result = json_decode($var);
-
 
         $banks = $result->data;
 
@@ -1870,8 +1815,6 @@ class MainController extends Controller
 
         $body = $res->getBody();
         $array_body = json_decode($body);
-
-
 
         require_once "vendor/autoload.php";
         $client = new Client([
@@ -2821,8 +2764,6 @@ class MainController extends Controller
         return redirect('/')->with('message', 'Your account has been succesffly approved.');
     }
 
-
-
     public function forgot_password()
     {
 
@@ -2919,8 +2860,6 @@ class MainController extends Controller
         $from = env('FROM_API');
 
         $email = $request->email;
-
-
 
         $input = $request->validate([
             'password' => ['required', 'confirmed', 'string'],
@@ -3028,11 +2967,8 @@ class MainController extends Controller
         return redirect('/');
     }
 
-    public function verify_meter(Request $request){
-
-
-
-
+    public function verify_meter(Request $request)
+    {
 
         $userid = env('CKUSER');
         $apikey = env('CKKEY');
@@ -3054,25 +2990,12 @@ class MainController extends Controller
         $phone_number = $request->phone_number;
         $transfer_pin = $request->pin;
 
-
         $eletric_company = str_replace(['+', '-'], '', filter_var($get_eletric_company, FILTER_SANITIZE_NUMBER_INT));
-        $get_biller_name = preg_replace('/\d+/','',$get_eletric_company);
+        $get_biller_name = preg_replace('/\d+/', '', $get_eletric_company);
         $biller_name = trim($get_biller_name);
 
-
-
-
-
-
-
-
-
-
-
-
         $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
-        ->first()->current_balance;
-
+            ->first()->current_balance;
 
         $getpin = Auth()->user();
         $user_pin = $getpin->pin;
@@ -3085,110 +3008,91 @@ class MainController extends Controller
 
         //     if ($order_amount <= $user_wallet_banlance) {
 
-                $curl = curl_init();
+        $curl = curl_init();
 
-                curl_setopt($curl, CURLOPT_URL, "https://www.nellobytesystems.com/APIVerifyElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterNo=$meter_number");
+        curl_setopt($curl, CURLOPT_URL, "https://www.nellobytesystems.com/APIVerifyElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterNo=$meter_number");
 
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl, CURLOPT_ENCODING, '');
-                curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-                curl_setopt($curl, CURLOPT_TIMEOUT, 0);
-                curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt(
-                    $curl,
-                    CURLOPT_HTTPHEADER,
-                    array(
-                        'Content-Type: application/json',
-                        'Accept: application/json',
-                    )
-                );
-                // $final_results = curl_exec($curl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+            )
+        );
+        // $final_results = curl_exec($curl);
 
-                $var = curl_exec($curl);
-                curl_close($curl);
+        $var = curl_exec($curl);
+        curl_close($curl);
 
-                $var = json_decode($var);
+        $var = json_decode($var);
 
-                $customer_name = $var->customer_name;
+        dd($var);
 
+        $customer_name = $var->customer_name;
 
-                if($var-> status == 00){
+        if ($var->status == 00) {
 
-                    $update = User::where('id', Auth::id())
-                    ->update([
-                        'meter_number' => $request->meter_number,
-                        'eletric_company' => $request->eletric_company
-                    ]);
+            $update = User::where('id', Auth::id())
+                ->update([
+                    'meter_number' => $request->meter_number,
+                    'eletric_company' => $request->eletric_company,
+                ]);
 
-                    return back()->with('mm', "$customer_name");
+            return back()->with('mm', "$customer_name");
 
-                }
+        }
 
+        //         } return back()->with('error', 'Sorry!! Invalid Pin');
 
-
-
-
-    //         } return back()->with('error', 'Sorry!! Invalid Pin');
-
-
-    //     } return back()->with('error', 'Sorry!! Insufficient Balance');
-
+        //     } return back()->with('error', 'Sorry!! Insufficient Balance');
 
     }
 
-
-
-    public function buy_eletricity(){
-
+    public function buy_eletricity()
+    {
 
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
 
         $meter_number = User::where('id', Auth::user()->id)
-        ->first()->meter_number ?? null;
-
+            ->first()->meter_number ?? null;
 
         $eletric_company = User::where('id', Auth::user()->id)
-        ->first()->eletric_company ?? null;
-
+            ->first()->eletric_company ?? null;
 
         $phone = User::where('id', Auth::user()->id)
             ->first()->phone;
 
         $power = Power::all();
 
-
-
-
-
-
-
-        return view('buy-electricty', compact('user_wallet', 'eletric_company','meter_number','phone', 'power' ));
+        return view('buy-electricty', compact('user_wallet', 'eletric_company', 'meter_number', 'phone', 'power'));
 
     }
 
+    public function buy_eletricity_now(Request $request)
+    {
 
-    public function buy_eletricity_now(Request $request){
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
 
-
-
+        $eletricity_charges = Charge::where('title', 'eletricity_charges')
+            ->first()->amount;
 
         $userid = env('CKUSER');
         $apikey = env('CKKEY');
         $url = 'https://dashboard.cardy4u.com/buy-eletricty';
 
-
-
-
-
-
-
-
         $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
-        ->first()->current_balance;
+            ->first()->current_balance;
 
         $get_eletric_company = $request->eletric_company;
         $meter_type = $request->meter_type;
@@ -3198,10 +3102,8 @@ class MainController extends Controller
         $transfer_pin = $request->pin;
 
         $eletric_company = str_replace(['+', '-'], '', filter_var($get_eletric_company, FILTER_SANITIZE_NUMBER_INT));
-        $get_biller_name = preg_replace('/\d+/','',$get_eletric_company);
+        $get_biller_name = preg_replace('/\d+/', '', $get_eletric_company);
         $biller_name = trim($get_biller_name);
-
-
 
         $getpin = Auth()->user();
         $user_pin = $getpin->pin;
@@ -3217,16 +3119,16 @@ class MainController extends Controller
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
-                  CURLOPT_URL => "https://www.nellobytesystems.com/APIElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterType=$meter_type&MeterNo=$meter_number&Amount=$order_amount&PhoneNo=$phone_number&CallBackURL=https://cardy4u.com",
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'GET',
-                  CURLOPT_HTTPHEADER => array(
-                  ),
+                    CURLOPT_URL => "https://www.nellobytesystems.com/APIElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterType=$meter_type&MeterNo=$meter_number&Amount=$order_amount&PhoneNo=$phone_number&CallBackURL=https://cardy4u.com",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array(
+                    ),
                 ));
 
                 $response = curl_exec($curl);
@@ -3238,228 +3140,169 @@ class MainController extends Controller
 
                 $status = $var->status;
 
-                dd($var);
+
+                if ($status == 'ORDER_RECEIVED') {
+
+                    $user_amount = EMoney::where('user_id', Auth::id())
+                        ->first()->current_balance;
+
+                    $new_amount = $order_amount + $eletricity_charges;
+                    $debit = $user_amount - $new_amount;
+                    $update = EMoney::where('user_id', Auth::id())
+                        ->update([
+                            'current_balance' => $debit,
+                        ]);
+
+                    $request_id = $var->orderid;
 
 
+                    $client = new \GuzzleHttp\Client();
+                    $request = $client->get("https://www.nellobytesystems.com/APIQueryV1.asp?UserID=$userid&APIKey=$apikey&OrderID=$request_id");
+                    $response = $request->getBody();
 
-                if($status !== 'ORDER_RECEIVED' ){
+                    $result = json_decode($response);
 
-                    $databody = array(
-                        'country' => "NG",
-                        'customer' =>  $meter_number,
-                        'amount' => $order_amount,
-                        'type' =>  $biller_name,
-                        'reference'=> Str::random(10),
+                    $statuscode = $result->statuscode;
 
-                    );
+                    $token = $result->metertoken;
 
-                    $body = json_encode($databody);
-                    $curl = curl_init();
+                    $transaction = new Transaction();
+                    $transaction->ref_trans_id = Str::random(10);
+                    $transaction->user_id = Auth::id();
+                    $transaction->transaction_type = "cash_out";
+                    $transaction->debit = $new_amount;
+                    $transaction->note = "Token - $token";
+                    $transaction->save();
 
-                    $key = env('FLW_SECRET_KEY');
-                    //"Authorization: $key",
-                    curl_setopt($curl, CURLOPT_URL, 'https://api.flutterwave.com/v3/bills');
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($curl, CURLOPT_ENCODING, '');
-                    curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-                    curl_setopt($curl, CURLOPT_TIMEOUT, 0);
-                    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-                    curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt(
-                        $curl,
-                        CURLOPT_HTTPHEADER,
-                        array(
-                            'Content-Type: application/json',
-                            'Accept: application/json',
-                            "Authorization: $key",
-                        )
-                    );
+                    $email = User::where('id', Auth::id())
+                        ->first()->email;
 
-                    $var = curl_exec($curl);
-                    curl_close($curl);
-                    $result = json_decode($var);
+                    $f_name = User::where('id', Auth::id())
+                        ->first()->f_name;
 
+                    $client = new Client([
+                        'base_uri' => 'https://api.elasticemail.com',
+                    ]);
 
+                    $res = $client->request('GET', '/v2/email/send', [
+                        'query' => [
 
+                            'apikey' => "$api_key",
+                            'from' => "$from",
+                            'fromName' => 'Cardy',
+                            'sender' => "$from",
+                            'senderName' => 'Cardy',
+                            'subject' => 'Eletricity Token Purchase',
+                            'to' => "$email",
+                            'bodyHtml' => view('eletricity-with-token-notification', compact('f_name', 'new_amount', 'token'))->render(),
+                            'encodingType' => 0,
 
+                        ],
+                    ]);
 
+                    $body = $res->getBody();
+                    $array_body = json_decode($body);
 
+                    return back()->with('message', 'Purchase Successfull, Check your email for Token');
 
                 }
 
+                if ($status == 'INVALID_API_ERROR3') {
 
+                    $user_amount = EMoney::where('user_id', Auth::id())
+                        ->first()->current_balance;
 
+                    $new_amount = $order_amount + $eletricity_charges;
+                    $debit = $user_amount - $new_amount;
+                    $update = EMoney::where('user_id', Auth::id())
+                        ->update([
+                            'current_balance' => $debit,
+                        ]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                $request_id = "6454722129";
-
-
-                $client = new \GuzzleHttp\Client();
-                $request = $client->get("https://www.nellobytesystems.com/APIQueryV1.asp?UserID=$userid&APIKey=$apikey&OrderID=$request_id");
-                $response = $request->getBody();
-
-                $result = json_decode($response);
-
-                $statuscode = $result->statuscode;
-
-                $token = $result->metertoken;
-
-                if($statuscode == 200){
+                    $transaction = new Transaction();
+                    $transaction->ref_trans_id = Str::random(10);
+                    $transaction->user_id = Auth::id();
+                    $transaction->transaction_type = "cash_out";
+                    $transaction->debit = $new_amount;
+                    $transaction->note = "Eletricity Token Purchase";
+                    $transaction->save();
 
                     $email = User::where('id', Auth::id())
-                    ->first()->email;
+                        ->first()->email;
 
                     $f_name = User::where('id', Auth::id())
-                    ->first()->f_name;
-
-
-                    $api_key = env('ELASTIC_API');
-                    $from = env('FROM_API');
-
-                require_once "vendor/autoload.php";
-                $client = new Client([
-                    'base_uri' => 'https://api.elasticemail.com',
-                ]);
-
-                $res = $client->request('GET', '/v2/email/send', [
-                    'query' => [
-
-                        'apikey' => "$api_key",
-                        'from' => "$from",
-                        'fromName' => 'Cardy',
-                        'sender' => "$from",
-                        'senderName' => 'Cardy',
-                        'subject' => 'Eletricity Token',
-                        'to' => "$email",
-                        'bodyHtml' => view('token-notification', compact('token', 'f_name'))->render(),
-                        'encodingType' => 0,
-
-                    ],
-                ]);
-
-                $body = $res->getBody();
-                $array_body = json_decode($body);
-
-
-
-                return back()->with('message', "Your Meter Token $token has been sent to your email");
-
-
-                } return back()->with('error', "Failed!! Please try again later");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                // if($var-> status == 00){
-
-                //     $update = User::where('id', Auth::id())
-                //     ->update([
-                //         'meter_number' => $request->meter_number,
-                //         'eletric_company' => $request->eletric_company
-                //     ]);
-
-                //     return back()->with('mm', "$customer_name");
-
-                // }
-
-
-
-
-
-            } return back()->with('error', 'Sorry!! Insufficient Balance');
-
-
-        }return back()->with('error', 'Sorry!! Invalid Pin');
-
-
-
-
-
-
-
-
-
+                        ->first()->f_name;
+
+                    $client = new Client([
+                        'base_uri' => 'https://api.elasticemail.com',
+                    ]);
+
+                    $res = $client->request('GET', '/v2/email/send', [
+                        'query' => [
+
+                            'apikey' => "$api_key",
+                            'from' => "$from",
+                            'fromName' => 'Cardy',
+                            'sender' => "$from",
+                            'senderName' => 'Cardy',
+                            'subject' => 'Eletricity Token Purchase',
+                            'to' => "$email",
+                            'bodyHtml' => view('eletricity-notification', compact('f_name', 'new_amount'))->render(),
+                            'encodingType' => 0,
+
+                        ],
+                    ]);
+
+                    $body = $res->getBody();
+                    $array_body = json_decode($body);
+
+                    $client = new Client([
+                        'base_uri' => 'https://api.elasticemail.com',
+                    ]);
+
+                    $res = $client->request('GET', '/v2/email/send', [
+                        'query' => [
+
+                            'apikey' => "$api_key",
+                            'from' => "$from",
+                            'fromName' => 'Cardy',
+                            'sender' => "$from",
+                            'senderName' => 'Cardy',
+                            'subject' => 'Club Konnet Error',
+                            'to' => "toluadejimi@gmail.com",
+                            'bodyText' => "Error from Club Konnet Eletririty - $status ",
+                            'encodingType' => 0,
+
+                        ],
+                    ]);
+
+                    $body = $res->getBody();
+                    $array_body = json_decode($body);
+
+                    return back()->with('message', 'Purchase Successfull, Check your email for Token');
+
+                }return back()->with('error', "Failed!! Please try again later");
+            }
+        }
     }
 
-
-
-
-    public function cable(){
+    public function cable()
+    {
 
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
 
-
         $client = new \GuzzleHttp\Client();
-                $request = $client->get('https://www.nellobytesystems.com/APICableTVPackagesV2.asp');
-                $response = $request->getBody();
+        $request = $client->get('https://www.nellobytesystems.com/APICableTVPackagesV2.asp');
+        $response = $request->getBody();
 
-                $result = json_decode($response);
-                dd($result->TV_ID->DStv);
+        $result = json_decode($response);
+        dd($result->TV_ID->DStv);
 
-                $cable_company = $result->TV_ID->Dstv;
+        $cable_company = $result->TV_ID->Dstv;
 
-
-
-                return view('cable', compact('cable_company', 'user_wallet'));
-
+        return view('cable', compact('cable_company', 'user_wallet'));
 
     }
-
-
-
-
-
-
-
-
-
 
 }
