@@ -104,7 +104,7 @@
                         </div>
 
                         <div class="mb-3">
-                          <button type="button" id="start-payment-button" class="btn btn-primary" onclick="makePayment()">Continue</button>
+                          <button type="button" id="start-payment-button" class="btn btn-primary" onclick="#">Continue</button>
                         </div>
                       </form>
                     </div>
