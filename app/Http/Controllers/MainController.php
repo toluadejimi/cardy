@@ -1038,7 +1038,7 @@ class MainController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$transaction_id/verify", // Pass transaction ID for validation
+                CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/746350774/verify", // Pass transaction ID for validation
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -1056,7 +1056,6 @@ class MainController extends Controller
             curl_close($curl);
             $res = json_decode($response);
 
-            dd($res, $transaction_id);
 
             if ($res->status == 'success') {
                 //fund user wallet
