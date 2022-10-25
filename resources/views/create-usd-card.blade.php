@@ -87,9 +87,8 @@
                                         <div class="mb-3">
 
                                             <div class="mb-3">
-                                                <label class="form-label" for="">Creation Fee (NGN) </label>
+                                                <label class="form-label" for="">Creation  &  Funding Fee (NGN) </label>
                                                 <input type="text" name=rate2 disabled class="form-control" id="rate2" value="{{$rate2}}" />
-                                                <span> 1.5 USD Fees Added</span>
 
 
                                             </div>
