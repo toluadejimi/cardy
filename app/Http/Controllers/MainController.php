@@ -1021,6 +1021,7 @@ class MainController extends Controller
     public function callback(Request $request)
     {
 
+
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
 
@@ -1053,8 +1054,6 @@ class MainController extends Controller
             $response = curl_exec($curl);
             curl_close($curl);
             $res = json_decode($response);
-
-            $new_amount = $res->data->amount;
 
             if ($res->status == 'success') {
                 //fund user wallet
