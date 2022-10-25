@@ -1037,9 +1037,6 @@ class MainController extends Controller
 
             $curl = curl_init();
 
-            dd($transaction_id);
-
-
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$transaction_id/verify", // Pass transaction ID for validation
                 CURLOPT_RETURNTRANSFER => true,
