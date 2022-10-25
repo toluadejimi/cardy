@@ -1032,11 +1032,13 @@ class MainController extends Controller
         $transaction_id = $request->query('transaction_id');
         $status = $request->query('status');
 
-        dd($transaction_id);
 
         if ($status == 'successful') {
 
             $curl = curl_init();
+
+            dd($transaction_id);
+
 
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$transaction_id/verify", // Pass transaction ID for validation
