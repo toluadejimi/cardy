@@ -252,7 +252,7 @@
       amount: document.getElementById('amount_to_fund').value,
       currency: "NGN",
       payment_options: "card, banktransfer, ussd",
-      redirect_url: "{{ url('') }}/verify-pay",
+      redirect_url: "{{ url('') }}/verify-pay?={{ $amount }}",
       meta: {
         user_id: "{{Auth::id()}}",
       },
