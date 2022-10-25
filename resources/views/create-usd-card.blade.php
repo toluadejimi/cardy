@@ -27,7 +27,7 @@
                                 <h5 class="card-title text-primary">Hey!!! {{Auth::user()->f_name}}! 🎉</h5>
                                 <p class="mb-4">
                                     Create USD <b>Virtual Card</b>.
-                                <p>We charge 2 USD for card creation</p>
+                                <p>We charge 2 USD for card creation + 1.5 USD Funding fee</p>
                                 <p>1.5USD will be charged at end the month for card maintainace fee</p>
 
                                 </p>
@@ -89,6 +89,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="">Creation Fee (NGN) </label>
                                                 <input type="text" name=rate2 disabled class="form-control" id="rate2" value="{{$rate2}}" />
+                                                <span> 1.5 USD Fees Added</span>
+
 
                                             </div>
                                         </div>
