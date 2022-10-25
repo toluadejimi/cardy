@@ -1032,6 +1032,8 @@ class MainController extends Controller
         $transaction_id = $request->query('transaction_id');
         $status = $request->query('status');
 
+        dd($transaction_id);
+
         if ($status == 'successful') {
 
             $curl = curl_init();
