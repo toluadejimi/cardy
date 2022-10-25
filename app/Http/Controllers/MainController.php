@@ -1055,6 +1055,8 @@ class MainController extends Controller
             curl_close($curl);
             $res = json_decode($response);
 
+            dd($res);
+
             if ($res->status == 'success') {
                 //fund user wallet
 
