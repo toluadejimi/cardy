@@ -14,7 +14,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Vcard;
 use App\Services\Encryption;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -2740,6 +2740,10 @@ class MainController extends Controller
         $var = json_decode($var);
 
         $message = $var->message;
+
+        if($message == null){
+            return back()->with('error', 'Network error please retry later.');
+        }
 
         // $id = $var[0]->id;
         if ($var->status == "successful") {
