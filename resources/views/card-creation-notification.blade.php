@@ -70,7 +70,18 @@
 									style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;">
 									Hi {{$f_name}}</h1>
                                 <p style="margin:0;">This is to inform you that<br>
-								<p style="margin:0;">Your USD card has been created. <br>
+								<p style="margin:0;">Your USD card has been created. <br><br>
+
+							</td>
+						</tr>
+
+                        <tr>
+							<td style="padding:30px;background-color:#ffffff;">
+                                <p style="margin:0;">2.5USD  Monthly Maintaince Fee for USD Active cards <br>
+                                    <p style="margin:0;">It's advisable you freeze your card if not in use<br>
+
+                            </p>
+
 							</td>
 						</tr>
 
