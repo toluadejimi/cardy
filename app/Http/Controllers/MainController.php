@@ -1016,7 +1016,7 @@ class MainController extends Controller
 
 
 
-    public function update_info(Request $request){
+    public function update(Request $request){
 
         $f_name = $request->f_name;
         $l_name = $request->l_name;

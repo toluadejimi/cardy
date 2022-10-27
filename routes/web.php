@@ -58,7 +58,7 @@ Route::get('/welcome', [MainController::class,'login_view']);
 
 
 
-Route::get('update-info', [MainController::class,'update_info']);
+Route::get('update', [MainController::class,'update']);
 
 
 
