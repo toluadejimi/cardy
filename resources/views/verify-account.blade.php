@@ -221,19 +221,9 @@
                     <!-- Misc -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
                     <li class="menu-item">
-                        <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                            target="_blank" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-support"></i>
-                            <div data-i18n="Support">Chat With us</div>
-                        </a>
+
                     </li>
-                    <li class="menu-item">
-                        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                            target="_blank" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-file"></i>
-                            <div data-i18n="Documentation">Terms and Condition</div>
-                        </a>
-                    </li>
+
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -425,7 +415,7 @@
                                                                                     <label class="form-label"
                                                                                         for="">Surname</label>
                                                                                     <input type="text"
-                                                                                        name="l_name"
+                                                                                        name="l_name" readonly
                                                                                         class="form-control"
                                                                                         id=""
                                                                                         value={{ Auth::user()->l_name }} />
@@ -434,7 +424,7 @@
                                                                             <div class="mb-3">
                                                                                 <label class="form-label"
                                                                                     for="">First Name</label>
-                                                                                <input type="text" name="f_name"
+                                                                                <input type="text" readonly name="f_name"
                                                                                     class="form-control"
                                                                                     id=""
                                                                                     value={{ Auth::user()->f_name }} />
@@ -443,7 +433,7 @@
                                                                             <div class="mb-3">
                                                                                 <label class="form-label"
                                                                                     for="">Middle Name</label>
-                                                                                <input type="text" name="m_name"
+                                                                                <input type="text" readonly name="m_name"
                                                                                     class="form-control"
                                                                                     id=""
                                                                                     value={{ Auth::user()->m_name }} />
@@ -530,29 +520,10 @@
                                                                     </div>
                                                                     <div class="card-body">
 
-                                                                        <form action="/verify-account-now"
+                                                                        <form action="/update-info"
                                                                             class="mb-3" method="POST">
                                                                             @csrf
-                                                                            @if ($errors->any())
-                                                                                <div class="alert alert-danger">
-                                                                                    <ul>
-                                                                                        @foreach ($errors->all() as $error)
-                                                                                            <li>{{ $error }}
-                                                                                            </li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                </div>
-                                                                            @endif
-                                                                            @if (session()->has('message'))
-                                                                                <div class="alert alert-success">
-                                                                                    {{ session()->get('message') }}
-                                                                                </div>
-                                                                            @endif
-                                                                            @if (session()->has('error'))
-                                                                                <div class="alert alert-danger">
-                                                                                    {{ session()->get('error') }}
-                                                                                </div>
-                                                                            @endif
+
                                                                             <div class="mb-3">
 
                                                                                 <div class="mb-3">
@@ -583,61 +554,8 @@
                                                                                     value={{ Auth::user()->m_name }} />
                                                                             </div>
 
-
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="basic-default-fullname">Phone</label>
-                                                                                <input type="text" disabled
-                                                                                    class="form-control"
-                                                                                    id="basic-default-fullname"
-                                                                                    value={{ Auth::user()->phone }} />
-                                                                            </div>
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="">Address</label>
-                                                                                <input type="text"
-                                                                                    name="address_line1"
-                                                                                    class="form-control"
-                                                                                    id="address_line1"
-                                                                                    placeholder='Enter Address' />
-                                                                            </div>
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="">City</label>
-                                                                                <input type="text" name="city"
-                                                                                    class="form-control"
-                                                                                    id="city"
-                                                                                    placeholder='Enter City' />
-                                                                            </div>
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="">State</label>
-                                                                                <input type="text" name="state"
-                                                                                    class="form-control"
-                                                                                    id="state"
-                                                                                    placeholder='Enter State' />
-                                                                            </div>
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="lga">LGA</label>
-                                                                                <input type="text" name="lga"
-                                                                                    class="form-control"
-                                                                                    id="lga"
-                                                                                    placeholder="Enter Lga." />
-                                                                            </div>
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="lga">BVN</label>
-                                                                                <input type="text" name="bvn"
-                                                                                    class="form-control"
-                                                                                    id="lga"
-                                                                                    placeholder="Enter BVN." />
-                                                                                </small>Dial *585*0# to check your
-                                                                                BVN</small>
-                                                                            </div>
-
                                                                             <button type="submit"
-                                                                                class="btn btn-primary">Verify</button>
+                                                                                class="btn btn-primary">Update Info</button>
                                                                         </form>
                                                                     </div>
                                                                 </div>

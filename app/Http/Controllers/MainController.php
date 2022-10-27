@@ -1013,6 +1013,30 @@ class MainController extends Controller
         return view('usd-card', compact('users', 'cardTransaction', 'min_amount', 'fund', 'max_amount', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
     }
 
+
+
+
+    public function update_info(Request $request){
+
+        $f_name = $request->f_name;
+        $l_name = $request->l_name;
+        $m_name = $request->m_name;
+
+        $update = User::where('id', Auth::id())
+        ->update([
+
+            'f_name'=> $f_name,
+            'm_name'=> $f_name,
+            'l_name'=> $f_name,
+
+
+        ]);
+
+        return back()->with('message', 'Your information has been updated successfully');
+
+
+    }
+
     public function fund_wallet(Request $request)
     {
 

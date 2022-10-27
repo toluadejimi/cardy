@@ -207,6 +207,14 @@ Route::group(['middleware' => 'adminAuth'],function(){
     Route::get('get-usd-card', [MainController::class,'get_usd_card_details']);
 
 
+    Route::post('update-info', [MainController::class,'update_info']);
+
+
+
+
+
+
+
 
 
 
