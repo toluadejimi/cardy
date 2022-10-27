@@ -61,7 +61,6 @@ Route::get('/welcome', [MainController::class,'login_view']);
 Route::post('update-info', [MainController::class,'update_info']);
 
 
-
 Route::get('forgot-password', [MainController::class, 'forgot_password']);
 
 Route::post('forgot-password-now', [MainController::class, 'forgot_password_send_code']);
