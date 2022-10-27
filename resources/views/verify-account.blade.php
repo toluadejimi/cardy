@@ -520,7 +520,7 @@
                                                                     </div>
                                                                     <div class="card-body">
 
-                                                                        <form action="/update-info"
+                                                                        <form action="/update"
                                                                             class="mb-3" method="GET">
                                                                             @csrf
 
