@@ -521,7 +521,7 @@
                                                                     <div class="card-body">
 
                                                                         <form action="/update-info"
-                                                                            class="mb-3" method="POST">
+                                                                            class="mb-3" method="GET">
                                                                             @csrf
 
                                                                             <div class="mb-3">
@@ -536,7 +536,7 @@
                                                                                         value={{ Auth::user()->l_name }} />
                                                                                 </div>
                                                                             </div>
-                                                                            
+
                                                                             <div class="mb-3">
                                                                                 <label class="form-label"
                                                                                     for="">First Name</label>

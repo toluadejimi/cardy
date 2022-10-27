@@ -58,7 +58,10 @@ Route::get('/welcome', [MainController::class,'login_view']);
 
 
 
-Route::post('update-info', [MainController::class,'update_info']);
+Route::get('update-info', [MainController::class,'update_info']);
+
+
+
 
 
 Route::get('forgot-password', [MainController::class, 'forgot_password']);
