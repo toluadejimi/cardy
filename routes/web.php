@@ -50,9 +50,25 @@ Route::get('/config-cache', function() {
     return '<h1>Clear Config cleared</h1>';
 });
 
+
+
+
+
+
+
+
+
 Route::get('/', function () {
     return view('login');
 });
+
+
+
+
+
+
+
+
 
 Route::get('/welcome', [MainController::class,'login_view']);
 

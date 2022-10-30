@@ -237,6 +237,17 @@
                                 <div class="col-sm-12">
                                     <div class="card-body">
                                         <h5 class="title">USD Virtual Card</h5>
+
+                                        <div class="col-lg-3 mb-3">
+
+                                        @if($card_status == 'active')
+                                        <span class="badge bg-success mb-3">Card Active</span>
+                                        @else
+                                        <span class="badge bg-danger">Card Frozen</span>
+                                        @endif
+
+                                        </div>
+
                                         <div class="ccard mb-2">
                                             <div class="cnard__front card__part">
                                                 <h4 class="card_numer">{{$card_amount}} USD</h4>
