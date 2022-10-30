@@ -78,6 +78,15 @@ Route::post('reset-password-now', [MainController::class, 'reset_password_now'])
 
 
 
+Route::post('freeze-usd-card', [MainController::class, 'freeze_usd_card']);
+
+Route::post('unfreeze-usd-card', [MainController::class, 'unfreeze_usd_card']);
+
+
+
+
+
+
 
 
 

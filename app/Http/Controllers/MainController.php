@@ -997,6 +997,7 @@ class MainController extends Controller
         $card_name = $carddetails->name_on_card;
         $city = $carddetails->city;
         $country = $carddetails->country;
+        $card_status = $carddetails->card_status;
         $street = $carddetails->street;
         $state = $carddetails->state;
         $zip_code = $carddetails->postal_code;
@@ -1010,7 +1011,7 @@ class MainController extends Controller
         $usd_card_expiry_year_decrypt = Encryption::decryptString($carddetails->expiry_year);
         $usd_card_last_decrypt = Encryption::decryptString($carddetails->last_four);
 
-        return view('usd-card', compact('users', 'cardTransaction', 'min_amount', 'fund', 'max_amount', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
+        return view('usd-card', compact('users', 'card_status', 'cardTransaction', 'min_amount', 'fund', 'max_amount', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
     }
 
 
@@ -1026,8 +1027,8 @@ class MainController extends Controller
         ->update([
 
             'f_name'=> $f_name,
-            'm_name'=> $f_name,
-            'l_name'=> $f_name,
+            'm_name'=> $m_name,
+            'l_name'=> $l_name,
 
 
         ]);
@@ -3355,4 +3356,101 @@ class MainController extends Controller
 
     }
 
+
+
+
+    public function freeze_usd_card(Request $request)
+    {
+
+        $mono_api_key = env('MONO_KEY');
+
+        $id = Vcard::where('user_id', Auth::id())
+            ->first()->card_id;
+
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, "https://api.withmono.com/issuing/v1/cards/$id/freeze");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "mono-sec-key: $mono_api_key",
+            )
+        );
+        // $final_results = curl_exec($curl);
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+
+        $var = json_decode($var);
+
+        $err_message = $var->message;
+
+        if ($var->status == 'successful') {
+
+            return back()->with('message', 'Your Card has been successfully frozen');
+
+        }
+        
+        return back()->with('error', "Sorry!! $err_message");
+
+    }
+
+    public function unfreeze_usd_card(Request $request)
+    {
+
+        $mono_api_key = env('MONO_KEY');
+
+        $id = Vcard::where('user_id', Auth::id())
+            ->first()->card_id;
+
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, "https://api.withmono.com/issuing/v1/cards/$id/unfreeze");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "mono-sec-key: $mono_api_key",
+            )
+        );
+        // $final_results = curl_exec($curl);
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+
+        $var = json_decode($var);
+
+        $err_message = $var->message;
+
+        if ($var->status == 'successful') {
+
+            return back()->with('message', 'Your Card has been successfully unfrozen');
+
+        }
+
+        return back()->with('error', "Sorry!! $err_message");
+
+
+    }
 }
