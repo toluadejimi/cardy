@@ -3049,7 +3049,10 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-        if ($var->content->WrongBillersCode == true) {
+
+        $status = $var->content->WrongBillersCode;
+
+        if ($status == true) {
 
             return back()->with('error', "Please check the Meter No and try again");
 
@@ -3177,7 +3180,7 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-    
+
 
         $token = $var->purchased_code;
 
