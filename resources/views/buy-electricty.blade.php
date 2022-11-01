@@ -186,6 +186,7 @@
                                                 </div>
                                             @endif
                                             <div class="mb-3">
+                                            <p class="mt-3"> Make sure you verify meter number</p>
 
 
                                                 <div class="mb-3">
