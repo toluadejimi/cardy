@@ -14,9 +14,9 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Vcard;
 use App\Services\Encryption;
-use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -1014,27 +1014,23 @@ class MainController extends Controller
         return view('usd-card', compact('users', 'card_status', 'cardTransaction', 'min_amount', 'fund', 'max_amount', 'city', 'country', 'street', 'state', 'zip_code', 'type', 'usd_card_last_decrypt', 'card_name', 'card_amount', 'usd_card_expiry_year_decrypt', 'usd_card_expiry_month_decrypt', 'usd_card_no_decrypt', 'usd_card_cvv_decrypt', 'user_wallet', 'rate', 'fund', 'carddetails', 'usd_card_conversion_rate_to_naira'));
     }
 
-
-
-
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
         $f_name = $request->f_name;
         $l_name = $request->l_name;
         $m_name = $request->m_name;
 
         $update = User::where('id', Auth::id())
-        ->update([
+            ->update([
 
-            'f_name'=> $f_name,
-            'm_name'=> $m_name,
-            'l_name'=> $l_name,
+                'f_name' => $f_name,
+                'm_name' => $m_name,
+                'l_name' => $l_name,
 
-
-        ]);
+            ]);
 
         return back()->with('message', 'Your information has been updated successfully');
-
 
     }
 
@@ -1065,7 +1061,6 @@ class MainController extends Controller
     public function callback(Request $request)
     {
 
-
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
 
@@ -1075,7 +1070,6 @@ class MainController extends Controller
 
         $transaction_id = $request->query('transaction_id');
         $status = $request->query('status');
-
 
         if ($status == 'successful') {
 
@@ -1101,7 +1095,6 @@ class MainController extends Controller
             $res = json_decode($response);
 
             dd($res);
-
 
             if ($res->status == 'success') {
                 //fund user wallet
@@ -2785,7 +2778,7 @@ class MainController extends Controller
 
         $message = $var->message;
 
-        if($message == null){
+        if ($message == null) {
             return back()->with('error', 'Network error please retry later.');
         }
 
@@ -3021,90 +3014,63 @@ class MainController extends Controller
     public function verify_meter(Request $request)
     {
 
-        $userid = env('CKUSER');
-        $apikey = env('CKKEY');
+        $billersCode = $request->input('billerscode');
 
-        $input = $request->validate([
-            // 'eletric_company' => ['required', 'string'],
-            // 'meter_type' => ['required', 'string'],
-            'meter_number' => ['required', 'string'],
-            // 'amount' => ['required', 'string'],
-            // 'phone_number' => ['required', 'string'],
-            // 'pin' => ['required', 'string'],
+        $auth = env('VTAUTH');
 
-        ]);
-
-        $get_eletric_company = $request->eletric_company;
-        $meter_type = $request->meter_type;
-        $meter_number = $request->meter_number;
-        $order_amount = $request->amount;
-        $phone_number = $request->phone_number;
-        $transfer_pin = $request->pin;
-
-        $eletric_company = str_replace(['+', '-'], '', filter_var($get_eletric_company, FILTER_SANITIZE_NUMBER_INT));
-        $get_biller_name = preg_replace('/\d+/', '', $get_eletric_company);
-        $biller_name = trim($get_biller_name);
-
-        $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
-            ->first()->current_balance;
-
-        $getpin = Auth()->user();
-        $user_pin = $getpin->pin;
-
-        // if (Hash::check($transfer_pin, $user_pin)) {
-
-        //     if ($order_amount < 1000) {
-        //         return back()->with('error', 'Amount must not be less than NGN 1000');
-        //     }
-
-        //     if ($order_amount <= $user_wallet_banlance) {
+        $billersCode = $request->billerscode;
+        $serviceID = $request->serviceid;
+        $type = $request->type;
 
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, "https://www.nellobytesystems.com/APIVerifyElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterNo=$meter_number");
-
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_ENCODING, '');
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt(
-            $curl,
-            CURLOPT_HTTPHEADER,
-            array(
-                'Content-Type: application/json',
-                'Accept: application/json',
-            )
-        );
-        // $final_results = curl_exec($curl);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://vtpass.com/api/merchant-verify',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'billersCode' => $billersCode,
+                'serviceID' => $serviceID,
+                'type' => $type,
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic $auth=",
+                'Cookie: laravel_session=eyJpdiI6IlBkTGc5emRPMmhyQVwvb096YkVKV2RnPT0iLCJ2YWx1ZSI6IkNvSytPVTV5TW52K2tBRlp1R2pqaUpnRDk5YnFRbEhuTHhaNktFcnBhMFRHTlNzRWIrejJxT05kM1wvM1hEYktPT2JKT2dJWHQzdFVaYnZrRytwZ2NmQT09IiwibWFjIjoiZWM5ZjI3NzBmZTBmOTZmZDg3ZTUxMDBjODYxMzQ3OTkxN2M4YTAxNjNmMWY2YjAxZTIzNmNmNWNhOWExNzJmOCJ9',
+            ),
+        ));
 
         $var = curl_exec($curl);
         curl_close($curl);
 
         $var = json_decode($var);
 
-        dd($var);
+        if ($var->content->WrongBillersCode == true) {
 
-        $customer_name = $var->customer_name;
+            return back()->with('error', "Please check the Meter No and try again");
 
-        if ($var->status == 00) {
+        }
+
+        if ($var->code == 000) {
+
+            $customer_name = $var->content->Customer_Name;
+            $meter_no = $var->content->Meter_Number;
 
             $update = User::where('id', Auth::id())
                 ->update([
-                    'meter_number' => $request->meter_number,
-                    'eletric_company' => $request->eletric_company,
+                    'meter_number' => $meter_no,
+                    'eletric_company' => $serviceID,
+                    'eletric_type' => $type,
+
                 ]);
 
             return back()->with('mm', "$customer_name");
 
         }
-
-        //         } return back()->with('error', 'Sorry!! Invalid Pin');
-
-        //     } return back()->with('error', 'Sorry!! Insufficient Balance');
 
     }
 
@@ -3120,12 +3086,15 @@ class MainController extends Controller
         $eletric_company = User::where('id', Auth::user()->id)
             ->first()->eletric_company ?? null;
 
+        $eletric_type = User::where('id', Auth::user()->id)
+            ->first()->eletric_type ?? null;
+
         $phone = User::where('id', Auth::user()->id)
             ->first()->phone;
 
-        $power = Power::all();
+        $power = Power::all('cl_name');
 
-        return view('buy-electricty', compact('user_wallet', 'eletric_company', 'meter_number', 'phone', 'power'));
+        return view('buy-electricty', compact('user_wallet', 'eletric_type', 'eletric_company', 'meter_number', 'phone', 'power'));
 
     }
 
@@ -3135,206 +3104,141 @@ class MainController extends Controller
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
 
+        $auth = env('VTAUTH');
+
+        $request_id = date('YmdHis') . Str::random(4);
+
+        $serviceid = User::where('id', Auth::id())
+            ->first()->eletric_company;
+
+        $biller_code = User::where('id', Auth::id())
+            ->first()->meter_number;
+
+        $variation_code = User::where('id', Auth::id())
+            ->first()->eletric_type;
+
+        $phone = User::where('id', Auth::id())
+            ->first()->phone;
+
+        $amount = $request->amount;
+
+        $transfer_pin = $request->pin;
+
         $eletricity_charges = Charge::where('title', 'eletricity_charges')
             ->first()->amount;
-
-        $userid = env('CKUSER');
-        $apikey = env('CKKEY');
-        $url = 'https://dashboard.cardy4u.com/buy-eletricty';
 
         $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
 
-        $get_eletric_company = $request->eletric_company;
-        $meter_type = $request->meter_type;
-        $meter_number = $request->meter_number;
-        $order_amount = $request->amount;
-        $phone_number = $request->phone_number;
-        $transfer_pin = $request->pin;
-
-        $eletric_company = str_replace(['+', '-'], '', filter_var($get_eletric_company, FILTER_SANITIZE_NUMBER_INT));
-        $get_biller_name = preg_replace('/\d+/', '', $get_eletric_company);
-        $biller_name = trim($get_biller_name);
-
         $getpin = Auth()->user();
         $user_pin = $getpin->pin;
 
-        if (Hash::check($transfer_pin, $user_pin)) {
-
-            if ($order_amount < 1000) {
-                return back()->with('error', 'Amount must not be less than NGN 1000');
-            }
-
-            if ($order_amount <= $user_wallet_banlance) {
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://www.nellobytesystems.com/APIElectricityV1.asp?UserID=$userid&APIKey=$apikey&ElectricCompany=$eletric_company&MeterType=$meter_type&MeterNo=$meter_number&Amount=$order_amount&PhoneNo=$phone_number&CallBackURL=https://cardy4u.com",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'GET',
-                    CURLOPT_HTTPHEADER => array(
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-
-                $var = curl_exec($curl);
-                curl_close($curl);
-
-                $var = json_decode($var);
-
-                $status = $var->status;
-
-
-                if ($status == 'ORDER_RECEIVED') {
-
-                    $user_amount = EMoney::where('user_id', Auth::id())
-                        ->first()->current_balance;
-
-                    $new_amount = $order_amount + $eletricity_charges;
-                    $debit = $user_amount - $new_amount;
-                    $update = EMoney::where('user_id', Auth::id())
-                        ->update([
-                            'current_balance' => $debit,
-                        ]);
-
-                    $request_id = $var->orderid;
-
-
-                    $client = new \GuzzleHttp\Client();
-                    $request = $client->get("https://www.nellobytesystems.com/APIQueryV1.asp?UserID=$userid&APIKey=$apikey&OrderID=$request_id");
-                    $response = $request->getBody();
-
-                    $result = json_decode($response);
-
-                    $statuscode = $result->statuscode;
-
-                    $token = $result->metertoken;
-
-                    $transaction = new Transaction();
-                    $transaction->ref_trans_id = Str::random(10);
-                    $transaction->user_id = Auth::id();
-                    $transaction->transaction_type = "cash_out";
-                    $transaction->debit = $new_amount;
-                    $transaction->note = "Token - $token";
-                    $transaction->save();
-
-                    $email = User::where('id', Auth::id())
-                        ->first()->email;
-
-                    $f_name = User::where('id', Auth::id())
-                        ->first()->f_name;
-
-                    $client = new Client([
-                        'base_uri' => 'https://api.elasticemail.com',
-                    ]);
-
-                    $res = $client->request('GET', '/v2/email/send', [
-                        'query' => [
-
-                            'apikey' => "$api_key",
-                            'from' => "$from",
-                            'fromName' => 'Cardy',
-                            'sender' => "$from",
-                            'senderName' => 'Cardy',
-                            'subject' => 'Eletricity Token Purchase',
-                            'to' => "$email",
-                            'bodyHtml' => view('eletricity-with-token-notification', compact('f_name', 'new_amount', 'token'))->render(),
-                            'encodingType' => 0,
-
-                        ],
-                    ]);
-
-                    $body = $res->getBody();
-                    $array_body = json_decode($body);
-
-                    return back()->with('message', 'Purchase Successfull, Check your email for Token');
-
-                }
-
-                if ($status == 'INVALID_API_ERROR3') {
-
-                    $user_amount = EMoney::where('user_id', Auth::id())
-                        ->first()->current_balance;
-
-                    $new_amount = $order_amount + $eletricity_charges;
-                    $debit = $user_amount - $new_amount;
-                    $update = EMoney::where('user_id', Auth::id())
-                        ->update([
-                            'current_balance' => $debit,
-                        ]);
-
-                    $transaction = new Transaction();
-                    $transaction->ref_trans_id = Str::random(10);
-                    $transaction->user_id = Auth::id();
-                    $transaction->transaction_type = "cash_out";
-                    $transaction->debit = $new_amount;
-                    $transaction->note = "Eletricity Token Purchase";
-                    $transaction->save();
-
-                    $email = User::where('id', Auth::id())
-                        ->first()->email;
-
-                    $f_name = User::where('id', Auth::id())
-                        ->first()->f_name;
-
-                    $client = new Client([
-                        'base_uri' => 'https://api.elasticemail.com',
-                    ]);
-
-                    $res = $client->request('GET', '/v2/email/send', [
-                        'query' => [
-
-                            'apikey' => "$api_key",
-                            'from' => "$from",
-                            'fromName' => 'Cardy',
-                            'sender' => "$from",
-                            'senderName' => 'Cardy',
-                            'subject' => 'Eletricity Token Purchase',
-                            'to' => "$email",
-                            'bodyHtml' => view('eletricity-notification', compact('f_name', 'new_amount'))->render(),
-                            'encodingType' => 0,
-
-                        ],
-                    ]);
-
-                    $body = $res->getBody();
-                    $array_body = json_decode($body);
-
-                    $client = new Client([
-                        'base_uri' => 'https://api.elasticemail.com',
-                    ]);
-
-                    $res = $client->request('GET', '/v2/email/send', [
-                        'query' => [
-
-                            'apikey' => "$api_key",
-                            'from' => "$from",
-                            'fromName' => 'Cardy',
-                            'sender' => "$from",
-                            'senderName' => 'Cardy',
-                            'subject' => 'Club Konnet Error',
-                            'to' => "toluadejimi@gmail.com",
-                            'bodyText' => "Error from Club Konnet Eletririty - $status ",
-                            'encodingType' => 0,
-
-                        ],
-                    ]);
-
-                    $body = $res->getBody();
-                    $array_body = json_decode($body);
-
-                    return back()->with('message', 'Purchase Successfull, Check your email for Token');
-
-                }return back()->with('error', "Failed!! Please try again later");
-            }
+        if (Hash::check($transfer_pin, $user_pin) == false) {
+            return back()->with('error', 'Invalid Pin');
         }
+
+        if ($amount < 1000) {
+            return back()->with('error', 'Amount must not be less than NGN 1000');
+        }
+
+        if ($amount > $user_wallet_banlance) {
+
+            return back()->with('error', 'Insufficient Funds, Fund your wallet');
+
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://vtpass.com/api/pay',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'request_id' => $request_id,
+                'serviceID' => $serviceid,
+                'billersCode' => $biller_code,
+                'variation_code' => $variation_code,
+                'amount' => $amount,
+                'phone' => $phone,
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic $auth=",
+                'Cookie: laravel_session=eyJpdiI6IlBkTGc5emRPMmhyQVwvb096YkVKV2RnPT0iLCJ2YWx1ZSI6IkNvSytPVTV5TW52K2tBRlp1R2pqaUpnRDk5YnFRbEhuTHhaNktFcnBhMFRHTlNzRWIrejJxT05kM1wvM1hEYktPT2JKT2dJWHQzdFVaYnZrRytwZ2NmQT09IiwibWFjIjoiZWM5ZjI3NzBmZTBmOTZmZDg3ZTUxMDBjODYxMzQ3OTkxN2M4YTAxNjNmMWY2YjAxZTIzNmNmNWNhOWExNzJmOCJ9',
+            ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+
+        $var = json_decode($var);
+
+    
+
+        $token = $var->purchased_code;
+
+        if ($var->response_description == 'TRANSACTION SUCCESSFUL') {
+
+            $user_amount = EMoney::where('user_id', Auth::id())
+                ->first()->current_balance;
+
+            $new_amount = $amount + $eletricity_charges;
+            $debit = $user_amount - $new_amount;
+            $update = EMoney::where('user_id', Auth::id())
+                ->update([
+                    'current_balance' => $debit,
+                ]);
+
+            $transaction = new Transaction();
+            $transaction->ref_trans_id = Str::random(10);
+            $transaction->user_id = Auth::id();
+            $transaction->transaction_type = "cash_out";
+            $transaction->debit = $new_amount;
+            $transaction->note = "Token Purchase - $token";
+            $transaction->save();
+
+            $email = User::where('id', Auth::id())
+                ->first()->email;
+
+            $f_name = User::where('id', Auth::id())
+                ->first()->f_name;
+
+            $client = new Client([
+                'base_uri' => 'https://api.elasticemail.com',
+            ]);
+
+            $res = $client->request('GET', '/v2/email/send', [
+                'query' => [
+
+                    'apikey' => "$api_key",
+                    'from' => "$from",
+                    'fromName' => 'Cardy',
+                    'sender' => "$from",
+                    'senderName' => 'Cardy',
+                    'subject' => 'Eletricity Token Purchase',
+                    'to' => "$email",
+                    'bodyHtml' => view('eletricity-with-token-notification', compact('f_name', 'new_amount', 'token'))->render(),
+                    'encodingType' => 0,
+
+                ],
+            ]);
+
+            $body = $res->getBody();
+            $array_body = json_decode($body);
+
+            return back()->with('message', ' Purchase Successfull, Check your email for Token');
+
+        } return back()->with('error', "Failed!! Please try again later");
+
+
+
+
+
+
     }
 
     public function cable()
@@ -3355,9 +3259,6 @@ class MainController extends Controller
         return view('cable', compact('cable_company', 'user_wallet'));
 
     }
-
-
-
 
     public function freeze_usd_card(Request $request)
     {
@@ -3401,7 +3302,7 @@ class MainController extends Controller
             return back()->with('message', 'Your Card has been successfully frozen');
 
         }
-        
+
         return back()->with('error', "Sorry!! $err_message");
 
     }
@@ -3450,7 +3351,6 @@ class MainController extends Controller
         }
 
         return back()->with('error', "Sorry!! $err_message");
-
 
     }
 }

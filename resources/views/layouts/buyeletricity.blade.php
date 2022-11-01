@@ -107,7 +107,7 @@
             </ul>
           </li>
 
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-phone"></i>
               <div data-i18n="Account Settings">Airtime & Data</div>
@@ -127,7 +127,7 @@
             </ul>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-barcode"></i>
               <div data-i18n="Account Settings">Others</div>

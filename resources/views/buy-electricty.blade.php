@@ -70,27 +70,39 @@
 
                                             <h5 class="title">Verify Meter Number</h5>
 
-                                            <form action="/verify-meter/" method="GET">
+                                            <form action="/verify-meter" method="GET">
                                                 @csrf
                                                 <div class="row">
+
 
                                                     <div class="mb-3">
                                                         <label for="phone" class="form-label">Select Electric
                                                             Company</label>
-                                                        <select name="eletric_company" id="" class="form-control">
+                                                        <select name="serviceid" id="" name="query" class="form-control">
 
                                                             @foreach ($power as $item)
-                                                            <option value="{{ $item->code  }}{{  $item->fl_name }}">{{ $item->cl_name  }}</option>
+                                                            <option value="{{  $item->cl_name }}">{{ $item->cl_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="type" class="form-label">Select Meter Type
+                                                            </label>
+                                                        <select type="text" value=""name="type" id="type" class="form-control">
+
+                                                            <option value="prepaid">Prepaid</option>
+                                                            <option value="postpaid">Postpaid</option>
+                                                        </select>
+                                                    </div>
+
+
 
                                                     <div class="col-lg-9">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="">Enter Meter
                                                                 Number</label>
-                                                            <input type="text" class="form-control" name="meter_number"
-                                                                id="basic-default-fullname" value="" />
+                                                            <input type="text" class="form-control" name="billerscode">
                                                         </div>
                                                     </div>
 
@@ -192,9 +204,9 @@
                                                 <div class="mb-3">
                                                     <label for="phone" class="form-label">Select Meter Type</label>
                                                     <select name="meter_type" id="" class="form-control">
-                                                        <option value="">Select</option>
-                                                        <option value="01">Prepaid</option>
-                                                        <option value="02">Postpaid</option>
+                                                        <option value="{{$eletric_type ?? 0000 }}">{{$eletric_type ?? 0000 }}</option>
+                                                        <option value="prepaid">Prepaid</option>
+                                                        <option value="postpaid">Postpaid</option>
                                                     </select>
                                                 </div>
 
