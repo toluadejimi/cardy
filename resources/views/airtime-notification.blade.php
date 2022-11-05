@@ -71,10 +71,10 @@
 									Hi {{$f_name}}</h1>
                                 <p style="margin:0;">This is to inform you that<br>
 
-								 NGN{{number_format($new_amount), 2}}  has left your wallet for Eletricity Token Purchase
+								 NGN{{number_format($amount), 2}}  has left your wallet for Airtme VTU
                                  <br>
 
-                                 <h4>Token - {{$token}} </h4>  <br>
+                                 <h4>Sent to - {{$phone}} </h4>  <br>
 
                                 </p>
 

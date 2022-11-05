@@ -1047,7 +1047,9 @@ class MainController extends Controller
         $funding_rate = Charge::where('title', 'funding')
             ->first()->amount;
 
-        $fpk = env('FLWPKEY');
+        $mapikey = env('MKEY');
+        $mcode = env('MCODE');
+
 
         $banktransfers = BankTransfer::orderBy('id', 'DESC')
             ->where('user_id', Auth::id())
@@ -1055,75 +1057,55 @@ class MainController extends Controller
 
         $trx = Str::random(10);
 
-        return view('fund-wallet', compact('users', 'banktransfers', 'trx', 'user_wallet', 'fpk'));
+        return view('fund-wallet', compact('users', 'banktransfers', 'trx', 'mcode', 'user_wallet', 'mapikey'));
     }
 
     public function callback(Request $request)
     {
 
+
+
+
+
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
 
-        $fpk = env('FLWPKEY');
+        $status = $request->status;
+        $getamount = $request->amount;
+        $ref = $request->ref;
 
-        $fsk = env('FLW_SECRET_KEY');
 
-        $transaction_id = $request->query('transaction_id');
-        $status = $request->query('status');
+        $amount = str_replace( array( '\'', '"',
+      ',' , ';', '<', '>' ), ' ', $getamount);
 
-        if ($status == 'successful') {
 
-            $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/746350774/verify", // Pass transaction ID for validation
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: application/json",
-                    "Authorization: Bearer $fsk",
-                ),
-            ));
+        if ($status == 'SUCCESS') {
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-            $res = json_decode($response);
-
-            dd($res);
-
-            if ($res->status == 'success') {
-                //fund user wallet
-
-                $amount = number_format($res->data->amount, 2);
                 $first_name = Auth::user()->f_name;
 
-                $user_wallet = EMoney::where('user_id', $res->data->meta->user_id)
+                $user_wallet = EMoney::where('user_id', Auth::id())
                     ->first()->current_balance;
 
-                $credit = (int) $res->data->amount + (int) $user_wallet;
+                $credit = (int) $amount + (int) $user_wallet;
 
-                $update = EMoney::where('user_id', $res->data->meta->user_id)
+                $update = EMoney::where('user_id', Auth::id())
                     ->update([
                         'current_balance' => $credit,
                     ]);
 
                 $transaction = new Transaction();
-                $transaction->ref_trans_id = $res->data->flw_ref;
-                $transaction->user_id = $res->data->meta->user_id;
+                $transaction->ref_trans_id = $ref;
+                $transaction->user_id = Auth::id();
                 $transaction->transaction_type = "cash_in";
-                $transaction->debit = $res->data->amount;
-                $transaction->note = "Funding ot Wallet";
+                $transaction->debit = $amount;
+                $transaction->note = "Funding of Wallet";
                 $transaction->save();
 
                 $transfer = new BankTransfer();
-                $transfer->amount = $res->data->amount;
-                $transfer->user_id = $res->data->meta->user_id;
-                $transfer->ref_id = $res->data->flw_ref;
+                $transfer->amount = $amount;
+                $transfer->user_id = Auth::id();
+                $transfer->ref_id = $ref;
                 $transfer->status = 1;
                 $transfer->type = "Instant Funding";
                 $transfer->save();
@@ -1152,7 +1134,7 @@ class MainController extends Controller
                         'senderName' => 'Cardy',
                         'subject' => 'Fund Wallet',
                         'to' => "$email",
-                        'bodyHtml' => view('wallet-fund-nofication', compact('f_name', 'new_amount'))->render(),
+                        'bodyHtml' => view('wallet-fund-nofication', compact('f_name', 'amount'))->render(),
                         'encodingType' => 0,
 
                     ],
@@ -1160,12 +1142,16 @@ class MainController extends Controller
 
                 $body = $res->getBody();
                 $array_body = json_decode($body);
-            }
+
+
+
+
             return redirect('/fund-wallet')->with('message', 'Your Wallet has been successfully credited');
+
         } else {
 
             $transfer = new BankTransfer();
-            $transfer->amount = $res->data->amount;
+            $transfer->amount = $amount;
             $transfer->user_id = Auth::id();
             $transfer->ref_id = "failed";
             $transfer->status = 0;
@@ -1404,96 +1390,131 @@ class MainController extends Controller
     public function buy_airtime_now(Request $request)
     {
 
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
+
+        $auth = env('VTAUTH');
+
+        $request_id = date('YmdHis') . Str::random(4);
+
+        $serviceid = $request->service_id;
+
+        $amount = $request->amount;
+
+        $phone = $request->phone;
+
+        $transfer_pin = $request->pin;
+
+
         $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
-
-        $userid = env('CKUSER');
-        $apikey = env('CKKEY');
-
-        $input = $request->validate([
-            'network' => ['required', 'string'],
-            'phone_number' => ['required', 'string'],
-            'amount_to_fund' => ['required', 'string'],
-            'pin' => ['required', 'string'],
-
-        ]);
-
-        $mobilenetwork_code = $request->network;
-        $recipient_mobilenumber = $request->phone_number;
-        $order_amount = $request->amount_to_fund;
-        $callback_url = "https://cardy.enkwave.com";
-        $transfer_pin = $request->pin;
 
         $getpin = Auth()->user();
         $user_pin = $getpin->pin;
 
-        if (Hash::check($transfer_pin, $user_pin)) {
+        if (Hash::check($transfer_pin, $user_pin) == false) {
+            return back()->with('error', 'Invalid Pin');
+        }
 
-            if ($order_amount < 100) {
-                return back()->with('error', 'Amount must not be less than NGN 100');
-            }
+        if ($amount < 100) {
+            return back()->with('error', 'Amount must not be less than NGN 100');
+        }
 
-            if ($order_amount <= $user_wallet_banlance) {
+        if ($amount > $user_wallet_banlance) {
 
-                $curl = curl_init();
+            return back()->with('error', 'Insufficient Funds, Fund your wallet');
 
-                curl_setopt($curl, CURLOPT_URL, "https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=$userid&APIKey=$apikey&MobileNetwork=$mobilenetwork_code&Amount=$order_amount&MobileNumber=$recipient_mobilenumber&CallBackURL=$callback_url");
+        }
 
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl, CURLOPT_ENCODING, '');
-                curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-                curl_setopt($curl, CURLOPT_TIMEOUT, 0);
-                curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt(
-                    $curl,
-                    CURLOPT_HTTPHEADER,
-                    array(
-                        'Content-Type: application/json',
-                        'Accept: application/json',
-                    )
-                );
-                // $final_results = curl_exec($curl);
+        $curl = curl_init();
 
-                $var = curl_exec($curl);
-                curl_close($curl);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://vtpass.com/api/pay',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'request_id' => $request_id,
+                'serviceID' => $serviceid,
+                'amount' => $amount,
+                'phone' => $phone,
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic $auth=",
+                'Cookie: laravel_session=eyJpdiI6IlBkTGc5emRPMmhyQVwvb096YkVKV2RnPT0iLCJ2YWx1ZSI6IkNvSytPVTV5TW52K2tBRlp1R2pqaUpnRDk5YnFRbEhuTHhaNktFcnBhMFRHTlNzRWIrejJxT05kM1wvM1hEYktPT2JKT2dJWHQzdFVaYnZrRytwZ2NmQT09IiwibWFjIjoiZWM5ZjI3NzBmZTBmOTZmZDg3ZTUxMDBjODYxMzQ3OTkxN2M4YTAxNjNmMWY2YjAxZTIzNmNmNWNhOWExNzJmOCJ9',
+            ),
+        ));
 
-                $var = json_decode($var);
+        $var = curl_exec($curl);
+        curl_close($curl);
 
-                if ($var->status !== 'ORDER_RECEIVED') {
+        $var = json_decode($var);
 
-                    return back()->with('error', "Sorry!! Unable to Recharge, Please contact our support");
 
-                }
+        $trx_id = $var->transactionId;
 
-                if ($var->status == 'INSUFFICIENT_BALANCE') {
 
-                    return back()->with('error', "Sorry!! Unable to Recharge, Please contact our support");
-                }
+        if ($var->response_description == 'TRANSACTION SUCCESSFUL') {
 
-                $debit = $user_wallet_banlance - $order_amount;
+            $user_amount = EMoney::where('user_id', Auth::id())
+                ->first()->current_balance;
 
-                $update = EMoney::where('user_id', Auth::id())
-                    ->update([
-                        'current_balance' => $debit,
-                    ]);
+            $debit = $user_amount - $amount;
+            $update = EMoney::where('user_id', Auth::id())
+                ->update([
+                    'current_balance' => $debit,
+                ]);
 
                 $transaction = new Transaction();
                 $transaction->ref_trans_id = Str::random(10);
                 $transaction->user_id = Auth::id();
                 $transaction->transaction_type = "cash_out";
-                $transaction->debit = $order_amount;
-                $transaction->note = "Airtime Purchase to $recipient_mobilenumber";
+                $transaction->type = "vas";
+                $transaction->debit = $amount;
+                $transaction->note = "Airtime Purchase to $phone";
                 $transaction->save();
 
-                return back()->with('message', "Airtime Purchase Successful");
-            }
-            return back()->with('error', "Insufficnet Funds, Fund your Wallet");
-        } else {
-            return back()->with('error', 'Invalid Pin');
-        }
+            $email = User::where('id', Auth::id())
+                ->first()->email;
+
+            $f_name = User::where('id', Auth::id())
+                ->first()->f_name;
+
+            $client = new Client([
+                'base_uri' => 'https://api.elasticemail.com',
+            ]);
+
+            $res = $client->request('GET', '/v2/email/send', [
+                'query' => [
+
+                    'apikey' => "$api_key",
+                    'from' => "$from",
+                    'fromName' => 'Cardy',
+                    'sender' => "$from",
+                    'senderName' => 'Cardy',
+                    'subject' => 'Airtime VTU Purchase',
+                    'to' => "$email",
+                    'bodyHtml' => view('airtime-notification', compact('f_name', 'amount', 'phone'))->render(),
+                    'encodingType' => 0,
+
+                ],
+            ]);
+
+            $body = $res->getBody();
+            $array_body = json_decode($body);
+
+            return back()->with('message', 'Airtime Purchase Successfull');
+
+        } return back()->with('error', "Failed!! Please try again later");
+
+
+
+
+
     }
 
     public function buy_data(Request $request)
@@ -3048,6 +3069,7 @@ class MainController extends Controller
         curl_close($curl);
 
         $var = json_decode($var);
+
 
 
         $status = $var->content->WrongBillersCode;

@@ -70,7 +70,7 @@
 									style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;">
 									Hi {{$f_name}}</h1>
                                 <p style="margin:0;">This is to inform you that<br>
-								<p style="margin:0;">NGN {{number_format($new_amount), 2}}  just landed in your wallet <br>
+								<p style="margin:0;">NGN {{number_format($amount), 2}}  just landed in your wallet <br>
 							</td>
 						</tr>
 

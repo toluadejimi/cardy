@@ -90,12 +90,12 @@
 
                                                                 <div class="mb-3">
                                                                 <label for="phone" class="form-label">Select Provider Network</label>
-                                                                <select name="network" id="" class="form-control">
+                                                                <select name="service_id" id="" class="form-control">
                                                                 <option value="">Select your Network</option>
-                                                                <option value="01">MTN</option>
-                                                                <option value="02">GLO</option>
-                                                                <option value="03">ETISALAT</option>
-                                                                <option value="04">AIRTEL</option>
+                                                                <option value="mtn">MTN</option>
+                                                                <option value="glo">GLO</option>
+                                                                <option value="etisalat">ETISALAT</option>
+                                                                <option value="airtel">AIRTEL</option>
                                                                 </select>
                                                                 </div>
 
@@ -103,15 +103,15 @@
 
                                                             <div class="mb-3">
                                                             <label class="form-label" for="">Enter Phone Number </label>
-                                                            <input type="text" class="form-control" name = "phone_number"id="basic-default-fullname" value = " {{ Auth::user()->phone }}" />
+                                                            <input type="text" class="form-control" name = "phone"id="basic-default-fullname" value = " {{ Auth::user()->phone }}" />
                                                             </div>
                                                             </div>
 
 
                                                             <div class="mb-3">
                                                             <label class="form-label" for="">Amount (NGN)</label>
-                                                            <input type="number" class="form-control" name = "amount_to_fund" id="amount_to_fund" placeholder= "Please Enter Amount in NGN  " value="100" />
-                                                            <span> Min - 100 | Max - 20,000</span>
+                                                            <input type="number" class="form-control" name = "amount" id="amount_to_fund" placeholder= "Please Enter Amount in NGN  " value="100" />
+                                                            <span> Min - 100 | Max - 100,000</span>
 
                                                             </div>
 
