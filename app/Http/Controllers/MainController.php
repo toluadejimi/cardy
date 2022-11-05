@@ -1454,10 +1454,8 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-        dd($var);
 
-
-        $trx_id = $var->transactionId;
+        $trx_id = $var->requestId;
 
 
         if ($var->response_description == 'TRANSACTION SUCCESSFUL') {
