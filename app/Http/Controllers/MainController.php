@@ -3280,7 +3280,6 @@ class MainController extends Controller
         $identification_number = $request->identification_number;
         $identification_url = $request->identification_url;
         $get_dob = $request->dob;
-
         $dob = date("d-m-Y", strtotime($get_dob));
 
 
@@ -3370,9 +3369,29 @@ class MainController extends Controller
     public function verify_account_now(Request $request)
     {
 
-        $identity_type = $request->identity_type;
-        $identity_number = $request->identity_number;
-        $identity_url = $request->identity_url;
+        $identification_type = $request->identification_type;
+        $identification_number = $request->identification_number;
+        $identification_url = $request->identification_url;
+        $get_dob = $request->dob;
+        $dob = date("d-m-Y", strtotime($get_dob));
+
+
+
+        if ($request->hasFile('identification_url')) {
+            $file = $request->file('identification_url');
+            $destination = 'public/uploads/verify';
+            $ext = $file->getClientOriginalExtension();
+            $mainFilename = Str::random(6) . date('h-i-s');
+            $file->move($destination, $mainFilename . "." . $ext);
+            $filename = $mainFilename . "." . $ext;
+
+        }
+
+
+
+        $mono_file_url = "https://dashboard.cardy4u.com/public/verify/$identification_url";
+
+
 
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
@@ -3405,10 +3424,15 @@ class MainController extends Controller
                 "lga" => $lga,
             ),
 
-            "identity" => array(
-                "type" => "$identity_type",
-                "number" => "$identity_number",
-                "url" => "$identity_url",
+             "identity" => array(
+                "type" => "$identification_type",
+                "number" => "$identification_number",
+                "url" => "$identification_url",
+            ),
+
+
+            "dob" => array(
+                "date" => "$dob"
             ),
 
             "entity" => "INDIVIDUAL",
@@ -3416,6 +3440,7 @@ class MainController extends Controller
             "last_name" => $last_name,
             "phone" => $phone,
             "bvn" => $bvn,
+
         );
 
         $mono_api_key = env('MONO_KEY');
@@ -3449,6 +3474,7 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
+
         $message = $var->message;
 
         if ($message == null) {
@@ -3465,11 +3491,16 @@ class MainController extends Controller
                     'f_name' => $request->f_name,
                     'l_name' => $request->l_name,
                     'm_name' => $request->m_name,
+                    'identification_type' => $identification_type,
+                    'identification_number' => $identification_number,
+                    'identification_url' => $identification_url,
                     'state' => $request->state,
                     'lga' => $request->lga,
                     'bvn' => $request->bvn,
                     'mono_customer_id' => $var->data->id,
                     'is_kyc_verified' => 1,
+                    'identity' => 1,
+
 
                 ]);
         }

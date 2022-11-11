@@ -492,6 +492,79 @@
                                                                                 BVN</small>
                                                                             </div>
 
+                                                                            <div class="row">
+                                                                                <div class="col mb-3">
+                                                                                    <label for="nameWithTitle"
+                                                                                        class="form-label">Idendtification
+                                                                                        Type</label>
+                                                                                    <div class="input-group input-group-merge">
+                                                                                        <span id="basic-icon-default-fullname2"
+                                                                                            required class="input-group-text"><i
+                                                                                                class="bx bx-user"></i></span>
+                                                                                        <select name="identification_type"
+                                                                                            id="" class="form-control">
+                                                                                            <option value="">Select
+                                                                                                Identification Type</option>
+                                                                                            <option value="NIN">NIN</option>
+                                                                                            <option value="INTERNATIONAL_PASSPORT">
+                                                                                                International Passport</option>
+                                                                                            <option value="DRIVERS_LICENSE">Driver's
+                                                                                                License</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row g-2">
+                                                                                <label class="form-label"
+                                                                                    for="basic-icon-default-fullname">Identification
+                                                                                    Number</label>
+                                                                                <div class="input-group input-group-merge">
+                                                                                    <span id="basic-icon-default-fullname2"
+                                                                                        class="input-group-text"><i
+                                                                                            class="bx bxs-user-pin"></i></span>
+                                                                                    <input type="text"
+                                                                                        class="form-control"required autofocus
+                                                                                        name="identification_number" id=""
+                                                                                        placeholder="Enter your ID Number"
+                                                                                        aria-label=""
+                                                                                        aria-describedby="basic-icon-default-fullname2" />
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row g-2 mt-2">
+                                                                                <label class="form-label"
+                                                                                    for="basic-icon-default-fullname">Date of Birth</label>
+                                                                                <div class="input-group input-group-merge">
+                                                                                    <span id="basic-icon-default-fullname2"
+                                                                                        class="input-group-text"><i
+                                                                                            class="bx bxs-user-pin"></i></span>
+                                                                                    <input type="date"
+                                                                                        class="form-control"required autofocus
+                                                                                        name="dob" placeholder="Pick your date of birth"
+                                                                                         />
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row g-2 mt-2 mb-3">
+                                                                                <label class="form-label"
+                                                                                    for="basic-icon-default-fullname">Identification
+                                                                                    Image</label>
+                                                                                <div class="input-group input-group-merge">
+                                                                                    <span id="basic-icon-default-fullname2"
+                                                                                        class="input-group-text"><i
+                                                                                            class="bx bxs-image-add"></i></span>
+                                                                                    <input type="file"
+                                                                                        class="form-control"required autofocus
+                                                                                        name="identification_url" id=""
+                                                                                        placeholder="choose file" aria-label=""
+                                                                                        aria-describedby="basic-icon-default-fullname2" />
+                                                                                </div>
+                                                                                <span> Upload the valid front page of your selected
+                                                                                    identification type</span>
+
+                                                                            </div>
+
+
                                                                             <button type="submit"
                                                                                 class="btn btn-primary">Verify</button>
                                                                         </form>
