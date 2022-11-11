@@ -107,7 +107,7 @@
             </ul>
           </li>
 
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-phone"></i>
               <div data-i18n="Account Settings">Airtime & Data</div>
@@ -127,31 +127,133 @@
             </ul>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-barcode"></i>
-              <div data-i18n="Account Settings">Others</div>
+              <i class="menu-icon tf-icons bx bx-tv"></i>
+              <div data-i18n="Account Settings">Cable TV</div>
             </a>
             <ul class="menu-sub">
               <li class="menu-item active">
-                <a href="/cable" class="menu-link">
-                  <div data-i18n="Account">Cable Tv</div>
+                <a href="/dstv" class="menu-link">
+                  <div data-i18n="Account">DSTV</div>
                 </a>
-              </li>
-              <li class="menu-item">
-                <a href="/buy-data" class="menu-link">
-                  <div data-i18n="Notifications">Exams Strach Card</div>
-                </a>
-              </li>
+            </li>
+
+                <li class="menu-item">
+                <a href="/gotv" class="menu-link">
+                    <div data-i18n="Account">GOTV</div>
+                  </a>
+                </li>
+
+                  <li class="menu-item">
+                  <a href="/startimes" class="menu-link">
+                    <div data-i18n="Account">Startimes</div>
+                  </a>
+                </li>
+
+                  <li class="menu-item">
+                  <a href="/showmax" class="menu-link">
+                    <div data-i18n="Account">Show Max</div>
+                  </a>
+                </li>
 
             </ul>
           </li>
 
+
           <li class="menu-item">
-            <a href="/buy-eletricity" class="menu-link">
-              <div data-i18n="Notifications">Eletricity</div>
+            <a href="/buy-eletricity" class="menu-link menu">
+              <i class="menu-icon tf-icons bx bxs-zap"></i>
+              <div data-i18n="Account Settings">Eletricity</div>
             </a>
           </li>
+
+
+
+          <li class="menu-item">
+            <a href="/education" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bxs-graduation"></i>
+              <div data-i18n="Account Settings">Education</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/waec-reg" class="menu-link">
+                      <div data-i18n="Account">WAEC Registration</div>
+                    </a>
+                  </li>
+            </ul>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/waec-result" class="menu-link">
+                      <div data-i18n="Account">WAEC Result Checker</div>
+                    </a>
+                  </li>
+            </ul>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/jamb-pin" class="menu-link">
+                      <div data-i18n="Account">JAMB Pin</div>
+                    </a>
+                  </li>
+            </ul>
+
+
+          </li>
+
+          <li class="menu-item">
+            <a href="/#" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bxs-shield-alt-2"></i>
+              <div data-i18n="Account Settings">Insurance</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/motor" class="menu-link">
+                      <div data-i18n="Account">Third Party Motor Insurance</div>
+                    </a>
+                  </li>
+            </ul>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/health" class="menu-link">
+                      <div data-i18n="Account">Health Insurance</div>
+                    </a>
+                  </li>
+            </ul>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/accident" class="menu-link">
+                      <div data-i18n="Account">Personal Accident Insurance </div>
+                    </a>
+                  </li>
+            </ul>
+
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="/jamb-pin" class="menu-link">
+                      <div data-i18n="Account">Home Cover Insurance</div>
+                    </a>
+                  </li>
+            </ul>
+
+
+
+
+
+
+          </li>
+
+
+
+
+
+
 
 
           <!-- Components -->

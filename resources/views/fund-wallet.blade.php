@@ -72,7 +72,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-6">
 
 
                         <div class="card">
@@ -103,106 +103,98 @@
 
                                                         <label class="form-label" for="">Amount (NGN)</label>
                                                         <input type="number" class="form-control" name="amount_to_fund"
-                                                            id="amount_to_fund"
-                                                            placeholder="Please Enter Amount in NGN  " />
+                                                            id="amount_to_fund" placeholder="Please Enter Amount in NGN" />
                                                         <span> Min - 100 | Max - 1,000,000</span>
 
                                                     </div>
 
 
+                                                    <script type="text/javascript">
+                                                        //load isw payment page
+
+                                                        let getamount = document.getElementsByName('amount_to_fund').value;
+
+                                                        var newamount = 
+
+                                                        function checkout() {
+                                                            var merchantCode = 'MX77338';
+                                                            var payItemId = 'Default_Payable_MX77338';
+
+                                                            var transRef = randomReference();
+                                                            var paymentRequest = {
+                                                                merchant_code: merchantCode,
+                                                                pay_item_id: payItemId,
+                                                                txn_ref: transRef,
+                                                                amount: document.getElementsByName('amount_to_fund' ) * [100].value,
+                                                                currency: '566',
+                                                                site_redirect_url: window.location.origin,
+                                                                onComplete: paymentCallback,
+                                                                mode: 'TEST'
+                                                            };
+
+                                                            window.webpayCheckout(paymentRequest);
+                                                        }
+
+                                                        console.log(amount)
 
 
+                                                        //generate a random transaction ref
+                                                        function randomReference() {
+                                                            var length = 10;
+                                                            var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                                            var result = '';
+                                                            for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+                                                            return result;
+                                                        }
 
-                                                    <html>
-
-                                                    <head>
-                                                        <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
-                                                        <script>
-                                                            function payWithMonnify() {
-                                                                MonnifySDK.initialize({
-                                                                    amount: document.getElementById('amount_to_fund').value,
-                                                                    currency: "NGN",
-                                                                    reference: new String((new Date()).getTime()),
-                                                                    customerFullName: "{{ Auth::user()->f_name }} {{ Auth::user()->l_name }}",
-                                                                    customerEmail: "{{ Auth::user()->email }}",
-                                                                    apiKey: "{{ $mapikey }}",
-                                                                    contractCode: "{{ $mcode }}",
-                                                                    paymentDescription: "Wallet Funding",
-                                                                    metadata: {
-                                                                        "name": "{{ Auth::user()->f_name }} {{ Auth::user()->l_name }} ",
-                                                                        "age": 45
-                                                                    },
-
-
-                                                                    onLoadStart: () => {
-                                                                        console.log("loading has started");
-                                                                    },
-                                                                    onLoadComplete: () => {
-                                                                        console.log("SDK is UP");
-                                                                    },
-
-                                                                    onComplete: function(response) {
-
-                                                                            $.ajax({
-                                                                                type: 'GET',
-                                                                                url: './verify-pay',
-                                                                                data: {
-                                                                                    status: response.status,
-                                                                                    amount: response.authorizedAmount,
-                                                                                    ref: response.transactionReference,
-                                                                                },
-
-
-                                                                            })
-
-
-
-
-
-
-
-                                                                        //console.log(response);
-
-                                                                    },
-                                                                    onClose: function(data) {
-                                                                           setInterval('location.reload()', 2000);
-                                                                    }
-                                                                });
+                                                        //callback function that gets triggered on payment success or failure
+                                                        function paymentCallback(response) {
+                                                            if (response != null) {
+                                                                alert(response.desc);
                                                             }
-                                                        </script>
+
+                                                        }
+                                                    </script>
                                                     </head>
 
-                                                    <body>
-                                                        <div>
-                                                            <button type="button" class="btn btn-primary"
-                                                                onclick="payWithMonnify()">Pay With
-                                                                Monnify</button>
-                                                        </div>
-                                                    </body>
-
-                                                    </html>
-
-
-
-
-
-
                                                     <button type="button" id="start-payment-button" class="btn btn-primary"
-                                                        onclick="payWithMonnify()">Continue</button>
+                                                        onclick="checkout()">Continue</button>
 
                                                 </form>
+
                                             </div>
+
+
+
+
+                                            <!-- Bootstrap core JavaScript
+                                                                        ================================================== -->
+                                            <!-- Placed at the end of the document so the pages load faster -->
+                                            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                                                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+                                            </script>
+                                            <script src="https://qa.interswitchng.com/collections/public/javascripts/inline-checkout.js"></script>
+                                            </body>
+                                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
+
+                                            </html>
+
+
                                         </div>
                                     </div>
-
                                 </div>
 
                             </div>
 
                         </div>
+
                     </div>
 
-                    <div class="col-lg-6">
+
+                    <div class="col-lg-6 mt-5">
 
 
                         <div class="card">
@@ -255,69 +247,69 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
 
-                <div class="container-xxl flex-grow-1 container-p-y">
-                    <div class="row">
-                        <div class="col-lg-12 mb-4 order-0">
-                            <div class="card">
-                                <div class="d-flex align-items-end row">
-                                    <div class="col-sm-12">
-                                        <div class="card-body">
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row">
+                    <div class="col-lg-12 mb-4 order-0">
+                        <div class="card">
+                            <div class="d-flex align-items-end row">
+                                <div class="col-sm-12">
+                                    <div class="card-body">
 
-                                            @if (Auth::user()->is_kyc_verified == '0')
-                                                <h5> Transactions </h5>
+                                        @if (Auth::user()->is_kyc_verified == '0')
+                                            <h5> Transactions </h5>
 
-                                                <p class="mb-4">
-                                                    No Records Found
-                                                </p>
-                                            @endif
+                                            <p class="mb-4">
+                                                No Records Found
+                                            </p>
+                                        @endif
 
 
-                                            <div class="card">
-                                                <h5 class="card-header">Latest Transaction </h5>
-                                                <div class="table-responsive text-nowrap">
-                                                    <table id="myTable" class="table table-white">
-                                                        <thead>
+                                        <div class="card">
+                                            <h5 class="card-header">Latest Transaction </h5>
+                                            <div class="table-responsive text-nowrap">
+                                                <table id="myTable" class="table table-white">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Trx ID</th>
+                                                            <th>Amount</th>
+                                                            <th>Type</th>
+                                                            <th>Status</th>
+                                                            <th>Date</th>
+                                                            <th>Time</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-border-bottom-0">
+                                                        @forelse ($banktransfers as $item)
                                                             <tr>
-                                                                <th>Trx ID</th>
-                                                                <th>Amount</th>
-                                                                <th>Type</th>
-                                                                <th>Status</th>
-                                                                <th>Date</th>
-                                                                <th>Time</th>
+                                                                <td>{{ $item->ref_id }}</td>
+                                                                <td>{{ number_format($item->amount, 2) }}</td>
+                                                                <td>{{ $item->type }}</td>
+                                                                @if ($item->status == '0')
+                                                                    <td><span
+                                                                            class="badge rounded-pill bg-warning text-dark">pending</span>
+                                                                    </td>
+                                                                @else
+                                                                    <td><span
+                                                                            class="badge rounded-pill bg-success">Successful</span>
+                                                                    </td>
+                                                                @endif
+                                                                <td>{{ date('F d, Y', strtotime($item->created_at)) }}
+                                                                </td>
+                                                                <td>{{ date('h:i:s A', strtotime($item->created_at)) }}
+                                                                </td>
 
                                                             </tr>
-                                                        </thead>
-                                                        <tbody class="table-border-bottom-0">
-                                                            @forelse ($banktransfers as $item)
-                                                                <tr>
-                                                                    <td>{{ $item->ref_id }}</td>
-                                                                    <td>{{ number_format($item->amount, 2) }}</td>
-                                                                    <td>{{ $item->type }}</td>
-                                                                    @if ($item->status == '0')
-                                                                        <td><span
-                                                                                class="badge rounded-pill bg-warning text-dark">pending</span>
-                                                                        </td>
-                                                                    @else
-                                                                        <td><span
-                                                                                class="badge rounded-pill bg-success">Successful</span>
-                                                                        </td>
-                                                                    @endif
-                                                                    <td>{{ date('F d, Y', strtotime($item->created_at)) }}
-                                                                    </td>
-                                                                    <td>{{ date('h:i:s A', strtotime($item->created_at)) }}
-                                                                    </td>
-
-                                                                </tr>
-                                                            @empty
-                                                                <tr colspan="20" class="text-center">No Record Found
-                                                                </tr>
-                                                            @endforelse
-                                                </div>
-                                                </tbody>
-                                                </table>
+                                                        @empty
+                                                            <tr colspan="20" class="text-center">No Record Found
+                                                            </tr>
+                                                        @endforelse
                                             </div>
+                                            </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -327,6 +319,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
 

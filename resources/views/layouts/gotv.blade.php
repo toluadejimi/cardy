@@ -127,7 +127,7 @@
             </ul>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-tv"></i>
               <div data-i18n="Account Settings">Cable TV</div>
@@ -139,7 +139,7 @@
                 </a>
             </li>
 
-                <li class="menu-item">
+                <li class="menu-item active">
                 <a href="/gotv" class="menu-link">
                     <div data-i18n="Account">GOTV</div>
                   </a>
@@ -161,7 +161,7 @@
           </li>
 
 
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="/buy-eletricity" class="menu-link menu">
               <i class="menu-icon tf-icons bx bxs-zap"></i>
               <div data-i18n="Account Settings">Eletricity</div>
@@ -248,6 +248,10 @@
 
 
           </li>
+
+
+
+
 
 
 

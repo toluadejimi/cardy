@@ -194,7 +194,23 @@ Route::group(['middleware' => 'adminAuth'],function(){
 
 
     Route::get('cable', [MainController::class, 'cable']);
-    Route::get('buy-cable', [MainController::class, 'buy_cable']);
+
+
+    Route::get('dstv', [MainController::class, 'dstv']);
+    Route::get('verify-dstv-cable', [MainController::class, 'verify_dstv_cable']);
+
+
+    Route::get('gotv', [MainController::class, 'gotv']);
+    Route::get('verify-gotv-cable', [MainController::class, 'verify_gotv_cable']);
+
+    Route::get('startimes', [MainController::class, 'buy_startimes']);
+    Route::get('verify-startimes-cable', [MainController::class, 'verify_startimes_cable']);
+
+    Route::get('showmax', [MainController::class, 'showmax']);
+    Route::get('verify-showmax-cable', [MainController::class, 'verify_showmax_cable']);
+
+
+
 
 
 
@@ -223,6 +239,8 @@ Route::group(['middleware' => 'adminAuth'],function(){
 
 
     Route::post('verify-account-now', [MainController::class,'verify_account_now']);
+    Route::post('update-information', [MainController::class,'update_account_now']);
+
     Route::get('verify-account', [MainController::class,'verify_account']);
 
     Route::get('create-usd-card', [MainController::class,'create_usd_card']);
@@ -257,10 +275,13 @@ Route::group(['middleware' => 'adminAuth'],function(){
     Route::get('buy-data', [MainController::class,'buy_data']);
     Route::get('buy-data-now', [MainController::class,'buy_data_now']);
 
-    Route::get('buy-mtn-data', [MainController::class,'buy_data_now']);
-    Route::get('buy-glo-data', [MainController::class,'buy_data_now']);
-    Route::get('buy-airtel-data', [MainController::class,'buy_data_now']);
-    Route::get('buy-9mobile-data', [MainController::class,'buy_data_now']);
+    Route::get('buy-mtn-data', [MainController::class,'buy_mtn_data']);
+    Route::get('buy-glo-data', [MainController::class,'buy_glo_data']);
+    Route::get('buy-airtel-data', [MainController::class,'buy_airtel_data']);
+    Route::get('buy-9mobile-data', [MainController::class,'buy_9mobile_data']);
+    Route::get('buy-smile', [MainController::class,'buy_smile']);
+    Route::get('buy-spetranet', [MainController::class,'buy_spectranet']);
+
 
 
 

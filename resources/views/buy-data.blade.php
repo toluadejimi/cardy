@@ -114,10 +114,10 @@
                             <div class="mb-3">
 
                               <label class="form-label" for="">Choose Preffered Data Bundle </label>
-                              <select name="data_bundle" id="" class="form-control">
+                              <select name="variation_code" id="" class="form-control">
                                 <option selected>Select Bundle</option>
                                 @foreach ($get_mtn_network as $data)
-                                <option value="{{ $data->data_bundle }}">{{ $data->data_bundle }}</option>
+                                <option value="{{ $data->variation_code}}">{{ $data->name }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -126,21 +126,22 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Enter Phone Number </label>
-                              <input type="text" class="form-control" name="phone_number" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
+                              <input type="number"  required autofocus class="form-control" name="biller_code" id="basic-default-fullname" value=" " />
                             </div>
                           </div>
 
 
                           <div class="mb-3">
-                            <input type="text" class="form-control" hidden name="mobilenetwork_code" id="basic-default-fullname" value="01" />
+                            <input type="text" class="form-control" hidden name="service_id" id="basic-default-fullname" value="mtn-data" />
                           </div>
+
 
 
 
 
                           <div class="mb-3">
                             <label class="form-label" for="">Pin</label>
-                            <input type="password" class="form-control" name="pin" id="amount_to_fund" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                            <input type="password"   required autofocus class="form-control" name="pin" id="amount_to_fund" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
 
                           </div>
 
@@ -190,10 +191,10 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Choose Preffered Data Bundle </label>
-                              <select name="data_bundle" id="" class="form-control">
+                              <select name="variation_code" id="" class="form-control">
                                 <option selected>Select Bundle</option>
                                 @foreach ($get_glo_network as $data)
-                                <option value="{{ $data->data_bundle }}">{{ $data->data_bundle }}</option>
+                                <option value="{{ $data->variation_code}}">{{ $data->name }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -202,13 +203,13 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Enter Phone Number </label>
-                              <input type="text" class="form-control" name="phone_number" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
+                              <input type="number"  required autofocus class="form-control" name="biller_code" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
                             </div>
                           </div>
 
 
                           <div class="mb-3">
-                            <input type="text" class="form-control" hidden name="mobilenetwork_code" id="basic-default-fullname" value="02" />
+                            <input type="text" class="form-control" hidden name="service_id" id="basic-default-fullname" value="glo-data" />
                           </div>
 
 
@@ -216,11 +217,11 @@
 
                           <div class="mb-3">
                             <label class="form-label" for="">Pin</label>
-                            <input type="password" class="form-control" name="pin" id="amount_to_fund" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                            <input type="password" required autofocus class="form-control" name="pin" id="amount_to_fund" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
 
                           </div>
 
-                          <button type="submit" class="btn btn-primary">Buy Airtime</button>
+                          <button type="submit" class="btn btn-primary">Continue</button>
                         </form>
                       </div>
                     </div>
@@ -265,10 +266,10 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Choose Preffered Data Bundle </label>
-                              <select name="data_bundle" id="" class="form-control">
+                              <select name="variation_code" id="" class="form-control">
                                 <option selected>Select Bundle</option>
                                 @foreach ($get_airtel_network as $data)
-                                <option value="{{ $data->data_bundle }}">{{ $data->data_bundle }}</option>
+                                <option value="{{ $data->variation_code}}">{{ $data->name }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -278,22 +279,22 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Enter Phone Number </label>
-                              <input type="text" class="form-control" name="phone_number" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
+                              <input type="number"  required autofocus class="form-control" name="biller_code" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
                             </div>
                           </div>
 
 
                           <div class="mb-3">
-                            <input type="text" class="form-control" hidden name="mobilenetwork_code" id="basic-default-fullname" value="04" />
+                            <input type="text" class="form-control" hidden name="service_id" id="basic-default-fullname" value="airtel-data" />
                           </div>
 
                           <div class="mb-3">
                             <label class="form-label" for="">Pin</label>
-                            <input type="password" class="form-control" name="pin" id="" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                            <input type="password"  required autofocus class="form-control" name="pin" id="" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
 
                           </div>
 
-                          <button type="submit" class="btn btn-primary">Buy Airtime</button>
+                          <button type="submit" class="btn btn-primary">Continue</button>
                         </form>
                       </div>
                     </div>
@@ -346,10 +347,10 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Choose Preffered Data Bundle </label>
-                              <select name="data_bundle" id="" class="form-control">
+                              <select name="variation_code" id="" class="form-control">
                                 <option selected>Select Bundle</option>
                                 @foreach ($get_9mobile_network as $data)
-                                <option value="{{ $data->data_bundle }}">{{ $data->data_bundle }}</option>
+                                <option value="{{ $data->variation_code}}">{{ $data->name }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -359,22 +360,22 @@
 
                             <div class="mb-3">
                               <label class="form-label" for="">Enter Phone Number </label>
-                              <input type="text" class="form-control" name="phone_number" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
+                              <input type="number" required autofocus class="form-control" name="biller_code" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
                             </div>
                           </div>
 
 
                           <div class="mb-3">
-                            <input type="text" class="form-control" hidden name="mobilenetwork_code" id="basic-default-fullname" value="04" />
+                            <input type="text" class="form-control" hidden name="service_id" id="basic-default-fullname" value="etisalat-data" />
                           </div>
 
                           <div class="mb-3">
                             <label class="form-label" for="">Pin</label>
-                            <input type="password" class="form-control" name="pin" id="" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                            <input type="password"   required autofocus class="form-control" name="pin" id="" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
 
                           </div>
 
-                          <button type="submit" class="btn btn-primary">Buy Airtime</button>
+                          <button type="submit" class="btn btn-primary">Continue</button>
                         </form>
                       </div>
                     </div>
@@ -392,6 +393,159 @@
           </div>
         </div>
 
+
+        <div class="col-lg-4">
+
+
+            <div class="card">
+              <div class="d-flex align-items-end row">
+                <div class="col-sm-12">
+                  <div class="card-body">
+
+                    <h5 class="title"> <img src="{{url('')}}/public/assets/img/illustrations/spectranet.png" width="50" /> SPECTRANET NETWORK </h5>
+
+
+                    <p>
+
+                      <a class="btn btn-primary" data-bs-toggle="collapse" href="#spectranet" role="button" aria-expanded="false" aria-controls="etisalat"> Buy Data</a>
+                    </p>
+
+
+                    <div class="row">
+                      <div class="collapse multi-collapse" id="spectranet">
+                        <div class="card card-body">
+
+                          <form action="/buy-spectranet" class="col-sm-12" method="GET">
+                            @csrf
+
+
+                            <div class="mb-3">
+
+                              <div class="mb-3">
+                                <label class="form-label" for="">Choose Preffered Data Bundle </label>
+                                <select name="variation_code" id="" class="form-control">
+                                  <option selected>Select Bundle</option>
+                                  @foreach ($get_spectranet_network as $data)
+                                  <option value="{{ $data->variation_code}}">{{ $data->name }}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+
+
+
+
+                              <div class="mb-3">
+                                <label class="form-label" for="">Enter Phone Number </label>
+                                <input type="text" class="form-control" name="biller_code" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
+                              </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                              <input type="text" class="form-control" hidden name="service_id" id="basic-default-fullname" value="spectranet" />
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="form-label" for="">Pin</label>
+                              <input type="password"   required autofocus class="form-control" name="pin" id="" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Continue</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+
+
+          <div class="col-lg-4">
+
+
+            <div class="card">
+              <div class="d-flex align-items-end row">
+                <div class="col-sm-12">
+                  <div class="card-body">
+
+                    <h5 class="title"> <img src="{{url('')}}/public/assets/img/illustrations/smile.png" width="50" />SMILE NETWORK </h5>
+
+
+                    <p>
+
+                      <a class="btn btn-primary" data-bs-toggle="collapse" href="#smile" role="button" aria-expanded="false" aria-controls="etisalat"> Buy Data</a>
+                    </p>
+
+
+                    <div class="row">
+                      <div class="collapse multi-collapse" id="smile">
+                        <div class="card card-body">
+
+                          <form action="/buy-smile" class="col-sm-12" method="GET">
+                            @csrf
+
+
+                            <div class="mb-3">
+
+                              <div class="mb-3">
+                                <label class="form-label" for="">Choose Preffered Data Bundle </label>
+                                <select name="variation_code" id="" class="form-control">
+                                  <option selected>Select Bundle</option>
+                                  @foreach ($get_smile_network as $data)
+                                  <option value="{{ $data->variation_code}}">{{ $data->name }}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+
+
+
+
+                              <div class="mb-3">
+                                <label class="form-label" for="">Enter Phone Number </label>
+                                <input type="text" class="form-control" name="biller_code" id="basic-default-fullname" value=" {{ Auth::user()->phone }}" />
+                              </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                              <input type="text" class="form-control" hidden name="service_id" id="basic-default-fullname" value="smile-direct" />
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="form-label" for="">Pin</label>
+                              <input type="password"  required autofocus class="form-control" name="pin" id="" placeholder="Enter 4 Digit Pin " placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Continue</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
         @endif
 
 
@@ -408,6 +562,8 @@
 
 
     </div>
+
+
 
   </div>
 

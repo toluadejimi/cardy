@@ -1,4 +1,4 @@
-@extends('layouts.cable')
+@extends('layouts.gotv')
 
 @section('content')
 
@@ -27,8 +27,8 @@
                                     @else
                                         <h5 class="card-title text-primary">Hey!!! {{ Auth::user()->f_name }}! 🎉</h5>
                                         <p class="mb-4">
-                                        Subscribe for your cable on <b>Cardy</b>.
-                                        <p>Pay instantly  for your Cable Tv </p>
+                                            Subscribe for your GOTV on <b>Cardy</b>.
+                                        <p>Pay now for your Cable Tv </p>
                                         </p>
 
                                         <a href="/fund-wallet" class="btn btn-sm btn-outline-primary">Fund Wallet</a>
@@ -65,34 +65,27 @@
 
                             <div class="card">
                                 <div class="d-flex align-items-end row">
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-12">
                                         <div class="card-body">
 
-                                            <h5 class="title">Verify Smart Card Number</h5>
+                                            <h5 class="title">VERIFY SMARTCARD NUMBER</h5>
 
-                                            <form action="/verify-meter/" method="GET">
+                                            <form action="/verify-gotv-cable/" method="GET">
                                                 @csrf
                                                 <div class="row">
 
-                                                    <div class="mb-3">
-                                                        <label for="phone" class="form-label">Select Cable
-                                                            Company</label>
-                                                        <select name="code" id="" class="form-control">
-
-                                                            @foreach ($cable_company as $item)
-                                                            <option value="{{ $item->code  }}">{{ $item->name  }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
                                                     <div class="col-lg-9">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="">Enter Meter
+                                                            <label class="form-label" for="">Enter Smartcard
                                                                 Number</label>
-                                                            <input type="text" class="form-control" name="meter_number"
-                                                                id="basic-default-fullname" value="" />
+                                                            <input type="number" required autfocus class="form-control"
+                                                                name="billers_code" id="basic-default-fullname"
+                                                                value="" />
                                                         </div>
                                                     </div>
+
+
+                                                    <input hidden name="service_id" value="gotv">
 
 
 
@@ -109,25 +102,31 @@
 
                                                     </div>
                                                 </div>
-                                                @if ($errors->any())
-                                                <div class="alert alert-danger">
-                                                    <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
+
+                                                <div class="col-lg-12 mt-4">
+
+                                                    @if ($errors->any())
+                                                        <div class="alert alert-danger">
+                                                            <ul>
+                                                                @foreach ($errors->all() as $error)
+                                                                    <li>{{ $error }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                    @if (session()->has('mm'))
+                                                        <div class="alert alert-primary">
+                                                            {{ session()->get('mm') }}
+                                                        </div>
+                                                    @endif
+                                                    @if (session()->has('er'))
+                                                        <div class="alert alert-danger">
+                                                            {{ session()->get('er') }}
+                                                        </div>
+                                                    @endif
+
                                                 </div>
-                                            @endif
-                                            @if (session()->has('mm'))
-                                                <div class="alert alert-primary">
-                                                    {{ session()->get('mm') }}
-                                                </div>
-                                            @endif
-                                            @if (session()->has('er'))
-                                                <div class="alert alert-danger">
-                                                    {{ session()->get('er') }}
-                                                </div>
-                                            @endif
+
                                         </div>
 
                                         </form>
@@ -179,12 +178,13 @@
                                                 <div class="mb-3">
                                                     <label class="form-label" for="">Meter Number</label>
                                                     <input type="text" class="form-control" readonly name="meter_number"
-                                                        id="basic-default-fullname" value="{{  $meter_number ?? 000000  }}" />
+                                                        id="basic-default-fullname" value="{{ $gotv_number ?? 000000 }}" />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <input type="text" class="form-control" readonly name="eletric_company"
-                                                        id="basic-default-fullname" hidden value="{{ $eletric_company  }} " />
+                                                    <input type="text" class="form-control" readonly
+                                                        name="eletric_company" id="basic-default-fullname" hidden
+                                                        value=" " />
 
                                                 </div>
 
@@ -216,7 +216,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label" for="">Enter Phone Number</label>
                                                     <input type="text" class="form-control" name="phone_number"
-                                                        id="basic-default-fullname" value="{{$phone}} " />
+                                                        id="basic-default-fullname" value="" />
                                                 </div>
 
 
@@ -252,19 +252,19 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
+
+
+
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+
+                </div>
+
+
+
         </div>
-
-
-
-
-        <div class="container-xxl flex-grow-1 container-p-y">
-
-        </div>
-
-
-
-    </div>
 
 
 
