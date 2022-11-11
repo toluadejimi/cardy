@@ -3904,6 +3904,7 @@ class MainController extends Controller
             $transaction->user_id = Auth::id();
             $transaction->transaction_type = "cash_out";
             $transaction->debit = $new_amount;
+            $transaction->type = 'vas';
             $transaction->note = "Token Purchase - $token";
             $transaction->save();
 
