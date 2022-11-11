@@ -36,7 +36,7 @@
                                                         @csrf
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="modalCenterTitle">Sorry for
-                                                                the inconvinecies.</h5><br>
+                                                                the inconveniences.</h5><br>
 
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
