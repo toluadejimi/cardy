@@ -3286,7 +3286,7 @@ class MainController extends Controller
 
         if ($request->hasFile('identification_url')) {
             $file = $request->file('identification_url');
-            $destination = 'public/uploads/verify';
+            $destination = 'public/upload/verify';
             $ext = $file->getClientOriginalExtension();
             $mainFilename = Str::random(6) . date('h-i-s');
             $file->move($destination, $mainFilename . "." . $ext);
@@ -3379,7 +3379,7 @@ class MainController extends Controller
 
         if ($request->hasFile('identification_url')) {
             $file = $request->file('identification_url');
-            $destination = 'public/uploads/verify';
+            $destination = 'public/upload/verify';
             $ext = $file->getClientOriginalExtension();
             $mainFilename = Str::random(6) . date('h-i-s');
             $file->move($destination, $mainFilename . "." . $ext);
