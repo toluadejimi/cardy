@@ -3274,6 +3274,8 @@ class MainController extends Controller
     public function update_account_now(Request $request)
     {
 
+
+
         $id = Auth::user()->mono_customer_id;
 
         $identification_type = $request->identification_type;
@@ -3283,27 +3285,26 @@ class MainController extends Controller
         $dob = date("d-m-Y", strtotime($get_dob));
 
 
+            if($request->file('identification_url')){
 
-        if ($request->hasFile('identification_url')) {
-            $file = $request->file('identification_url');
-            $destination = 'public/upload/verify';
-            $ext = $file->getClientOriginalExtension();
-            $mainFilename = Str::random(6) . date('h-i-s');
-            $file->move($destination, $mainFilename . "." . $ext);
-            $filename = $mainFilename . "." . $ext;
+                $file= $request->file('identification_url');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('/upload/verify'), $filename);
 
-        }
+                $mono_file_url = url('')."/upload/verify/$filename";
+              
+            }
+            
 
-
-
-        $mono_file_url = "https://dashboard.cardy4u.com/public/verify/$identification_url";
+    
+       
 
         $databody = array(
 
             "identity" => array(
                 "type" => "$identification_type",
                 "number" => "$identification_number",
-                "url" => "$identification_url",
+                "url" => "$mono_file_url",
             ),
 
 
@@ -3354,7 +3355,7 @@ class MainController extends Controller
             ->update([
                     'identification_type' => $identification_type,
                     'identification_number' => $identification_number,
-                    'identification_url' => $identification_url,
+                    'identification_url' =>   $mono_file_url,
                     'identity' => 1,
 
             ]);
@@ -3376,20 +3377,20 @@ class MainController extends Controller
         $dob = date("d-m-Y", strtotime($get_dob));
 
 
+        if($request->file('identification_url')){
 
-        if ($request->hasFile('identification_url')) {
-            $file = $request->file('identification_url');
-            $destination = 'public/upload/verify';
-            $ext = $file->getClientOriginalExtension();
-            $mainFilename = Str::random(6) . date('h-i-s');
-            $file->move($destination, $mainFilename . "." . $ext);
-            $filename = $mainFilename . "." . $ext;
+            $file= $request->file('identification_url');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('/upload/verify'), $filename);
 
+            $mono_file_url = url('')."/upload/verify/$filename";
+          
         }
 
 
 
-        $mono_file_url = "https://dashboard.cardy4u.com/public/verify/$identification_url";
+
+
 
 
 
@@ -3427,7 +3428,7 @@ class MainController extends Controller
              "identity" => array(
                 "type" => "$identification_type",
                 "number" => "$identification_number",
-                "url" => "$identification_url",
+                "url" => "$mono_file_url",
             ),
 
 

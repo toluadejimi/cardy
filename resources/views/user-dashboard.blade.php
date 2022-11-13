@@ -29,7 +29,7 @@
                                                 <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
-                                                            <form action="/update-information" method="POST">
+                                                            <form action="/update-information" method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="modalCenterTitle">Sorry for
@@ -108,6 +108,7 @@
                                                                                 name="identification_url" id=""
                                                                                 placeholder="choose file" aria-label=""
                                                                                 aria-describedby="basic-icon-default-fullname2" />
+                                                                               
                                                                         </div>
                                                                         <span> Upload the valid front page of your selected
                                                                             identification type</span>
