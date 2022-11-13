@@ -3357,6 +3357,8 @@ class MainController extends Controller
                     'identification_number' => $identification_number,
                     'identification_url' =>   $mono_file_url,
                     'identity' => 1,
+                    'dob' => $dob,
+
 
             ]);
 
@@ -3501,6 +3503,8 @@ class MainController extends Controller
                     'mono_customer_id' => $var->data->id,
                     'is_kyc_verified' => 1,
                     'identity' => 1,
+                    'dob' => $dob,
+
 
 
                 ]);
