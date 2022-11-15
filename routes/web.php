@@ -68,7 +68,7 @@ Route::get('/', function () {
 
 
 
-Route::get('send-bulk-usd-price', [SendBulkMailController::class, 'sendUsdPrice']);
+Route::get('ratemail', [SendBulkMailController::class, 'sendUsdPrice']);
 
 
 
