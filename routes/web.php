@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ManageController;
 use App\Http\Middleware\AdminAuth;
+use App\Http\Controllers\SendBulkMailController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,6 +68,7 @@ Route::get('/', function () {
 
 
 
+Route::get('send-bulk-usd-price', [SendBulkMailController::class, 'sendUsdPrice']);
 
 
 
