@@ -387,7 +387,7 @@
                                                                     <div class="card-body">
 
                                                                         <form action="/verify-account-now"
-                                                                            class="mb-3" method="POST">
+                                                                        enctype="multipart/form-data" class="mb-3" method="POST">
                                                                             @csrf
                                                                             @if ($errors->any())
                                                                                 <div class="alert alert-danger">

@@ -529,13 +529,16 @@ class MainController extends Controller
 
         $mono_amount_in_cent = round($get_amount_in_usd_to_cent, 2);
 
-        if ($get_amount_in_usd_to_cent < 1000) {
+        if($get_amount_in_usd_to_cent < 1000){
             return back()->with('error', 'Min amount to fund is 10USD');
         }
 
-        if (Auth::user()->identity == 0) {
+
+        if(Auth::user()->identity == 0){
             return back()->with('error', 'Please update your information');
         }
+
+
 
         $get_usd_card_records = Vcard::where('card_type', 'usd')
             ->where('user_id', Auth::id())
@@ -1260,7 +1263,9 @@ class MainController extends Controller
 
         $usd_amount = $get_usd_amount - $fund;
 
-        if (Auth::user()->identity == 0) {
+
+
+        if(Auth::user()->identity == 0){
             return back()->with('error', 'Please update your information');
         }
 
@@ -3269,6 +3274,8 @@ class MainController extends Controller
     public function update_account_now(Request $request)
     {
 
+
+
         $id = Auth::user()->mono_customer_id;
 
         $identification_type = $request->identification_type;
@@ -3277,15 +3284,20 @@ class MainController extends Controller
         $get_dob = $request->dob;
         $dob = date("d-m-Y", strtotime($get_dob));
 
-        if ($request->file('identification_url')) {
 
-            $file = $request->file('identification_url');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('/upload/verify'), $filename);
+            if($request->file('identification_url')){
 
-            $mono_file_url = url('') . "/upload/verify/$filename";
+                $file= $request->file('identification_url');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('/upload/verify'), $filename);
 
-        }
+                $mono_file_url = url('')."/upload/verify/$filename";
+
+            }
+
+
+
+
 
         $databody = array(
 
@@ -3295,8 +3307,9 @@ class MainController extends Controller
                 "url" => "$mono_file_url",
             ),
 
+
             "dob" => array(
-                "date" => "$dob",
+                "date" => "$dob"
             ),
 
         );
@@ -3331,6 +3344,7 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
+
         $message = $var->message;
 
         if ($var->status == 'successful') {
@@ -3338,18 +3352,20 @@ class MainController extends Controller
             //update user
 
             $update = User::where('id', Auth::id())
-                ->update([
+            ->update([
                     'identification_type' => $identification_type,
                     'identification_number' => $identification_number,
-                    'identification_url' => $mono_file_url,
+                    'identification_url' =>   $mono_file_url,
                     'identity' => 1,
                     'dob' => $dob,
 
-                ]);
+
+            ]);
 
             return back()->with('message', 'Information has been updated successfully');
 
-        }return back()->with('error', "Error!! $message");
+        } return back()->with('error', "Error!! $message");
+
 
     }
 
@@ -3362,11 +3378,23 @@ class MainController extends Controller
         $get_dob = $request->dob;
         $dob = date("d-m-Y", strtotime($get_dob));
 
-        $file = $request->file('identification_url');
-        $filename = date('YmdHi') . $file->getClientOriginalName();
-        $file->move(public_path('/upload/verify'), $filename);
 
-        $mono_file_url = url('') . "/upload/verify/$filename";
+        if($request->file('identification_url')){
+
+            $file= $request->file('identification_url');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('/upload/verify'), $filename);
+
+            $mono_file_url = url('')."/upload/verify/$filename";
+
+        }
+
+
+
+
+
+
+
 
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
@@ -3399,14 +3427,15 @@ class MainController extends Controller
                 "lga" => $lga,
             ),
 
-            "identity" => array(
+             "identity" => array(
                 "type" => "$identification_type",
                 "number" => "$identification_number",
                 "url" => "$mono_file_url",
             ),
 
+
             "dob" => array(
-                "date" => "$dob",
+                "date" => "$dob"
             ),
 
             "entity" => "INDIVIDUAL",
@@ -3448,6 +3477,7 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
+
         $message = $var->message;
 
         if ($message == null) {
@@ -3474,6 +3504,8 @@ class MainController extends Controller
                     'is_kyc_verified' => 1,
                     'identity' => 1,
                     'dob' => $dob,
+
+
 
                 ]);
         }
