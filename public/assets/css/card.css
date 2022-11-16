@@ -26,7 +26,7 @@ z-index: 1000;
   display: inline-block;
     width: 320px;
     height: 190px;
-    background-image: url('http://dashboard.cardy4u.com/public/upload/bgg.jpeg'), linear-gradient(to right bottom, #fd696b, #fa616e, #f65871, #f15075, #ec4879); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
+    background-image: url('https://dashboard.cardy4u.com/public/upload/ring.jpeg'), linear-gradient(to right bottom, #fd696b, #fa616e, #f65871, #f15075, #ec4879); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -52,7 +52,7 @@ z-index: 1000;
     display: inline-block;
       width: 320px;
       height: 190px;
-      background-image: url('http://dashboard.cardy4u.com/public/upload/bgg.jpeg'), linear-gradient(to right bottom, #fda969, #fa8c61, #f67558, #f17e50, #ec9a48); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
+      background-image: url('https://dashboard.cardy4u.com/public/upload/ring.jpeg'), linear-gradient(to right bottom, #fda969, #fa8c61, #f67558, #f17e50, #ec9a48); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
