@@ -482,7 +482,7 @@ White Step Three - http://s3.amazonaws.com/swu-filepicker/YSTlgtgaTSa897tPTUhl_v
                               <w:anchorlock/>
                               <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">Update Account</center>
                             </v:roundrect>
-                          <![endif]--><a href="https://dashboard.cardy4u.com/login" style="background-color:#0047AB;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Update Informaton</a></div>
+                          <![endif]--><a href="https://dashboard.cardy4u.com" style="background-color:#0047AB;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Update Informaton</a></div>
                                                 </td>
                                             </tr>
                                         </table>
