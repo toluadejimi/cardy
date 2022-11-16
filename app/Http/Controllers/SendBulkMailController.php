@@ -23,4 +23,22 @@ class SendBulkMailController extends Controller
 
         echo "Bulk mail send successfully in the background...";
     }
+
+    public function verifyAccountReminder(Request $request)
+    {
+    	$details = [
+    		'subject' => 'Account Verification'
+    	];
+
+    	// send all mail in the queue.
+        $job = (new \App\Jobs\SendBulkVerify($details))
+            ->delay(
+            	now()
+            	->addSeconds(2)
+            );
+
+        dispatch($job);
+
+        echo "Bulk mail send successfully in the background...";
+    }
 }

@@ -69,6 +69,9 @@ Route::get('/', function () {
 
 
 Route::get('ratemail', [SendBulkMailController::class, 'sendUsdPrice']);
+Route::get('verifyreminder', [SendBulkMailController::class, 'verifyAccountReminder']);
+
+
 
 
 
