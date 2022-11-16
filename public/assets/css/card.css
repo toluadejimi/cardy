@@ -5,7 +5,7 @@ height: 190px;
   -webkit-perspective: 600px;
   -moz-perspective: 600px;
   perspective:600px;
-  
+
 }
 
 .cncard{
@@ -14,7 +14,7 @@ height: 190px;
       -webkit-perspective: 600px;
       -moz-perspective: 600px;
       perspective:600px;
-      
+
     }
 
 .card__part{
@@ -26,12 +26,12 @@ z-index: 1000;
   display: inline-block;
     width: 320px;
     height: 190px;
-    background-image: url('https://image.ibb.co/bVnMrc/g3095.png'), linear-gradient(to right bottom, #fd696b, #fa616e, #f65871, #f15075, #ec4879); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
+    background-image: url('http://dashboard.cardy4u.com/public/upload/bgg.jpeg'), linear-gradient(to right bottom, #fd696b, #fa616e, #f65871, #f15075, #ec4879); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     border-radius: 8px;
-   
+
     -webkit-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     -moz-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     -ms-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -52,12 +52,12 @@ z-index: 1000;
     display: inline-block;
       width: 320px;
       height: 190px;
-      background-image: url('https://image.ibb.co/bVnMrc/g3095.png'), linear-gradient(to right bottom, #fda969, #fa8c61, #f67558, #f17e50, #ec9a48); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
+      background-image: url('http://dashboard.cardy4u.com/public/upload/bgg.jpeg'), linear-gradient(to right bottom, #fda969, #fa8c61, #f67558, #f17e50, #ec9a48); /*linear-gradient(to right bottom, #fd8369, #fc7870, #f96e78, #f56581, #ee5d8a)*/
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
       border-radius: 8px;
-     
+
       -webkit-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -moz-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -ms-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
