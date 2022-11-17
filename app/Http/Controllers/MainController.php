@@ -169,6 +169,8 @@ class MainController extends Controller
                 $save->user = Auth::user()->f_name. " ".Auth::user()->l_name;
                 $save->save();
 
+                dd($save);
+
                 return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
             }
 
