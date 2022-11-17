@@ -120,6 +120,12 @@ class MainController extends Controller
 
         if (Auth::attempt($credentials)) {
 
+            $save = new UserIp();
+            $save->user_ip = $client_ip;
+            $save->user = Auth::user()->f_name. " ".Auth::user()->l_name;
+            $save->save();
+
+
             if (Auth::user()->is_email_verified == 0) {
 
 
@@ -164,12 +170,7 @@ class MainController extends Controller
                 $array_body = json_decode($body);
 
 
-                $save = new UserIp();
-                $save->user_ip = $client_ip;
-                $save->user = Auth::user()->f_name. " ".Auth::user()->l_name;
-                $save->save();
 
-                dd($save);
 
                 return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
             }
