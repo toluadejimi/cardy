@@ -100,11 +100,11 @@ class MainController extends Controller
     {
         function getIPAddress() {
             //whether ip is from the share internet
-             if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+             if(!isEmpty($_SERVER['HTTP_CLIENT_IP'])) {
                         $ip = $_SERVER['HTTP_CLIENT_IP'];
                 }
             //whether ip is from the proxy
-            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            elseif (!isEmpty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
              }
         //whether ip is from the remote address
