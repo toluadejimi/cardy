@@ -11,9 +11,11 @@ use App\Models\EMoney;
 use App\Models\Power;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserIp;
 use App\Models\Vcard;
 use App\Services\Encryption;
 use GuzzleHttp\Client;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -98,11 +100,13 @@ class MainController extends Controller
 
     public function signin(Request $request)
     {
-        dd($request->ip());
-
 
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
+
+        $client_ip = $request->ip();
+
+
 
         $email_code = random_int(100000, 999999);
 
@@ -117,6 +121,12 @@ class MainController extends Controller
         if (Auth::attempt($credentials)) {
 
             if (Auth::user()->is_email_verified == 0) {
+
+                $save = new UserIp();
+                $save->user_ip = $client_ip;
+                $save->user = Auth::user()->f_name. " ".Auth::user()->l_name;
+                $save->save();
+
 
                 $user = User::where("id", Auth::id())->get();
 
