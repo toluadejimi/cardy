@@ -3580,7 +3580,7 @@ class MainController extends Controller
                 'senderName' => 'Cardy',
                 'subject' => 'Verification Code',
                 'to' => "$email",
-                'bodyHtml' => view('verification', compact('new_email_code', 'f_name'))->render(),
+                'bodyHtml' => view('verification-code', compact('new_email_code', 'f_name'))->render(),
                 'encodingType' => 0,
 
             ],
