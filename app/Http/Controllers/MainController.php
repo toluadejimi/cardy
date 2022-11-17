@@ -104,9 +104,6 @@ class MainController extends Controller
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
 
-        $client_ip = $request->ip();
-
-
 
         $email_code = random_int(100000, 999999);
 
@@ -121,7 +118,8 @@ class MainController extends Controller
         if (Auth::attempt($credentials)) {
 
             $save = new UserIp();
-            $save->user_ip = $client_ip;
+            $save->user_ip = $clientIP;
+            $save->device =$device;
             $save->user = Auth::user()->f_name. " ".Auth::user()->l_name;
             $save->save();
 
@@ -160,7 +158,7 @@ class MainController extends Controller
                         'senderName' => 'Cardy',
                         'subject' => 'Verification Code',
                         'to' => "$email",
-                        'bodyHtml' => view('verifyemail', compact('new_email_code', 'f_name'))->render(),
+                        'bodyHtml' => view('verifyemail', compact('new_email_code','f_name'))->render(),
                         'encodingType' => 0,
 
                     ],
@@ -207,7 +205,7 @@ class MainController extends Controller
                     'senderName' => 'Cardy',
                     'subject' => 'Verification Code',
                     'to' => "$user_email",
-                    'bodyHtml' => view('verification', compact('new_email_code', 'f_name'))->render(),
+                    'bodyHtml' => view('verification', compact('new_email_code', 'f_name' ,'clientIP', 'device'))->render(),
                     'encodingType' => 0,
 
                 ],

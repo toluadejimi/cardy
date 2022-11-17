@@ -82,11 +82,21 @@
 							</td>
 						</tr>
 
+                        <tr>
+							<td style="padding:30px;background-color:#ffffff;">
+                                <p style="margin:0;">Login request from  Client - IP {{$clientIP}} <br>
+                                on device {{$device}} <br>
+                                If you didnot make this request <a href="dashboard.cardy4u.com/forget-passsword">Reset your password</a><br>
+                                or contact support@cardy4u.com
+                            </p>
+
+							</td>
+						</tr>
 
 						<tr>
 							<td style="padding:30px;background-color:#ffffff;">
-								<p style="margin:0;">Thanks for choosing Cardy<br>
-                                for issues - support@cardy4u.com
+								<p style="margin:0;">Thanks for choosing Cardy
+
                             </p>
 
 							</td>
