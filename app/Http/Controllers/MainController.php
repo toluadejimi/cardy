@@ -128,6 +128,9 @@ class MainController extends Controller
                 $save->save();
 
 
+
+                dd($save);
+                
                 $user = User::where("id", Auth::id())->get();
 
                 $email_code = User::where('id', Auth::id())
