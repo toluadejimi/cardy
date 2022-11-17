@@ -310,8 +310,16 @@
                       </td>
                     </tr>
                     <tr>
+
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Montserrat, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:20px;text-align:left;color:#8189A9;">For any questions, Email us at - hello@cardy4u.com</div>
+                        <div style="font-family:Montserrat, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:20px;text-align:left;color:#8189A9;">Own a USD Virtual card to perform transactions online.</div>
+                      </td>
+                    </tr>
+
+                      <tr>
+
+                      <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                        <div style="font-family:Montserrat, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:20px;text-align:left;color:#8189A9;">Visit <a href="https://dashboard.cardy4u.com"</a> Our Website for more information</div>
                       </td>
                     </tr>
                   </tbody></table>
