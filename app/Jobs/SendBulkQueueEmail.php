@@ -35,8 +35,7 @@ class SendBulkQueueEmail implements ShouldQueue
      */
     public function handle()
     {
-        $data = User::where('identity', '1')
-        ->get();
+        $data = User::all();
 
         $usd_rate = Charge::where('title', 'rate')
         ->first()->amount;
