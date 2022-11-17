@@ -86,7 +86,7 @@
 							<td style="padding:30px;background-color:#ffffff;">
                                 <p style="margin:0;">Login request from  User IP Address -  {{$clientIP}}, <br><br>
                                 On device {{$device}}, <br><br>
-                                If you did not make this request <a href="dashboard.cardy4u.com/forget-passsword">Reset your password</a><br><br>
+                                If you did not make this request <a href="https://dashboard.cardy4u.com/forgot-password">Reset your password</a><br><br>
                                 or contact support@cardy4u.com
                             </p>
 
