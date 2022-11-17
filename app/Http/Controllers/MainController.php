@@ -22,6 +22,8 @@ use Illuminate\Support\Str;
 use Mail;
 use Session;
 
+use function PHPUnit\Framework\isEmpty;
+
 class MainController extends Controller
 {
 
@@ -96,6 +98,24 @@ class MainController extends Controller
 
     public function signin(Request $request)
     {
+        function getIPAddress() {
+            //whether ip is from the share internet
+             if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                        $ip = $_SERVER['HTTP_CLIENT_IP'];
+                }
+            //whether ip is from the proxy
+            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+             }
+        //whether ip is from the remote address
+            else{
+                     $ip = $_SERVER['REMOTE_ADDR'];
+             }
+        }
+        $ip = getIPAddress();
+
+        dd($ip);
+
 
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
