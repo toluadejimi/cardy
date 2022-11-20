@@ -4468,28 +4468,32 @@ class MainController extends Controller
         curl_close($curl);
         $var = json_decode($var);
 
+        $status = $var->status;
+        $ref_trans_id = $var->data->id;
+        $amount = $var->data->amount;
+        $user_id = $var->data->meta->consumer_id;
 
 
-        if($var->status == 'success'){
 
+
+        if($status == 'success'){
 
             $save = new Transaction();
-            $save->ref_trans_id = $var->data->id;
+            $save->ref_trans_id = $ref_trans_id;
             $save->transaction_type = 'cash_in';
             $save->debit = $var->data->amount;
-            $save->user_id = $var->data->meta->consumer_id;
+            $save->user_id = $user_id;
             $save->note = 'Instant Wallet Funding';
             $save->save();
 
 
 
-
             $save = new BankTransfer();
-            $save->ref_id = $var->data->id;
+            $save->ref_id = $ref_trans_id;
             $save->type = 'Instant Funding';
-            $save->amount = $var->data->amount;
+            $save->amount = $amount;
             $save->status = 1;
-            $save->user_id = $var->data->meta->consumer_id;
+            $save->user_id = $user_id;
             $save->save();
 
 
