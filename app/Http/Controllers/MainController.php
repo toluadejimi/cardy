@@ -4455,6 +4455,11 @@ class MainController extends Controller
             return back()->with('error', 'You are a thief');
         }
 
+        $user_wallet = EMoney::where('user_id', Auth::id())
+        ->first()->current_banance;
+
+
+
 
 
         $curl = curl_init();
@@ -4507,6 +4512,11 @@ class MainController extends Controller
             $save->status = 1;
             $save->user_id = $user_id;
             $save->save();
+
+
+            $credit = $user_wallet + $amount;
+            $update = EMoney::where('user_id', Auth::id())
+            ->update(['current_balance' => $credit]);
 
 
             return back()->with('message', "Wallet has been successfully Credited");
