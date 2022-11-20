@@ -4447,13 +4447,19 @@ class MainController extends Controller
         $check = BankTransfer::where([
             'ref_id' => $transaction_id,
             'status'=> 1
-            ]) ->first()->ref_id;
+            ]) ->first()->ref_id ?? null;
+
+
+
 
 
         if($check == $transaction_id ){
 
             return back()->with('error', 'You are a thief');
         }
+
+
+        
 
         $user_wallet = EMoney::where('user_id', Auth::id())
         ->first()->current_banance;
