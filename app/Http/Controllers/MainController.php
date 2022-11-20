@@ -4444,6 +4444,16 @@ class MainController extends Controller
         $tx_ref = $request->trx;
         $transaction_id = $request->transaction_id;
 
+        $check = BankTransfer::where([
+            'ref_id' => $transaction_id,
+            'status'=> 1
+            ]) ->first()->ref_id;
+
+
+        if($check == $transaction_id ){
+
+            return back()->with('error', 'You are a thief');
+        }
 
 
 
@@ -4477,6 +4487,8 @@ class MainController extends Controller
 
 
         if($status == 'success'){
+
+
 
             $save = new Transaction();
             $save->ref_trans_id = $ref_trans_id;
