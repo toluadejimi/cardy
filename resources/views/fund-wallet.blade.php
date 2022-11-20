@@ -140,31 +140,6 @@
                                                                     payment_options: "card, banktransfer, ussd",
                                                                     redirect_url: "{{ url('') }}/status",
 
-                                                                    callback: function(payment) {
-                                                                        // Send AJAX verification request to backend
-
-                                                                        console.log(payment);
-                                                                        verifyTransactionOnBackend(payment.id);
-
-
-
-
-
-
-                                                                    },
-                                                                    onclose: function(incomplete) {
-                                                                        if (incomplete || window.verified === false) {
-                                                                            document.querySelector("#payment-failed").style.display = 'block';
-                                                                        } else {
-                                                                            document.querySelector("form").style.display = 'none';
-                                                                            if (window.verified == true) {
-                                                                                document.querySelector("#payment-success").style.display = 'block';
-                                                                            } else {
-                                                                                document.querySelector("#payment-pending").style.display = 'block';
-                                                                            }
-                                                                        }
-                                                                    },
-
                                                                     meta: {
                                                                         consumer_id: {{ Auth::user()->id }},
                                                                     },
@@ -181,12 +156,7 @@
                                                                 });
                                                             }
 
-                                                            function verifyTransactionOnBackend(transactionId) {
-                                                                // Let's just pretend the request was successful
-                                                                setTimeout(function() {
-                                                                    window.verified = true;
-                                                                }, 200);
-                                                            }
+
                                                         </script>
 
 
