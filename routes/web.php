@@ -87,6 +87,12 @@ Route::get('update', [MainController::class,'update']);
 
 
 
+
+
+
+
+
+
 Route::get('forgot-password', [MainController::class, 'forgot_password']);
 
 Route::post('forgot-password-now', [MainController::class, 'forgot_password_send_code']);
@@ -163,6 +169,16 @@ Route::get('/verify-change-account', [MainController::class,'verify_change_accou
 Route::group(['middleware' => 'adminAuth'],function(){
 
     Route::get('/user-dashboard', [MainController::class,'user_dashboard']);
+    Route::get('confirmpay', [MainController::class, 'confirmpay']);
+
+
+    Route::get('status', [MainController::class, 'status']);
+    Route::get('check-status', [MainController::class, 'check_status']);
+
+
+
+
+
 
 
     Route::get('/my-card', [MainController::class,'my_card']);
@@ -209,6 +225,8 @@ Route::group(['middleware' => 'adminAuth'],function(){
 
     Route::get('gotv', [MainController::class, 'gotv']);
     Route::get('verify-gotv-cable', [MainController::class, 'verify_gotv_cable']);
+    Route::get('buy-gotv-now', [MainController::class, 'buy_gotv_now']);
+
 
     Route::get('startimes', [MainController::class, 'buy_startimes']);
     Route::get('verify-startimes-cable', [MainController::class, 'verify_startimes_cable']);

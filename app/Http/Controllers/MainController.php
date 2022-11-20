@@ -1063,7 +1063,7 @@ class MainController extends Controller
     public function fund_wallet(Request $request)
     {
 
-        $url = env('FLCURL');
+        $fpk = env('FLW_PUBLIC_KEY');
 
         $users = User::all();
 
@@ -1082,7 +1082,7 @@ class MainController extends Controller
 
         $trx = Str::random(10);
 
-        return view('fund-wallet', compact('users', 'banktransfers', 'trx', 'mcode', 'user_wallet', 'mapikey'));
+        return view('fund-wallet', compact('users', 'banktransfers', 'trx', 'mcode', 'user_wallet', 'fpk'));
     }
 
     public function callback(Request $request)
@@ -3407,11 +3407,6 @@ class MainController extends Controller
 
 
 
-
-
-
-
-
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
 
@@ -4083,21 +4078,28 @@ class MainController extends Controller
 
     public function gotv()
     {
-
-        $user_wallet = EMoney::where('user_id', Auth::user()->id)
-            ->first()->current_balance;
-
         $client = new \GuzzleHttp\Client();
         $request = $client->get('https://vtpass.com/api/service-variations?serviceID=gotv');
         $response = $request->getBody();
         $result = json_decode($response);
+        $gotv_type = $result->content->variations;
 
-        $cable_company = $result->content->variations;
+
+
+        $current_gotv_plan = User::where('id', Auth::user()->id)
+            ->first()->current_gotv_plan;
+
+
+
+        $user_wallet = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+
 
         $gotv_number = User::where('id', Auth::id())
             ->first()->gotv_number;
 
-        return view('gotv', compact('cable_company', 'gotv_number', 'user_wallet'));
+        return view('gotv', compact('gotv_number', 'gotv_type', 'user_wallet', 'current_gotv_plan'));
 
     }
 
@@ -4134,6 +4136,7 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
+
         if ($var->code == 000) {
 
             $customer_name = $var->content->Customer_Name;
@@ -4142,6 +4145,7 @@ class MainController extends Controller
             $update = User::where('id', Auth::id())
                 ->update([
                     'gotv_number' => $billers_code,
+                    'current_gotv_plan' => $plan,
                 ]);
 
             return back()->with('mm', "Name - $customer_name   | Current Plan - $plan");
@@ -4151,6 +4155,177 @@ class MainController extends Controller
         return back()->with('er', "Please check the ICU Number and try again");
 
     }
+
+
+    public function buy_gotv_now(Request $request){
+
+
+        $api_key = env('ELASTIC_API');
+        $from = env('FROM_API');
+
+        $auth = env('VTAUTH');
+
+        $request_id = date('YmdHis') . Str::random(4);
+        $get_variation_code = $request->variation_code;
+
+
+        $get_amount = str_replace(['+', '-'], '', filter_var($get_variation_code, FILTER_SANITIZE_NUMBER_INT)) / 100;
+        $amount = sprintf('%.2f', $get_amount);
+        $trim_variation_code = preg_replace('/\d+/', '', $get_variation_code);
+        $trim2_variation_code =trim($trim_variation_code,".");
+        $variation_code =  trim($trim2_variation_code);
+
+
+        $serviceID = 'gotv';
+
+        $billersCode = $request->biller_code;
+
+        $phone = $request->phone;
+
+
+        $transfer_pin = $request->pin;
+
+        $gotv_charges = Charge::where('title', 'gotv')
+            ->first()->amount;
+
+
+        $new_amount = $amount + $gotv_charges;
+
+
+        $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
+            ->first()->current_balance;
+
+        $getpin = Auth()->user();
+        $user_pin = $getpin->pin;
+
+        if (Hash::check($transfer_pin, $user_pin) == false) {
+            return back()->with('error', 'Invalid Pin');
+        }
+
+
+        if ($new_amount > $user_wallet_banlance) {
+
+            return back()->with('error', 'Insufficient Funds, Fund your wallet');
+
+        }
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://vtpass.com/api/pay',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'request_id' => $request_id,
+                'serviceID' => $serviceID,
+                'billersCode' => $billersCode,
+                'variation_code' => $variation_code,
+                'amount' => $amount,
+                'phone' => $phone,
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic $auth=",
+                'Cookie: laravel_session=eyJpdiI6IlBkTGc5emRPMmhyQVwvb096YkVKV2RnPT0iLCJ2YWx1ZSI6IkNvSytPVTV5TW52K2tBRlp1R2pqaUpnRDk5YnFRbEhuTHhaNktFcnBhMFRHTlNzRWIrejJxT05kM1wvM1hEYktPT2JKT2dJWHQzdFVaYnZrRytwZ2NmQT09IiwibWFjIjoiZWM5ZjI3NzBmZTBmOTZmZDg3ZTUxMDBjODYxMzQ3OTkxN2M4YTAxNjNmMWY2YjAxZTIzNmNmNWNhOWExNzJmOCJ9',
+            ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+
+        $var = json_decode($var);
+
+
+        if ($var->response_description == 'TRANSACTION SUCCESSFUL') {
+
+            $user_amount = EMoney::where('user_id', Auth::id())
+                ->first()->current_balance;
+
+            $debit = $user_amount - $new_amount;
+            $update = EMoney::where('user_id', Auth::id())
+                ->update([
+                    'current_balance' => $debit,
+                ]);
+
+            $transaction = new Transaction();
+            $transaction->ref_trans_id = Str::random(10);
+            $transaction->user_id = Auth::id();
+            $transaction->transaction_type = "cash_out";
+            $transaction->debit = $new_amount;
+            $transaction->type = 'vas';
+            $transaction->note = "Gotv Subscribtion";
+            $transaction->save();
+
+            $email = User::where('id', Auth::id())
+                ->first()->email;
+
+            $f_name = User::where('id', Auth::id())
+                ->first()->f_name;
+
+            $client = new Client([
+                'base_uri' => 'https://api.elasticemail.com',
+            ]);
+
+            $res = $client->request('GET', '/v2/email/send', [
+                'query' => [
+
+                    'apikey' => "$api_key",
+                    'from' => "$from",
+                    'fromName' => 'Cardy',
+                    'sender' => "$from",
+                    'senderName' => 'Cardy',
+                    'subject' => 'Gotv Subscription',
+                    'to' => "$email",
+                    'bodyHtml' => view('gotv-notification', compact('f_name',))->render(),
+                    'encodingType' => 0,
+
+                ],
+            ]);
+
+
+
+            return back()->with('message', ' Gotv Subscription Successfull');
+
+        }return back()->with('error', "Failed!! Please try again later");
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function freeze_usd_card(Request $request)
     {
@@ -4243,6 +4418,145 @@ class MainController extends Controller
         }
 
         return back()->with('error', "Sorry!! $err_message");
+
+    }
+
+
+
+    public function confirmpay(Request $request){
+         $trx = $request->trx;
+        $amount = $request->amount / 100;
+        $user_id = $request->user_id;
+
+        $save = new BankTransfer();
+        $save->user_id = $user_id;
+        $save->amount = $amount;
+        $save->type = 'Instant Funding';
+        $save->ref_id = $trx;
+        $save->save();
+
+    }
+
+
+    public function status(Request $request){
+
+
+        $fpk = env('FLW_SECRET_KEY');
+        $tx_ref = $request->trx;
+        $transaction_id = $request->transaction_id;
+
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$transaction_id/verify",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => array(
+            "Authorization: $fpk",
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+
+
+
+        if($var->status == 'success'){
+
+
+            $save = new Transaction();
+            $save->ref_trans_id = $var->data->id;
+            $save->transaction_type = 'cash_in';
+            $save->debit = $var->data->amount;
+            $save->user_id = $var->data->meta->consumer_id;
+            $save->note = 'Instant Wallet Funding';
+            $save->save();
+
+
+            $save = new BankTransfer();
+            $save->ref_id = $var->data->id;
+            $save->type = 'Instant Funding';
+            $save->amount = $var->data->amount;
+            $save->status = 1;
+            $save->user_id = $var->data->meta->consumer_id;
+            $save->save();
+
+
+            return back()->with('message', "Wallet has been successfully Credited");
+
+        }
+
+
+
+
+
+    }
+
+
+    public function check_status(Request $request){
+
+
+        $fpk = env('FLW_SECRET_KEY');
+        $tx_ref = $request->trx;
+        $trx = $request->trx;
+
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$trx/verify",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => array(
+            "Authorization: $fpk",
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+
+
+
+        if($var->status == 'success'){
+
+
+            $update = BankTransfer::where('ref_id',$trx)
+            ->update([
+
+                'status'=> 1
+
+            ]);
+
+
+
+
+
+            return back()->with('message', "Wallet has been successfully Updated");
+
+        }
+
+
+
+
 
     }
 }

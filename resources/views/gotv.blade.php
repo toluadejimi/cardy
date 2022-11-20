@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-sm-5 text-center text-sm-left">
                                 <div class="card-body pb-0 px-0 px-md-4">
-                                    <img src="{{ url('') }}/public/assets/img/illustrations/phone.png" height="140"
+                                    <img src="{{ url('') }}/public/assets/img/illustrations/gotv.png" height="140"
                                         alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
                                         data-app-light-img="illustrations/man-with-laptop-light.png" />
                                 </div>
@@ -143,81 +143,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="col-lg-12 mb-4 order-0">
-
-                            <div class="d-flex align-items-end row">
-                                <div class="col-sm-6">
-                                    <div class="card-body">
-
-
-                                        <form action="/buy-eletricity-now" class="mb-3" method="GET">
-                                            @csrf
-                                            @if ($errors->any())
-                                                <div class="alert alert-danger">
-                                                    <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                            @if (session()->has('message'))
-                                                <div class="alert alert-success">
-                                                    {{ session()->get('message') }}
-                                                </div>
-                                            @endif
-                                            @if (session()->has('error'))
-                                                <div class="alert alert-danger">
-                                                    {{ session()->get('error') }}
-                                                </div>
-                                            @endif
-                                            <div class="mb-3">
-
-
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="">Meter Number</label>
-                                                    <input type="text" class="form-control" readonly name="meter_number"
-                                                        id="basic-default-fullname" value="{{ $gotv_number ?? 000000 }}" />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <input type="text" class="form-control" readonly
-                                                        name="eletric_company" id="basic-default-fullname" hidden
-                                                        value=" " />
-
-                                                </div>
-
-
-                                                <div class="mb-3">
-                                                    <label for="phone" class="form-label">Select Meter Type</label>
-                                                    <select name="meter_type" id="" class="form-control">
-                                                        <option value="">Select</option>
-                                                        <option value="01">Prepaid</option>
-                                                        <option value="02">Postpaid</option>
-                                                    </select>
-                                                </div>
-
-
-
-
-
-
-
-
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="">Enter Amount (NGN)</label>
-                                                    <input type="text" class="form-control" name="amount"
-                                                        id="basic-default-fullname" value="" />
-                                                    <small> Min - NGN 1,000 | Max - NGN 50,000 </small>
-                                                </div>
-
-
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="">Enter Phone Number</label>
-                                                    <input type="text" class="form-control" name="phone_number"
-                                                        id="basic-default-fullname" value="" />
-                                                </div>
 
 
 
@@ -227,20 +152,105 @@
 
 
 
+                    <div class="row">
+
+
+                        <div class="col-lg-7 mb-4 order-0">
+
+                            <div class="card">
+                                <div class="col-lg-12 mb-4 order-0">
+
+                                    <div class="d-flex align-items-end row">
+                                        <div class="col-sm-12">
+                                            <div class="card-body">
+
+
+                                                <form action="/buy-gotv-now" class="mb-3" method="GET">
+                                                    @csrf
+                                                    @if ($errors->any())
+                                                        <div class="alert alert-danger">
+                                                            <ul>
+                                                                @foreach ($errors->all() as $error)
+                                                                    <li>{{ $error }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                    @if (session()->has('message'))
+                                                        <div class="alert alert-success">
+                                                            {{ session()->get('message') }}
+                                                        </div>
+                                                    @endif
+                                                    @if (session()->has('error'))
+                                                        <div class="alert alert-danger">
+                                                            {{ session()->get('error') }}
+                                                        </div>
+                                                    @endif
+                                                    <div class="mb-3">
+
+
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="">ICU Number</label>
+                                                            <input type="number" class="form-control" readonly
+                                                                name="biller_code" id="basic-default-fullname"
+                                                                value="{{ $gotv_number ?? 000000 }}" />
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+                                                            <label for="phone" class="form-label">Current Plan</label>
+                                                            <input type="text" readonly class="form-control" name="current_plan"
+                                                                id="basic-default-fullname"
+                                                                value="{{ Auth::user()->current_gotv_plan }}" />
+
+                                                        </div>
 
 
 
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="">Pin</label>
-                                                    <input type="password" class="form-control" name="pin"
-                                                        id="amount_to_fund" placeholder="Enter 4 Digit Pin "
-                                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
 
-                                                </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="">Choose GOTV BOUQUET
+                                                            </label>
+                                                            <select name="variation_code" id=""
+                                                                class="form-control">
+                                                                <option selected>Select Bundle</option>
+                                                                @foreach ($gotv_type as $data)
+                                                                    <option
+                                                                        value="{{ $data->variation_code }} {{ $data->variation_amount }}">
+                                                                        {{ $data->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
 
-                                                <button type="submit" class="btn btn-primary">Buy Eletric Token</button>
-                                        </form>
 
+
+
+                                                        <div class="mb-3">
+                                                            <label for="phone" class="form-label">Phone Number</label>
+                                                            <input type="text" class="form-control" name="phone"
+                                                                id="basic-default-fullname"
+                                                                value="{{ Auth::user()->phone }}" />
+
+                                                        </div>
+
+
+
+
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="">Pin</label>
+                                                            <input type="password" class="form-control" name="pin"
+                                                                id="amount_to_fund" placeholder="Enter 4 Digit Pin "
+                                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-primary">Subscribe
+                                                            Now</button>
+                                                </form>
+
+                                            </div>
+
+                                        </div>
                                     </div>
 
 
@@ -252,6 +262,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
 
@@ -259,6 +271,8 @@
 
 
                 <div class="container-xxl flex-grow-1 container-p-y">
+
+
 
                 </div>
 

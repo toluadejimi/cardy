@@ -106,59 +106,97 @@
                                                             id="amount_to_fund" placeholder="Please Enter Amount in NGN" />
                                                         <span> Min - 100 | Max - 1,000,000</span>
 
+
                                                     </div>
+                                                    <html>
+
+                                                    <head>
+
+                                                        <script src="https://checkout.flutterwave.com/v3.js"></script>
+
+                                                        <script>
+                                                            function makePayment() {
+
+                                                                function randomReference() {
+                                                                    var length = 10;
+                                                                    var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                                                    var result = '';
+                                                                    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+                                                                    return result;
+                                                                }
 
 
-                                                    <script type="text/javascript">
-                                                        //load isw payment page
-
-                                                        let getamount = document.getElementsByName('amount_to_fund').value;
-
-                                                        var newamount = 
-
-                                                        function checkout() {
-                                                            var merchantCode = 'MX77338';
-                                                            var payItemId = 'Default_Payable_MX77338';
-
-                                                            var transRef = randomReference();
-                                                            var paymentRequest = {
-                                                                merchant_code: merchantCode,
-                                                                pay_item_id: payItemId,
-                                                                txn_ref: transRef,
-                                                                amount: document.getElementsByName('amount_to_fund' ) * [100].value,
-                                                                currency: '566',
-                                                                site_redirect_url: window.location.origin,
-                                                                onComplete: paymentCallback,
-                                                                mode: 'TEST'
-                                                            };
-
-                                                            window.webpayCheckout(paymentRequest);
-                                                        }
-
-                                                        console.log(amount)
+                                                                var transRef = randomReference();
+                                                                var amount = document.getElementsByName('amount_to_fund')[0].value;
 
 
-                                                        //generate a random transaction ref
-                                                        function randomReference() {
-                                                            var length = 10;
-                                                            var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                                                            var result = '';
-                                                            for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-                                                            return result;
-                                                        }
 
-                                                        //callback function that gets triggered on payment success or failure
-                                                        function paymentCallback(response) {
-                                                            if (response != null) {
-                                                                alert(response.desc);
+
+                                                                FlutterwaveCheckout({
+                                                                    public_key: "{{ $fpk }}",
+                                                                    tx_ref: transRef,
+                                                                    amount: amount,
+                                                                    currency: "NGN",
+                                                                    payment_options: "card, banktransfer, ussd",
+                                                                    redirect_url: "{{ url('') }}/status",
+
+                                                                    callback: function(payment) {
+                                                                        // Send AJAX verification request to backend
+
+                                                                        console.log(payment);
+                                                                        verifyTransactionOnBackend(payment.id);
+
+
+
+
+
+
+                                                                    },
+                                                                    onclose: function(incomplete) {
+                                                                        if (incomplete || window.verified === false) {
+                                                                            document.querySelector("#payment-failed").style.display = 'block';
+                                                                        } else {
+                                                                            document.querySelector("form").style.display = 'none';
+                                                                            if (window.verified == true) {
+                                                                                document.querySelector("#payment-success").style.display = 'block';
+                                                                            } else {
+                                                                                document.querySelector("#payment-pending").style.display = 'block';
+                                                                            }
+                                                                        }
+                                                                    },
+
+                                                                    meta: {
+                                                                        consumer_id: {{ Auth::user()->id }},
+                                                                    },
+                                                                    customer: {
+                                                                        email: "{{ Auth::user()->email }}",
+                                                                        phone_number: "{{ Auth::user()->phone }}",
+                                                                        name: "{{ Auth::user()->f_name }} {{ Auth::user()->l_name }}",
+                                                                    },
+                                                                    customizations: {
+                                                                        title: "Cardy",
+                                                                        description: "Wallet Funding",
+                                                                        logo: "{{ url('') }}/public/assets/img/illustrations/logo_round.png",
+                                                                    },
+                                                                });
                                                             }
 
-                                                        }
-                                                    </script>
+                                                            function verifyTransactionOnBackend(transactionId) {
+                                                                // Let's just pretend the request was successful
+                                                                setTimeout(function() {
+                                                                    window.verified = true;
+                                                                }, 200);
+                                                            }
+                                                        </script>
+
+
+
+
+
                                                     </head>
 
                                                     <button type="button" id="start-payment-button" class="btn btn-primary"
-                                                        onclick="checkout()">Continue</button>
+                                                        onclick="makePayment()">Continue</button>
 
                                                 </form>
 
@@ -168,12 +206,12 @@
 
 
                                             <!-- Bootstrap core JavaScript
-                                                                        ================================================== -->
+                                                                                                    ================================================== -->
                                             <!-- Placed at the end of the document so the pages load faster -->
                                             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                                                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
                                             </script>
-                                            <script src="https://qa.interswitchng.com/collections/public/javascripts/inline-checkout.js"></script>
+                                            <script src="https://newwebpay.interswitchng.com/inline-checkout.js"></script>
                                             </body>
                                             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
                                             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -194,7 +232,7 @@
                     </div>
 
 
-                    <div class="col-lg-6 mt-5">
+                    <div class="col-lg-6 mt-0">
 
 
                         <div class="card">
@@ -300,6 +338,19 @@
                                                                 <td>{{ date('F d, Y', strtotime($item->created_at)) }}
                                                                 </td>
                                                                 <td>{{ date('h:i:s A', strtotime($item->created_at)) }}
+                                                                </td>
+                                                                <td>
+
+                                                                    @if ($item->type == 'Instant Funding')
+                                                                        <div>
+                                                                            <a class="btn btn-secondary"
+                                                                                href="{{ url('') }}/check-status?trx={{ $item->ref_id }}"
+                                                                                role="button" aria-expanded="false"
+                                                                                aria-controls="">Status</a>
+
+                                                                        </div>
+                                                                    @endif
+
                                                                 </td>
 
                                                             </tr>
