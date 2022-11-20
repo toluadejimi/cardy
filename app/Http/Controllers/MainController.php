@@ -4440,7 +4440,6 @@ class MainController extends Controller
 
     public function status(Request $request){
 
-
         $fpk = env('FLW_SECRET_KEY');
         $tx_ref = $request->trx;
         $transaction_id = $request->transaction_id;
@@ -4483,6 +4482,8 @@ class MainController extends Controller
             $save->save();
 
 
+
+
             $save = new BankTransfer();
             $save->ref_id = $var->data->id;
             $save->type = 'Instant Funding';
@@ -4494,7 +4495,13 @@ class MainController extends Controller
 
             return back()->with('message', "Wallet has been successfully Credited");
 
+        }else{
+            return back()->with('error', "Network error Please try again");
+
         }
+
+
+
 
 
 
