@@ -253,7 +253,7 @@ class MainController extends Controller
                 'senderName' => 'Cardy',
                 'subject' => 'Verification Code',
                 'to' => "$user_email",
-                'bodyHtml' => view('verification', compact('new_email_code', 'f_name'))->render(),
+                'bodyHtml' => view('resend-code', compact('new_email_code', 'f_name'))->render(),
                 'encodingType' => 0,
 
             ],
@@ -4459,7 +4459,7 @@ class MainController extends Controller
         }
 
 
-        
+
 
         $user_wallet = EMoney::where('user_id', Auth::id())
         ->first()->current_banance;
@@ -4597,5 +4597,9 @@ class MainController extends Controller
 
 
 
+
     }
+
+
+
 }

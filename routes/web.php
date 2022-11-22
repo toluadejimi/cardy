@@ -66,6 +66,11 @@ Route::get('/', function () {
 });
 
 
+Route::get('addmoney', [MainController::class, 'addmoney']);
+
+
+
+
 
 
 Route::get('ratemail', [SendBulkMailController::class, 'sendUsdPrice']);
