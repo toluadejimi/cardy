@@ -3307,9 +3307,11 @@ class MainController extends Controller
                 $filename= date('YmdHi').$file->getClientOriginalName();
                 $file-> move(public_path('/upload/verify'), $filename);
 
-                $mono_file_url = url('')."/upload/verify/$filename";
+               $mono_file_url = url('')."/public/upload/verify/$filename";
 
             }
+
+
 
 
 
@@ -3371,7 +3373,7 @@ class MainController extends Controller
             ->update([
                     'identification_type' => $identification_type,
                     'identification_number' => $identification_number,
-                    'identification_url' =>   $mono_file_url,
+                    'identification_url' =>  $mono_file_url,
                     'identity' => 1,
                     'dob' => $dob,
 
@@ -3401,9 +3403,11 @@ class MainController extends Controller
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('/upload/verify'), $filename);
 
-            $mono_file_url = url('')."/upload/verify/$filename";
+            $mono_file_url = url('')."public/upload/verify/$filename";
 
         }
+
+
 
 
 
@@ -3507,7 +3511,7 @@ class MainController extends Controller
                     'm_name' => $request->m_name,
                     'identification_type' => $identification_type,
                     'identification_number' => $identification_number,
-                    'identification_url' => $identification_url,
+                    'identification_url' => $mono_file_url,
                     'state' => $request->state,
                     'lga' => $request->lga,
                     'bvn' => $request->bvn,
