@@ -61,6 +61,12 @@
                             {{ session()->get('message') }}
                         </div>
                     @endif
+                    @if (session()->has('monomessage'))
+                    <div class="alert alert-primary">
+                        {{ session()->get('monomessage') }}
+                    </div>
+                @endif
+
                     @if (session()->has('error'))
                         <div class="alert alert-danger">
                             {{ session()->get('error') }}
@@ -72,7 +78,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6 mb-6">
+                    <div class="col-lg-6 mb-4 mt-2">
 
 
                         <div class="card">
@@ -83,27 +89,62 @@
 
                                         <h5 class="title"> Instant Funding</h5>
                                         <p class="mb-4">
-                                            Fund your wallet instantly with flutterwave,</br>
+                                            Fund your wallet instantly with flutterwave, Mono</br>
                                             2.5% charges will apply.
                                         </p>
 
 
                                         <p>
-                                            <a class="btn btn-primary" data-bs-toggle="collapse" href="#mtn"
-                                                role="button" aria-expanded="false" aria-controls="mtn">Fund Wallet</a>
+                                            <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#mono"
+                                            role="button" aria-expanded="false" aria-controls="mtn">Pay with Mono</a>
+
+                    
+                                                <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#flutter"
+                                                role="button" aria-expanded="false" aria-controls="mtn">Pay with FlutterWave</a>
+
                                         </p>
 
 
-                                        <div class="row">
-                                            <div class="collapse multi-collapse" id="mtn">
+
+
+                                        <div class="row mt-2">
+                                            <div class="collapse multi-collapse" id="mono">
+
+
+                                                <form action="/fund-mono" class="mb-3" method="POST">
+                                                    @csrf
+                                                    <div class="mb-3 mt-2">
+                                                        <h6 class="title"> Fund With Mono</h6>
+                                                        <label class="form-label" for="">Amount (NGN)</label>
+                                                        <input type="number" class="form-control" name="amount_to_fund_mono"
+                                                            id="amount_to_fund" placeholder="Please Enter Amount in NGN" />
+                                                        <span> Min - 200 | Max - 1,000,000</span>
+
+
+                                                    </div>
+
+
+                                                    <button type="submit" id="start-payment-button" class="btn btn-primary"
+                                                    >Continue</button>
+
+                                                </form>
+
+                                            </div>
+
+                                        </div>
+
+                            
+
+                                        <div class="row mt-2">
+                                            <div class="collapse multi-collapse" id="flutter">
 
 
                                                 <form action="/pay-now" class="mb-3" method="POST">
-                                                    <div class="mb-3">
-
+                                                    <div class="mb-3 mt-2">
+                                                        <h6 class="title"> Fund With Flutter Wave</h6>
                                                         <label class="form-label" for="">Amount (NGN)</label>
-                                                        <input type="number" class="form-control" name="amount_to_fund"
-                                                            id="amount_to_fund" placeholder="Please Enter Amount in NGN" />
+                                                        <input type="number" class="form-control" name="amount_to_fund_flutter"
+                                                            id="amount_to_fund_flutter" placeholder="Please Enter Amount in NGN" />
                                                         <span> Min - 100 | Max - 1,000,000</span>
 
 
@@ -127,7 +168,7 @@
 
 
                                                                 var transRef = randomReference();
-                                                                var amount = document.getElementsByName('amount_to_fund')[0].value;
+                                                                var amount = document.getElementsByName('amount_to_fund_flutter')[0].value;
 
 
 
@@ -192,6 +233,29 @@
 
 
                                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     </div>
                                 </div>
 
@@ -202,7 +266,7 @@
                     </div>
 
 
-                    <div class="col-lg-6 mt-0">
+                    <div class="col-lg-6 mt-2">
 
 
                         <div class="card">
@@ -285,6 +349,7 @@
                                                             <th>Amount</th>
                                                             <th>Type</th>
                                                             <th>Status</th>
+                                                            <th>Action</th>
                                                             <th>Date</th>
                                                             <th>Time</th>
 
@@ -305,10 +370,6 @@
                                                                             class="badge rounded-pill bg-success">Successful</span>
                                                                     </td>
                                                                 @endif
-                                                                <td>{{ date('F d, Y', strtotime($item->created_at)) }}
-                                                                </td>
-                                                                <td>{{ date('h:i:s A', strtotime($item->created_at)) }}
-                                                                </td>
                                                                 <td>
 
                                                                     @if ($item->type == 'Instant Funding')
@@ -320,8 +381,22 @@
 
                                                                         </div>
                                                                     @endif
+                                                                    @if ($item->type == 'Mono Instant Funding')
+                                                                    <div>
+                                                                        <a class="btn btn-primary"
+                                                                            href="{{ $item->mono_link }}"
+                                                                            role="button" aria-expanded="false"
+                                                                            aria-controls="">Pay</a>
+
+                                                                    </div>
+                                                                @endif
 
                                                                 </td>
+                                                                <td>{{ date('F d, Y', strtotime($item->created_at)) }}
+                                                                </td>
+                                                                <td>{{ date('h:i:s A', strtotime($item->created_at)) }}
+                                                                </td>
+
 
                                                             </tr>
                                                         @empty

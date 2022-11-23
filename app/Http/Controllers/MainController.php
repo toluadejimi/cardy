@@ -15,7 +15,6 @@ use App\Models\UserIp;
 use App\Models\Vcard;
 use App\Services\Encryption;
 use GuzzleHttp\Client;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,8 +22,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Mail;
 use Session;
-
-use function PHPUnit\Framework\isEmpty;
 
 class MainController extends Controller
 {
@@ -104,7 +101,6 @@ class MainController extends Controller
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
 
-
         $email_code = random_int(100000, 999999);
 
         $device = $request->header('User-Agent');
@@ -119,13 +115,11 @@ class MainController extends Controller
 
             $save = new UserIp();
             $save->user_ip = $clientIP;
-            $save->device =$device;
-            $save->user = Auth::user()->f_name. " ".Auth::user()->l_name;
+            $save->device = $device;
+            $save->user = Auth::user()->f_name . " " . Auth::user()->l_name;
             $save->save();
 
-
             if (Auth::user()->is_email_verified == 0) {
-
 
                 $user = User::where("id", Auth::id())->get();
 
@@ -158,7 +152,7 @@ class MainController extends Controller
                         'senderName' => 'Cardy',
                         'subject' => 'Verification Code',
                         'to' => "$email",
-                        'bodyHtml' => view('verifyemail', compact('new_email_code','f_name'))->render(),
+                        'bodyHtml' => view('verifyemail', compact('new_email_code', 'f_name'))->render(),
                         'encodingType' => 0,
 
                     ],
@@ -166,9 +160,6 @@ class MainController extends Controller
 
                 $body = $res->getBody();
                 $array_body = json_decode($body);
-
-
-
 
                 return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
             }
@@ -205,7 +196,7 @@ class MainController extends Controller
                     'senderName' => 'Cardy',
                     'subject' => 'Verification Code',
                     'to' => "$user_email",
-                    'bodyHtml' => view('verification', compact('new_email_code', 'f_name' ,'clientIP', 'device'))->render(),
+                    'bodyHtml' => view('verification', compact('new_email_code', 'f_name', 'clientIP', 'device'))->render(),
                     'encodingType' => 0,
 
                 ],
@@ -545,16 +536,13 @@ class MainController extends Controller
 
         $mono_amount_in_cent = round($get_amount_in_usd_to_cent, 2);
 
-        if($get_amount_in_usd_to_cent < 1000){
+        if ($get_amount_in_usd_to_cent < 1000) {
             return back()->with('error', 'Min amount to fund is 10USD');
         }
 
-
-        if(Auth::user()->identity == 0){
+        if (Auth::user()->identity == 0) {
             return back()->with('error', 'Please update your information');
         }
-
-
 
         $get_usd_card_records = Vcard::where('card_type', 'usd')
             ->where('user_id', Auth::id())
@@ -1279,9 +1267,7 @@ class MainController extends Controller
 
         $usd_amount = $get_usd_amount - $fund;
 
-
-
-        if(Auth::user()->identity == 0){
+        if (Auth::user()->identity == 0) {
             return back()->with('error', 'Please update your information');
         }
 
@@ -3290,8 +3276,6 @@ class MainController extends Controller
     public function update_account_now(Request $request)
     {
 
-
-
         $id = Auth::user()->mono_customer_id;
 
         $identification_type = $request->identification_type;
@@ -3300,22 +3284,15 @@ class MainController extends Controller
         $get_dob = $request->dob;
         $dob = date("d-m-Y", strtotime($get_dob));
 
+        if ($request->file('identification_url')) {
 
-            if($request->file('identification_url')){
+            $file = $request->file('identification_url');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('/upload/verify'), $filename);
 
-                $file= $request->file('identification_url');
-                $filename= date('YmdHi').$file->getClientOriginalName();
-                $file-> move(public_path('/upload/verify'), $filename);
+            $mono_file_url = url('') . "/public/upload/verify/$filename";
 
-               $mono_file_url = url('')."/public/upload/verify/$filename";
-
-            }
-
-
-
-
-
-
+        }
 
         $databody = array(
 
@@ -3325,9 +3302,8 @@ class MainController extends Controller
                 "url" => "$mono_file_url",
             ),
 
-
             "dob" => array(
-                "date" => "$dob"
+                "date" => "$dob",
             ),
 
         );
@@ -3362,7 +3338,6 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-
         $message = $var->message;
 
         if ($var->status == 'successful') {
@@ -3370,20 +3345,18 @@ class MainController extends Controller
             //update user
 
             $update = User::where('id', Auth::id())
-            ->update([
+                ->update([
                     'identification_type' => $identification_type,
                     'identification_number' => $identification_number,
-                    'identification_url' =>  $mono_file_url,
+                    'identification_url' => $mono_file_url,
                     'identity' => 1,
                     'dob' => $dob,
 
-
-            ]);
+                ]);
 
             return back()->with('message', 'Information has been updated successfully');
 
-        } return back()->with('error', "Error!! $message");
-
+        }return back()->with('error', "Error!! $message");
 
     }
 
@@ -3396,20 +3369,15 @@ class MainController extends Controller
         $get_dob = $request->dob;
         $dob = date("d-m-Y", strtotime($get_dob));
 
+        if ($request->file('identification_url')) {
 
-        if($request->file('identification_url')){
+            $file = $request->file('identification_url');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('/upload/verify'), $filename);
 
-            $file= $request->file('identification_url');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('/upload/verify'), $filename);
-
-            $mono_file_url = url('')."/public/upload/verify/$filename";
+            $mono_file_url = url('') . "/public/upload/verify/$filename";
 
         }
-
-
-
-
 
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
@@ -3442,15 +3410,14 @@ class MainController extends Controller
                 "lga" => $lga,
             ),
 
-             "identity" => array(
+            "identity" => array(
                 "type" => "$identification_type",
                 "number" => "$identification_number",
                 "url" => "$mono_file_url",
             ),
 
-
             "dob" => array(
-                "date" => "$dob"
+                "date" => "$dob",
             ),
 
             "entity" => "INDIVIDUAL",
@@ -3492,7 +3459,6 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-
         $message = $var->message;
 
         if ($message == null) {
@@ -3519,8 +3485,6 @@ class MainController extends Controller
                     'is_kyc_verified' => 1,
                     'identity' => 1,
                     'dob' => $dob,
-
-
 
                 ]);
         }
@@ -4088,17 +4052,11 @@ class MainController extends Controller
         $result = json_decode($response);
         $gotv_type = $result->content->variations;
 
-
-
         $current_gotv_plan = User::where('id', Auth::user()->id)
             ->first()->current_gotv_plan;
 
-
-
         $user_wallet = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
-
-
 
         $gotv_number = User::where('id', Auth::id())
             ->first()->gotv_number;
@@ -4140,7 +4098,6 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-
         if ($var->code == 000) {
 
             $customer_name = $var->content->Customer_Name;
@@ -4160,9 +4117,8 @@ class MainController extends Controller
 
     }
 
-
-    public function buy_gotv_now(Request $request){
-
+    public function buy_gotv_now(Request $request)
+    {
 
         $api_key = env('ELASTIC_API');
         $from = env('FROM_API');
@@ -4172,13 +4128,11 @@ class MainController extends Controller
         $request_id = date('YmdHis') . Str::random(4);
         $get_variation_code = $request->variation_code;
 
-
         $get_amount = str_replace(['+', '-'], '', filter_var($get_variation_code, FILTER_SANITIZE_NUMBER_INT)) / 100;
         $amount = sprintf('%.2f', $get_amount);
         $trim_variation_code = preg_replace('/\d+/', '', $get_variation_code);
-        $trim2_variation_code =trim($trim_variation_code,".");
-        $variation_code =  trim($trim2_variation_code);
-
+        $trim2_variation_code = trim($trim_variation_code, ".");
+        $variation_code = trim($trim2_variation_code);
 
         $serviceID = 'gotv';
 
@@ -4186,15 +4140,12 @@ class MainController extends Controller
 
         $phone = $request->phone;
 
-
         $transfer_pin = $request->pin;
 
         $gotv_charges = Charge::where('title', 'gotv')
             ->first()->amount;
 
-
         $new_amount = $amount + $gotv_charges;
-
 
         $user_wallet_banlance = EMoney::where('user_id', Auth::user()->id)
             ->first()->current_balance;
@@ -4205,7 +4156,6 @@ class MainController extends Controller
         if (Hash::check($transfer_pin, $user_pin) == false) {
             return back()->with('error', 'Invalid Pin');
         }
-
 
         if ($new_amount > $user_wallet_banlance) {
 
@@ -4241,7 +4191,6 @@ class MainController extends Controller
         curl_close($curl);
 
         $var = json_decode($var);
-
 
         if ($var->response_description == 'TRANSACTION SUCCESSFUL') {
 
@@ -4283,53 +4232,17 @@ class MainController extends Controller
                     'senderName' => 'Cardy',
                     'subject' => 'Gotv Subscription',
                     'to' => "$email",
-                    'bodyHtml' => view('gotv-notification', compact('f_name',))->render(),
+                    'bodyHtml' => view('gotv-notification', compact('f_name', ))->render(),
                     'encodingType' => 0,
 
                 ],
             ]);
 
-
-
             return back()->with('message', ' Gotv Subscription Successfull');
 
         }return back()->with('error', "Failed!! Please try again later");
 
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function freeze_usd_card(Request $request)
     {
@@ -4425,10 +4338,9 @@ class MainController extends Controller
 
     }
 
-
-
-    public function confirmpay(Request $request){
-         $trx = $request->trx;
+    public function confirmpay(Request $request)
+    {
+        $trx = $request->trx;
         $amount = $request->amount / 100;
         $user_id = $request->user_id;
 
@@ -4441,8 +4353,8 @@ class MainController extends Controller
 
     }
 
-
-    public function status(Request $request){
+    public function status(Request $request)
+    {
 
         $fpk = env('FLW_SECRET_KEY');
         $tx_ref = $request->trx;
@@ -4450,43 +4362,32 @@ class MainController extends Controller
 
         $check = BankTransfer::where([
             'ref_id' => $transaction_id,
-            'status'=> 1
-            ]) ->first()->ref_id ?? null;
+            'status' => 1,
+        ])->first()->ref_id ?? null;
 
-
-
-
-
-        if($check == $transaction_id ){
+        if ($check == $transaction_id) {
 
             return back()->with('error', 'You are a thief');
         }
 
-
-
-
         $user_wallet = EMoney::where('user_id', Auth::id())
-        ->first()->current_banance;
-
-
-
-
+            ->first()->current_banance;
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$transaction_id/verify",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-          CURLOPT_HTTPHEADER => array(
-            "Authorization: $fpk",
-            'Content-Type: application/json'
-          ),
+            CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$transaction_id/verify",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: $fpk",
+                'Content-Type: application/json',
+            ),
         ));
 
         $var = curl_exec($curl);
@@ -4498,12 +4399,7 @@ class MainController extends Controller
         $amount = $var->data->amount;
         $user_id = $var->data->meta->consumer_id;
 
-
-
-
-        if($status == 'success'){
-
-
+        if ($status == 'success') {
 
             $save = new Transaction();
             $save->ref_trans_id = $ref_trans_id;
@@ -4513,8 +4409,6 @@ class MainController extends Controller
             $save->note = 'Instant Wallet Funding';
             $save->save();
 
-
-
             $save = new BankTransfer();
             $save->ref_id = $ref_trans_id;
             $save->type = 'Instant Funding';
@@ -4523,87 +4417,241 @@ class MainController extends Controller
             $save->user_id = $user_id;
             $save->save();
 
-
             $credit = $user_wallet + $amount;
             $update = EMoney::where('user_id', Auth::id())
-            ->update(['current_balance' => $credit]);
-
+                ->update(['current_balance' => $credit]);
 
             return back()->with('message', "Wallet has been successfully Credited");
 
-        }else{
+        } else {
             return back()->with('error', "Network error Please try again");
 
         }
 
-
-
-
-
-
-
-
     }
 
-
-    public function check_status(Request $request){
-
+    public function check_status(Request $request)
+    {
 
         $fpk = env('FLW_SECRET_KEY');
         $tx_ref = $request->trx;
         $trx = $request->trx;
 
-
-
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$trx/verify",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-          CURLOPT_HTTPHEADER => array(
-            "Authorization: $fpk",
-            'Content-Type: application/json'
-          ),
+            CURLOPT_URL => "https://api.flutterwave.com/v3/transactions/$trx/verify",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: $fpk",
+                'Content-Type: application/json',
+            ),
         ));
 
         $var = curl_exec($curl);
         curl_close($curl);
         $var = json_decode($var);
 
+        if ($var->status == 'success') {
 
+            $update = BankTransfer::where('ref_id', $trx)
+                ->update([
 
-        if($var->status == 'success'){
+                    'status' => 1,
 
-
-            $update = BankTransfer::where('ref_id',$trx)
-            ->update([
-
-                'status'=> 1
-
-            ]);
-
-
-
-
+                ]);
 
             return back()->with('message', "Wallet has been successfully Updated");
 
         }
 
+    }
 
+    public function fund_mono(Request $request)
+    {
 
+        $fpk = env('FLW_SECRET_KEY');
 
+        $amount_to_fund = $request->amount_to_fund_mono;
 
+        if ($amount_to_fund < 200) {
+            return back()->with('error', 'Min Funding is NGN 200');
+
+        }
+
+        $ref = Str::random(10);
+
+        $user_id = Auth::id();
+
+        $amount = $amount_to_fund * 100;
+
+        $mono_api_key = env('MONO_KEY');
+
+        $url = url('') . "/mono-verify";
+
+        $databody = array(
+
+            "amount" => $amount,
+            "type" => 'onetime-debit',
+            "description" => 'funding fee',
+            "reference" => $ref,
+            "redirect_url" => $url,
+        );
+
+        $body = json_encode($databody);
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, 'https://api.withmono.com/v1/payments/initiate');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "mono-sec-key: $mono_api_key",
+            )
+        );
+        // $final_results = curl_exec($curl);
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+
+        $var = json_decode($var);
+
+        $ref_id = $var->reference ?? null;
+        $amount = $var->amount ?? null;
+        $mono_link = $var->payment_link ?? null;
+
+        if ($ref_id == null) {
+            return back()->with('error', 'Network issues!! Please try again after later');
+        }
+
+        $transfer = new BankTransfer();
+        $transfer->amount = $amount / 100;
+        $transfer->user_id = $user_id;
+        $transfer->ref_id = $ref_id;
+        $transfer->status = 0;
+        $transfer->mono_link = $mono_link;
+        $transfer->type = "Mono Instant Funding";
+        $transfer->save();
+
+        return redirect('fund-wallet')->with('monomessage', "Please click pay to continue payment");
 
     }
 
+    public function verify_mono(Request $request)
+    {
 
+        $ref_id = $request->reference;
+        $status = $request->status;
+        $reason = $request->reason;
+
+
+        $check = BankTransfer::where([
+            'ref_id' => $ref_id,
+            'status' => 1,
+        ])->first()->ref_id ?? null;
+
+        if ($check == $ref_id) {
+
+            return back()->with('error', 'You are a thief');
+        }
+
+        if ($status == 'failed') {
+
+            $remove = BankTransfer::where([
+                'ref_id' => $ref_id,
+                'status' => '0',
+            ])->delete();
+
+            return back()->with('error', "Transaction Canceled by user");
+        }
+
+        if ($status == 'processing') {
+
+            $update = BankTransfer::where('ref_id', $ref_id)
+                ->update(['status' => 1]);
+
+            $mono_api_key = env('MONO_KEY');
+
+
+            $databody = array(
+
+                "reference" => $ref_id,
+            );
+
+            $body = json_encode($databody);
+            $curl = curl_init();
+
+            curl_setopt($curl, CURLOPT_URL, 'https://api.withmono.com/v1/payments/verify');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_ENCODING, '');
+            curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 0);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    "mono-sec-key: $mono_api_key",
+                )
+            );
+            // $final_results = curl_exec($curl);
+
+            $var = curl_exec($curl);
+            curl_close($curl);
+
+            $var = json_decode($var);
+
+            $get_amount = $var->data->amount ?? null;
+
+            $amount = $get_amount / 100;
+
+
+            $user_wallet = EMoney::where('user_id', Auth::id())
+                ->first()->current_balance;
+
+            $credit = (int) $amount + (int) $user_wallet;
+
+            $update = EMoney::where('user_id', Auth::id())
+                ->update([
+                    'current_balance' => $credit,
+                ]);
+
+
+            $transaction = new Transaction();
+            $transaction->ref_trans_id = $ref_id;
+            $transaction->user_id = Auth::id();
+            $transaction->transaction_type = "cash_in";
+            $transaction->debit = $amount;
+            $transaction->note = "Mono Instant Funding";
+            $transaction->save();
+
+
+            return back()->with('message', "Wallet has been successfully Funded");
+        }
+
+    }
 
 }

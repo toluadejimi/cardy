@@ -322,9 +322,27 @@ Route::group(['middleware' => 'adminAuth'],function(){
     //fund-wallet
     Route::get('fund-wallet', [MainController::class,'fund_wallet']);
 
+
+    //flutterwave
     Route::post('/pay-now', [MainController::class, 'pay_now']);
     // The callback url after a payment
     Route::get('/verify-pay', [MainController::class, 'callback']);
+
+
+    //mono
+    Route::post('/fund-mono', [MainController::class, 'fund_mono']);
+
+    // The callback url after a payment
+    Route::get('/mono-verify', [MainController::class, 'verify_mono']);
+
+    //mono widget
+    Route::get('/momo-widget', [MainController::class, 'mono_widget']);
+
+
+
+
+
+
 
 
     Route::post('/bank-transfer-fund', [MainController::class, 'bank_transfer_fund']);
