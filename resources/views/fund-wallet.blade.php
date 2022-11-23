@@ -381,7 +381,7 @@
 
                                                                         </div>
                                                                     @endif
-                                                                    @if ($item->type == 'Mono Instant Funding')
+                                                                    @if ($item->type == 'Mono Instant Funding' && $item->status == 0)
                                                                     <div>
                                                                         <a class="btn btn-primary"
                                                                             href="{{ $item->mono_link }}"
