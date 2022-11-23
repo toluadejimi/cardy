@@ -3403,7 +3403,7 @@ class MainController extends Controller
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('/upload/verify'), $filename);
 
-            $mono_file_url = url('')."public/upload/verify/$filename";
+            $mono_file_url = url('')."/public/upload/verify/$filename";
 
         }
 
