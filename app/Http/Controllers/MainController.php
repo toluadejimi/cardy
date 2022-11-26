@@ -1377,7 +1377,7 @@ class MainController extends Controller
 
                     return back()->with('error', "Sorry!! Unable to fund card, Contact Support");
                 }
-                return back()->with('message', "Card Funded with $get_usd_amount");
+                return back()->with('message', "Card Funded Successsfully");
             }
             return back()->with('error', 'Sorry!! Minimum Amount to fund is 10USD');
         }
