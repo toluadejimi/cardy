@@ -372,7 +372,7 @@
                                                                 @endif
                                                                 <td>
 
-                                                                    @if ($item->type == 'Instant Funding')
+                                                                    @if ($item->type == 'Instant Funding' && $item->status == 0 )
                                                                         <div>
                                                                             <a class="btn btn-secondary"
                                                                                 href="{{ url('') }}/check-status?trx={{ $item->ref_id }}"
@@ -385,7 +385,7 @@
                                                                     <div>
                                                                         <a class="btn btn-primary"
                                                                             href="{{ $item->mono_link }}"
-                                                                            role="button" aria-expanded="false"
+                                                                            role="button" aria-expanded="true"
                                                                             aria-controls="">Pay</a>
 
                                                                     </div>

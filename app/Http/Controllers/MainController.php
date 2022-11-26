@@ -4367,7 +4367,7 @@ class MainController extends Controller
 
         if ($check == $transaction_id) {
 
-            return back()->with('error', 'You are a thief');
+            return back()->with('error', 'Network Error!! Please try again.');
         }
 
         $user_wallet = EMoney::where('user_id', Auth::id())
@@ -4569,7 +4569,7 @@ class MainController extends Controller
 
         if ($check == $ref_id) {
 
-            return back()->with('error', 'You are a thief');
+            return back()->with('error', 'Network Error!! Please try again.');
         }
 
         if ($status == 'failed') {
