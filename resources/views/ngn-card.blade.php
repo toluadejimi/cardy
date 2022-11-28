@@ -28,7 +28,7 @@
                                         <h5 class="card-title text-primary">Hey!!! {{ Auth::user()->f_name }}! 🎉</h5>
                                         <p class="mb-4">
                                             My NGN <b>Virtual Card</b>.
-                                        <p>You can use your NGN card to purchace any item on any NGN currency website</p>
+                                        <p>You can use your NGN card to purchase any item on any NGN currency website</p>
                                         </p>
 
                                         <a href="/fund-wallet" class="btn btn-sm btn-outline-primary">Fund Wallet</a>
