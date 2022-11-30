@@ -212,7 +212,7 @@ class MainController extends Controller
             $body = $res->getBody();
             $array_body = json_decode($body);
 
-            return redirect('pin-verify')->with('message', "Enter the verification code sent to $email2");
+            return redirect('pin-verify')->with('message', "Enter the verification code sent to $email");
 
 
         } else {
