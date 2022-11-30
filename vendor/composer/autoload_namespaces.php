@@ -6,6 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Unirest\\' => array($vendorDir . '/mashape/unirest-php/src'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
 );

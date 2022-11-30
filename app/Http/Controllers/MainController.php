@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Spatie\SlackAlerts\Facades\SlackAlert;
 use Mail;
 use Session;
 
@@ -113,6 +114,7 @@ class MainController extends Controller
 
         if (Auth::attempt($credentials)) {
 
+
             $save = new UserIp();
             $save->user_ip = $clientIP;
             $save->device = $device;
@@ -161,8 +163,11 @@ class MainController extends Controller
                 $body = $res->getBody();
                 $array_body = json_decode($body);
 
+
                 return redirect('verify-email-code')->with('message', "Enter the verification code sent to $email");
             }
+
+
 
             $user = User::where("id", Auth::id())->get();
 
@@ -205,7 +210,9 @@ class MainController extends Controller
             $body = $res->getBody();
             $array_body = json_decode($body);
 
-            return redirect('pin-verify')->with('message', "Enter the verification code sent to $email");
+            return redirect('pin-verify')->with('message', "Enter the verification code sent to $email2");
+
+
         } else {
             return back()->with('error', 'Invalid Credentials');
         }
@@ -3356,7 +3363,11 @@ class MainController extends Controller
 
             return back()->with('message', 'Information has been updated successfully');
 
-        }return back()->with('error', "Error!! $message");
+        }
+
+        SlackAlert::message(":sad: :$message:");
+
+        return back()->with('error', "Error!! $message");
 
     }
 
@@ -3488,6 +3499,9 @@ class MainController extends Controller
 
                 ]);
         }
+
+        SlackAlert::message(":sad: :$message:");
+
         return back()->with('error', "Verification Failed!! $message");
 
         Session::flush();

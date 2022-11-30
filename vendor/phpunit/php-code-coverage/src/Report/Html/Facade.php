@@ -88,7 +88,7 @@ final class Facade
             $coverage->collectsBranchAndPathCoverage()
         );
 
-        $directory->render($report, $target . ' user-dashboard');
+        $directory->render($report, $target . 'index.html');
         $dashboard->render($report, $target . 'dashboard.html');
 
         foreach ($report as $node) {
@@ -97,7 +97,7 @@ final class Facade
             if ($node instanceof DirectoryNode) {
                 Filesystem::createDirectory($target . $id);
 
-                $directory->render($node, $target . $id . '/ user-dashboard');
+                $directory->render($node, $target . $id . '/index.html');
                 $dashboard->render($node, $target . $id . '/dashboard.html');
             } else {
                 $dir = dirname($target . $id);
