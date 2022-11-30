@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Spatie\SlackAlerts\Facades\SlackAlert;
 use Mail;
 use Session;
 
@@ -3368,7 +3367,6 @@ class MainController extends Controller
 
         }
 
-        SlackAlert::message(":sad: :$message:");
 
         return back()->with('error', "Error!! $message");
 
@@ -3503,7 +3501,7 @@ class MainController extends Controller
                 ]);
         }
 
-        SlackAlert::message(":sad: :$message:");
+
 
         return back()->with('error', "Verification Failed!! $message");
 

@@ -58,9 +58,6 @@ Route::get('/config-cache', function() {
 
 
 
-
-
-
 Route::get('/', function () {
     return view('login');
 });
