@@ -16,6 +16,7 @@ use App\Models\Vcard;
 use App\Services\Encryption;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Mail\UsdCardEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -4385,8 +4386,7 @@ class MainController extends Controller
             return back()->with('error', 'Network Error!! Please try again.');
         }
 
-        $user_wallet = EMoney::where('user_id', Auth::id())
-            ->first()->current_banance;
+
 
         $curl = curl_init();
 
@@ -4431,6 +4431,10 @@ class MainController extends Controller
             $save->status = 1;
             $save->user_id = $user_id;
             $save->save();
+
+            $user_wallet = EMoney::where('user_id', Auth::id())
+            ->first()->current_balance;
+
 
             $credit = $user_wallet + $amount;
             $update = EMoney::where('user_id', Auth::id())
@@ -4667,6 +4671,17 @@ class MainController extends Controller
             return back()->with('message', "Wallet has been successfully Funded");
         }
 
+    }
+
+    public function usd_downtime(Request $request){
+
+        $users = User::all();
+
+        foreach ($users as $key => $user) {
+            Mail::to($user->email)->send(new UsdCardEmail($user));
+        }
+
+        return response()->json(['success'=>'Email sent successfully.']);
     }
 
 }

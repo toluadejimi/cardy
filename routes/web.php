@@ -72,6 +72,8 @@ Route::get('addmoney', [MainController::class, 'addmoney']);
 
 Route::get('ratemail', [SendBulkMailController::class, 'sendUsdPrice']);
 Route::get('verifyreminder', [SendBulkMailController::class, 'verifyAccountReminder']);
+Route::post('usd-downtime-email', [MainController::class, 'usd_downtime']);
+
 
 
 
