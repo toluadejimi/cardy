@@ -3414,6 +3414,17 @@ class MainController extends Controller
         $lga = $request->input('lga');
         $bvn = $request->input('bvn');
 
+
+        User::where('id', Auth::user()->id)
+        ->update([
+            'identification_type' => $identification_type,
+            'identification_number' => $identification_number,
+            'dob' => $request->dob,
+            'bvn' => $request->bvn,
+        ]);
+
+        
+
         $databody = array(
 
             "address" => array(
