@@ -744,7 +744,7 @@ svg {
    Click the button below to go home?
   </h2>
 
-  <a button type="button"  href="/" class="btn btn-danger btn-lg">Go Home</button></a>
+  <a button type="button"  href="/user-dashboard" class="btn btn-danger btn-lg">Go Home</button></a>
 
 
 

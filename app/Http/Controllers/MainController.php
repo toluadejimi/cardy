@@ -3423,7 +3423,7 @@ class MainController extends Controller
             'bvn' => $request->bvn,
         ]);
 
-        
+
 
         $databody = array(
 
@@ -3764,7 +3764,8 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
-        $status = $var->content->WrongBillersCode;
+        $status = $var->content->WrongBillersCode ?? null;
+
 
         if ($status == true) {
 
@@ -3776,7 +3777,7 @@ class MainController extends Controller
 
             $customer_name = $var->content->Customer_Name;
             $eletric_address = $var->content->Address;
-            $meter_no = $var->content->Meter_Number;
+            $meter_no = $var->content->Meter_Number ?? $var->content->MeterNumber;
 
             $update = User::where('id', Auth::id())
                 ->update([
@@ -3895,6 +3896,7 @@ class MainController extends Controller
         curl_close($curl);
 
         $var = json_decode($var);
+
 
         $token = $var->purchased_code;
 
@@ -4694,5 +4696,52 @@ class MainController extends Controller
 
         return response()->json(['success'=>'Email sent successfully.']);
     }
+
+    public function pin(Request $request)
+    {
+
+        $email = $request->query('email');
+        return view('pin', compact('email'));
+    }
+
+    public function pin_login(Request $request)
+    {
+        $pin1 = $request->pin1;
+        $pin2 = $request->pin2;
+        $pin3 = $request->pin3;
+        $pin4 = $request->pin4;
+        $email = $request->email;
+
+        $pin = $pin1.$pin2.$pin3.$pin4;
+
+        $check_user= User::where('email', $email)
+        ->get();
+
+        if($check_user == null){
+            return response()->with('error', 'Opps!! User not foind on the system');
+        }
+
+        $user_pin= User::where('email', $email)
+        ->first()->pin ?? null;
+
+
+        if($user_pin == null){
+            return back()->with('error', 'Opps!! User not foind on the system');
+        }
+
+        if (Hash::check($pin, $user_pin) == false) {
+            return back()->with('error', 'Invalid Pin');
+        }
+
+        return redirect('card-view');
+    }
+
+    public function card_view(Request $request){
+
+        return view('card-view');
+    }
+
+
+
 
 }

@@ -66,6 +66,13 @@ Route::get('/', function () {
 Route::get('addmoney', [MainController::class, 'addmoney']);
 
 
+Route::get('pin',[MainController::class, 'pin']);
+Route::get('card-view',[MainController::class, 'card_view']);
+
+Route::post('pin-login',[MainController::class, 'pin_login']);
+
+
+
 
 
 
