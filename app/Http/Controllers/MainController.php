@@ -4382,6 +4382,27 @@ class MainController extends Controller
 
     }
 
+
+    public function funding(Request $request)
+    {
+
+
+        $amount  = $request->amount;
+        $user_id = Auth::id();
+        $ref_id = $request->ref_id;
+
+        $save = new BankTransfer();
+        $save->type = 'Instant Funding';
+        $save->status = 0;
+        $save->amount = $amount;
+        $save->ref_id = $ref_id;
+        $save->user_id = $user_id;
+        $save->save();
+
+
+    }
+
+
     public function status(Request $request)
     {
 
@@ -4389,16 +4410,22 @@ class MainController extends Controller
         $tx_ref = $request->trx;
         $transaction_id = $request->transaction_id;
 
+
+
         $check = BankTransfer::where([
-            'ref_id' => $transaction_id,
+            'ref_id' => $tx_ref,
             'status' => 1,
         ])->first()->ref_id ?? null;
 
-        if ($check == $transaction_id) {
+        if ($check == $tx_ref) {
 
             return back()->with('error', 'Network Error!! Please try again.');
         }
 
+
+
+        $amount = BankTransfer::where('ref_id', $tx_ref)
+        ->first()->amount;
 
 
         $curl = curl_init();
@@ -4423,27 +4450,26 @@ class MainController extends Controller
         $var = json_decode($var);
 
         $status = $var->status;
-        $ref_trans_id = $var->data->id;
-        $amount = $var->data->amount;
-        $user_id = $var->data->meta->consumer_id;
 
         if ($status == 'success') {
 
+
+
             $save = new Transaction();
-            $save->ref_trans_id = $ref_trans_id;
+            $save->ref_trans_id = $tx_ref;
             $save->transaction_type = 'cash_in';
-            $save->debit = $var->data->amount;
-            $save->user_id = $user_id;
+            $save->debit = $amount;
+            $save->user_id =Auth::id();
             $save->note = 'Instant Wallet Funding';
             $save->save();
 
-            $save = new BankTransfer();
-            $save->ref_id = $ref_trans_id;
-            $save->type = 'Instant Funding';
-            $save->amount = $amount;
-            $save->status = 1;
-            $save->user_id = $user_id;
-            $save->save();
+            $update_bank_transfer = BankTransfer::where('ref_id',$tx_ref)
+            ->update([
+
+                'status' => 1,
+
+            ]);
+
 
             $user_wallet = EMoney::where('user_id', Auth::id())
             ->first()->current_balance;

@@ -154,7 +154,7 @@ input::-webkit-inner-spin-button {
 
 
               <div class="text-center">
-                <input type="text" hidden name="email" value="{{$email}}" >
+                <input type="text" hidden gitname="email" value="{{$email}}" >
                 </a>
               </div>
 

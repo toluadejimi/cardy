@@ -51,6 +51,8 @@
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="{{url('')}}/public/assets/js/config.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+
 </head>
 
 <body>

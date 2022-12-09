@@ -77,6 +77,9 @@ Route::post('pin-login',[MainController::class, 'pin_login']);
 
 
 
+
+
+
 Route::get('ratemail', [SendBulkMailController::class, 'sendUsdPrice']);
 Route::get('verifyreminder', [SendBulkMailController::class, 'verifyAccountReminder']);
 Route::post('usd-downtime-email', [MainController::class, 'usd_downtime']);
@@ -185,6 +188,10 @@ Route::group(['middleware' => 'adminAuth'],function(){
 
     Route::get('status', [MainController::class, 'status']);
     Route::get('check-status', [MainController::class, 'check_status']);
+
+
+    Route::post('/funding', [MainController::class,'funding'])->name('funding');;
+
 
 
 

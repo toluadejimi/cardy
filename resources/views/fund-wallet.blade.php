@@ -62,10 +62,10 @@
                         </div>
                     @endif
                     @if (session()->has('monomessage'))
-                    <div class="alert alert-primary">
-                        {{ session()->get('monomessage') }}
-                    </div>
-                @endif
+                        <div class="alert alert-primary">
+                            {{ session()->get('monomessage') }}
+                        </div>
+                    @endif
 
                     @if (session()->has('error'))
                         <div class="alert alert-danger">
@@ -96,11 +96,12 @@
 
                                         <p>
                                             <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#mono"
-                                            role="button" aria-expanded="false" aria-controls="mtn">Pay with Mono</a>
+                                                role="button" aria-expanded="false" aria-controls="mtn">Pay with Mono</a>
 
-                    
-                                                <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#flutter"
-                                                role="button" aria-expanded="false" aria-controls="mtn">Pay with FlutterWave</a>
+
+                                            <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#flutter"
+                                                role="button" aria-expanded="false" aria-controls="mtn">Pay with
+                                                FlutterWave</a>
 
                                         </p>
 
@@ -116,16 +117,17 @@
                                                     <div class="mb-3 mt-2">
                                                         <h6 class="title"> Fund With Mono</h6>
                                                         <label class="form-label" for="">Amount (NGN)</label>
-                                                        <input type="number" class="form-control" name="amount_to_fund_mono"
-                                                            id="amount_to_fund" placeholder="Please Enter Amount in NGN" />
+                                                        <input type="number" class="form-control"
+                                                            name="amount_to_fund_mono" id="amount_to_fund"
+                                                            placeholder="Please Enter Amount in NGN" />
                                                         <span> Min - 200 | Max - 1,000,000</span>
 
 
                                                     </div>
 
 
-                                                    <button type="submit" id="start-payment-button" class="btn btn-primary"
-                                                    >Continue</button>
+                                                    <button type="submit" id="start-payment-button"
+                                                        class="btn btn-primary">Continue</button>
 
                                                 </form>
 
@@ -133,7 +135,7 @@
 
                                         </div>
 
-                            
+
 
                                         <div class="row mt-2">
                                             <div class="collapse multi-collapse" id="flutter">
@@ -143,8 +145,9 @@
                                                     <div class="mb-3 mt-2">
                                                         <h6 class="title"> Fund With Flutter Wave</h6>
                                                         <label class="form-label" for="">Amount (NGN)</label>
-                                                        <input type="number" class="form-control" name="amount_to_fund_flutter"
-                                                            id="amount_to_fund_flutter" placeholder="Please Enter Amount in NGN" />
+                                                        <input type="number" class="form-control"
+                                                            name="amount_to_fund_flutter" id="amount_to_fund_flutter"
+                                                            placeholder="Please Enter Amount in NGN" />
                                                         <span> Min - 100 | Max - 1,000,000</span>
 
 
@@ -157,7 +160,6 @@
 
                                                         <script>
                                                             function makePayment() {
-
                                                                 function randomReference() {
                                                                     var length = 10;
                                                                     var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -168,12 +170,37 @@
 
 
                                                                 var transRef = randomReference();
+
+                                                                var amount = document.getElementsByName('amount_to_fund_flutter')[0].value;
+
+
+                                                                $.ajaxSetup({
+                                                                    headers: {
+                                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                    }
+                                                                });
+
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: "{{ route('funding') }}",
+                                                                    data: {
+                                                                        amount: amount,
+                                                                        ref_id: transRef,
+                                                                        user_id: {{ Auth::user()->id }},
+                                                                    },
+                                                                    success: function(data) {
+                                                                        console.log(data);
+                                                                    }
+                                                                });
+
+
                                                                 var amount = document.getElementsByName('amount_to_fund_flutter')[0].value;
 
 
 
 
                                                                 FlutterwaveCheckout({
+
                                                                     public_key: "{{ $fpk }}",
                                                                     tx_ref: transRef,
                                                                     amount: amount,
@@ -194,10 +221,12 @@
                                                                         description: "Wallet Funding",
                                                                         logo: "{{ url('') }}/public/assets/img/illustrations/logo_round.png",
                                                                     },
+
+
                                                                 });
+
+
                                                             }
-
-
                                                         </script>
 
 
@@ -217,7 +246,7 @@
 
 
                                             <!-- Bootstrap core JavaScript
-                                                                                                    ================================================== -->
+                                                                                                                ================================================== -->
                                             <!-- Placed at the end of the document so the pages load faster -->
                                             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                                                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
@@ -372,7 +401,7 @@
                                                                 @endif
                                                                 <td>
 
-                                                                    @if ($item->type == 'Instant Funding' && $item->status == 0 )
+                                                                    @if ($item->type == 'Instant Funding' && $item->status == 0)
                                                                         <div>
                                                                             <a class="btn btn-secondary"
                                                                                 href="{{ url('') }}/check-status?trx={{ $item->ref_id }}"
@@ -382,14 +411,14 @@
                                                                         </div>
                                                                     @endif
                                                                     @if ($item->type == 'Mono Instant Funding' && $item->status == 0)
-                                                                    <div>
-                                                                        <a class="btn btn-primary"
-                                                                            href="{{ $item->mono_link }}"
-                                                                            role="button" aria-expanded="true"
-                                                                            aria-controls="">Pay</a>
+                                                                        <div>
+                                                                            <a class="btn btn-primary"
+                                                                                href="{{ $item->mono_link }}"
+                                                                                role="button" aria-expanded="true"
+                                                                                aria-controls="">Pay</a>
 
-                                                                    </div>
-                                                                @endif
+                                                                        </div>
+                                                                    @endif
 
                                                                 </td>
                                                                 <td>{{ date('F d, Y', strtotime($item->created_at)) }}
