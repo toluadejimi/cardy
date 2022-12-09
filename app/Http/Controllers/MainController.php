@@ -2457,7 +2457,7 @@ class MainController extends Controller
                 'senderName' => 'Cardy',
                 'subject' => 'Bank Trasnfer',
                 'to' => 'toluadejimi@gmail.com',
-                'bodyHtml' => view('transfer-email', compact('amount','first_name', 'last_name'))->render(),
+                'bodyHtml' => view('email.transfer-email', compact('amount','first_name', 'last_name'))->render(),
                 'encodingType' => 0,
 
             ],
