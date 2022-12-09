@@ -2437,6 +2437,11 @@ class MainController extends Controller
         $body = $res->getBody();
         $array_body = json_decode($body);
 
+        $first_name = Auth::user()->f_name;
+
+        $last_name = Auth::user()->l_name;
+
+
         require_once "vendor/autoload.php";
         $client = new Client([
             'base_uri' => 'https://api.elasticemail.com',
@@ -2450,16 +2455,16 @@ class MainController extends Controller
                 'fromName' => 'Cardy',
                 'sender' => "$from",
                 'senderName' => 'Cardy',
-                'subject' => 'Fund Wallet With Transfer',
+                'subject' => 'Bank Trasnfer',
                 'to' => 'toluadejimi@gmail.com',
-                'message' => "New Transfer Pending message from  $email",
+                'bodyHtml' => view('transfer-admin-email', compact('amount','first_name', 'last_name'))->render(),
                 'encodingType' => 0,
 
             ],
         ]);
 
-        $body = $res->getBody();
-        $array_body = json_decode($body);
+
+
 
         return redirect('/fund-wallet')->with('message', "Transafer created Successfully, Check your email - ($email) for further instructions");
     }
@@ -4451,8 +4456,6 @@ class MainController extends Controller
 
         $status = $var->status;
 
-        dd($var);
-
 
         if ($status == 'success') {
 
@@ -4485,6 +4488,35 @@ class MainController extends Controller
             return back()->with('message', "Wallet has been successfully Credited");
 
         } else {
+
+            $api_key = env('ELASTIC_API');
+            $from = env('FROM_API');
+
+            $message = $var->message;
+
+            require_once "vendor/autoload.php";
+            $client = new Client([
+                'base_uri' => 'https://api.elasticemail.com',
+            ]);
+
+            $res = $client->request('GET', '/v2/email/send', [
+                'query' => [
+
+                    'apikey' => "$api_key",
+                    'from' => "$from",
+                    'fromName' => 'Cardy',
+                    'sender' => "$from",
+                    'senderName' => 'Cardy',
+                    'subject' => 'Flutter Wave Issues',
+                    'to' => 'toluadejimi@gmail.com',
+                    'bodyText' => "Error from Fultter Wave -  $message",
+                    'encodingType' => 0,
+
+                ],
+            ]);
+
+
+
             return back()->with('error', "Network error Please try again");
 
         }
