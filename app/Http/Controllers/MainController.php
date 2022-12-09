@@ -4451,8 +4451,7 @@ class MainController extends Controller
 
         $status = $var->status;
 
-        dd($var);
-        
+
 
         if ($status == 'success') {
 
