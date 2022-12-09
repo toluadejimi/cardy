@@ -564,6 +564,7 @@ svg {
           <g
             transform="translate(-448 -158) translate(448 157) translate(396.056 247.4)"
           >
+
             <mask id="prefix__j" fill="#fff">
               <use xlink:href="#prefix__i" />
             </mask>
@@ -585,6 +586,8 @@ svg {
               mask="url(#prefix__l)"
             />
           </g>
+
+          
 
           <g class="pao-atras">
             <g
