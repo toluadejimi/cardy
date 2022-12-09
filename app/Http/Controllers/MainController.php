@@ -4407,7 +4407,7 @@ class MainController extends Controller
     {
 
         $fpk = env('FLW_SECRET_KEY');
-        $tx_ref = $request->trx;
+        $tx_ref = $request->tx_ref;
         $transaction_id = $request->transaction_id;
 
 
