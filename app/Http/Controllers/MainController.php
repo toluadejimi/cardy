@@ -3863,7 +3863,7 @@ class MainController extends Controller
         }
 
 
-        
+
 
         if ($amount < 100) {
             return back()->with('error', 'Amount must not be less than NGN 100');
@@ -3907,6 +3907,8 @@ class MainController extends Controller
         curl_close($curl);
 
         $var = json_decode($var);
+
+        dd($var);
 
 
         $token = $var->purchased_code;
