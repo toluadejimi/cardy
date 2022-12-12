@@ -3862,9 +3862,15 @@ class MainController extends Controller
             return back()->with('error', 'Invalid Pin');
         }
 
-        if ($amount < 1000) {
-            return back()->with('error', 'Amount must not be less than NGN 1000');
+
+        
+
+        if ($amount < 100) {
+            return back()->with('error', 'Amount must not be less than NGN 100');
         }
+
+
+
 
         if ($amount > $user_wallet_banlance) {
 
