@@ -3774,6 +3774,8 @@ class MainController extends Controller
         $status = $var->content->WrongBillersCode ?? null;
 
 
+
+
         if ($status == true) {
 
             return back()->with('error', "Please check the Meter No and try again");
@@ -3781,7 +3783,7 @@ class MainController extends Controller
         }
 
 
-        if($var->content->WrongBillersCode == 'false' ){
+        if( $status == false){
 
             $error = $var->content->error;
 
