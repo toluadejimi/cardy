@@ -3784,13 +3784,13 @@ class MainController extends Controller
         }
 
 
-        if( $status == false){
+        // if( $status == false){
 
-            $error = $var->content->error;
+        //     $error = $var->content->error;
 
-            return back()->with('error', "$error");
+        //     return back()->with('error', "$error");
 
-        }
+        // }
 
 
 
