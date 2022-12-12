@@ -3769,6 +3769,9 @@ class MainController extends Controller
 
         $var = json_decode($var);
 
+
+        dd($var);
+
         $status = $var->content->WrongBillersCode ?? null;
 
 
@@ -3777,6 +3780,8 @@ class MainController extends Controller
             return back()->with('error', "Please check the Meter No and try again");
 
         }
+
+
 
         if ($var->code == 000) {
 
