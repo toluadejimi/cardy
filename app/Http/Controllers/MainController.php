@@ -3770,9 +3770,11 @@ class MainController extends Controller
         $var = json_decode($var);
 
 
-        dd($var);
 
         $status = $var->content->WrongBillersCode ?? null;
+
+        $status1 = $var->content->error ?? null;
+
 
 
 
@@ -3784,13 +3786,11 @@ class MainController extends Controller
         }
 
 
-        // if( $status == false){
+        if( $status1 !== null){
 
-        //     $error = $var->content->error;
+            return back()->with('error', "$status1");
 
-        //     return back()->with('error', "$error");
-
-        // }
+        }
 
 
 
